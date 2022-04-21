@@ -1,4 +1,3 @@
-//* constantes
-const BASE_URL = "https://api.thedogapi.com/v1/breeds";
+const API_URL = "https://api.thedogapi.com/v1/breeds";
 
-export default { BASE_URL };
+module.exports = { API_URL };
