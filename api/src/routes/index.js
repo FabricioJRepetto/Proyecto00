@@ -6,6 +6,6 @@ const Dog = require("./dog.js");
 const Temperament = require("./temperament.js");
 
 router.use("/dogs", Dog);
-router.use("/temperament", Temperament);
+router.use("/temperaments", Temperament);
 
 module.exports = router;

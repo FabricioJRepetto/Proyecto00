@@ -9,7 +9,7 @@ const sequelize = new Sequelize(`postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}
   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
 });
 
-//? Para cargar modelos y relaciones sin errores de asincronía
+//? Para cargar modelos y relaciones sin errores de asincronía. rari
 const basename = path.basename(__filename);
 const modelDefiners = [];
 // Leemos todos los archivos de la carpeta Models, los requerimos y agregamos al arreglo modelDefiners
@@ -33,13 +33,9 @@ const { Dog, Temperament } = sequelize.models;
 //? Relaciones
 Dog.belongsToMany(Temperament, {
   through: "dog_temp",
-  foreignKey: "dog_id",
-  otherKey: "temp_id",
 });
 Temperament.belongsToMany(Dog, {
   through: "dog_temp",
-  foreignKey: "temp_id",
-  otherKey: "dog_id",
 });
 
 module.exports = {

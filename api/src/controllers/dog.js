@@ -2,7 +2,7 @@ const { Op } = require("sequelize");
 const { Dog, Temperament } = require("../db");
 const { API_URL, API_NAME_URL } = require("../../constants.js");
 const { default: axios } = require("axios");
-const { v4: uuidv4, parse: uuidParse, stringify: uuidStringify } = require("uuid");
+const { v4: uuidv4 } = require("uuid");
 
 //? GET
 //: Combino API con DB, quizas tenga que cambiar esto.
@@ -44,65 +44,65 @@ function dogID(req, res, next) {
   // by ID
   let id = req.params.id;
 
-  if (req.params.id.includes("-")) {
-    Dog.findOne({
-      where: {
-        id: {
-          [Op.like]: id, // ! NO ANDA LOCO
-        },
-      },
-    })
+  if (id.includes("-")) {
+    Dog.findByPk(id)
       .then(r => {
-        return res.send(r);
+        if (r !== null) {
+          return res.send(r);
+        } else {
+          return res.status(400).json({ error: 400, message: "ID inválida" });
+        }
       })
       .catch(err => next(err));
   } else {
+    //
+    //? por qué no funciona con .filter o .find ???
     axios
       .get(API_URL)
       .then(r => {
-        let newArr = [];
+        let response = [];
         r.data.forEach(e => {
-          if (e.id === parseInt(req.params.id)) {
-            newArr.push(e);
+          if (e.id === parseInt(id)) {
+            response.push(e);
           }
         });
-        return res.json(newArr);
+        if (response.length) {
+          return res.json(response);
+        } else {
+          return res.status(400).send({ error: 400, message: "ID inválida" });
+        }
       })
       .catch(err => next(err));
   }
 }
 
 //? POST
-function addDog(req, res, next) {
+//: si ya existe que no se cree.
+async function addDog(req, res, next) {
   let id = uuidv4();
   let dogBody = { ...req.body, id: id };
-  // tempCreator(req.body.temperament);
-  Dog.create(dogBody)
-    .then(r => {
-      res.send(r);
-    })
-    .catch(err => next(err));
-}
+  let temps = req.body.temperament.split(", ");
+  let arr = [];
 
-//: Crear temperamentos nuevos en la DB
-/*function tempCreator(arg) {
-  let temps = arg.split(", ");
-
-  for (let i = 0; i < temps.length; i++) {
-    Temperament.findAll()
-      .then(t => {
-        t.map(e => (e = { temperament: e.temperament }));
+  const perrito = await Dog.create(dogBody);   
+   
+  await temps.forEach(temp =>    
+      Temperament.findOrCreate({
+        where: { temperament: temp },       
+        defaults: {
+          id: uuidv4()
+        },
       })
-      .then(t => {
-        if (t.includes(temps[i]) === false) {
-          let id = uuidv4();
-          Temperament.create({ id: id, temperament: temps[i] }).catch(err => console.error(err));
-        }
-      });
-  }
-}*/
+      .catch(err => next(err))
+  ); 
 
-//
+ try {
+   await perrito.addTemperaments(temps)
+ } catch (error) {
+   next(error)
+ }
+  res.json(perrito);
+}
 
 module.exports = {
   dogList,
