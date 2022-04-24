@@ -4,5 +4,6 @@ const router = Router();
 
 //? Llamamos a los controladores
 router.get("/", temperamentList);
+router.get("/:a", temperamentList);
 
 module.exports = router;

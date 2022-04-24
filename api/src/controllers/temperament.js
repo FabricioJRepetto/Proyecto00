@@ -2,42 +2,27 @@ const { Temperament } = require("../db");
 const { default: axios } = require("axios");
 const { API_URL } = require("../../constants.js");
 
-function temperamentList(req, res, next) {
-  let apiTemps = axios
-    .get(API_URL)
-    .then(r => {
-      let arr = [];
-      r.data.forEach(e => {
-        if (e.temperament) {
-          e.temperament.split(", ").forEach(e => {
-            if (arr.includes(e) === false) {
-              arr.push(e);
-            }
-          });
-        }
-      });
-      return arr;
-    })
-    .catch(err => next(err));
-
-  let dbTemps = Temperament.findAll()
-    .then(r => {
-      let arr = [];
-      r.forEach(e => {
-        arr.push(e.temperament);
-      });
-      return arr;
-    })
-    .catch(err => next(err));
-
-  Promise.all([apiTemps, dbTemps])
-    .then(r => {
-      let [apiTemps, dbTemps] = r;
-      return res.send(apiTemps.concat(dbTemps));
-    })
-    .catch(err => {
-      next(err);
+async function temperamentList(req, res, next) {
+  try {
+    let response = [];
+    const apiTemps = await axios.get(API_URL);  
+    apiTemps.data.forEach(e => {
+      if (e.temperament) { // Hay perros sin temperamentos
+        e.temperament.split(", ").forEach(e => {
+          if (response.includes(e) === false) response.push(e);
+        });
+      }
+    });  
+    const dbTemps = await Temperament.findAll();      
+    dbTemps.forEach(e => {
+      if (response.includes(e) === false) response.push(e.temperament);
     });
+  
+    res.json(response);
+
+  } catch (err) {
+    next(err);    
+  }
 }
 
 module.exports = {

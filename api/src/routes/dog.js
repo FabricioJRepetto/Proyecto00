@@ -7,5 +7,6 @@ router.get("/", dogList);
 router.get("/:id", dogID);
 
 router.post("/", addDog);
+router.post("/:a", addDog);
 
 module.exports = router;
