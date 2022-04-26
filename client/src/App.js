@@ -1,24 +1,29 @@
-import logo from './logo.svg';
-import './App.css';
+import { Route, Routes } from 'react-router-dom';
+
+import LandingPage from './components/landingpage/LandingPage'
+import Nav from "./components/nav/Nav";
+import Home from "./components/home/Home";
+import Details from "./components/details/Details";
+import Form from "./components/form/Form";
+import About from "./components/about/About";
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+  //? NO rederizar la Nav bar en la Landing page  
+  let flag = true;
+  if (document.URL.slice(-1) === '/') flag = false
+
+  return (   
+    <>
+      <Nav visible={flag}/>
+      <Routes>
+          <Route path="/" element={<LandingPage />}/>        
+          <Route path='home' element={<Home />} />
+          <Route path='home/:id' element={<Details />} />
+          <Route path='create' element={<Form />} />       
+          <Route path='about' element={<About />} />
+          <Route path='*' element={<p>There's nothing here!</p>} />
+      </Routes>
+    </>     
   );
 }
 
