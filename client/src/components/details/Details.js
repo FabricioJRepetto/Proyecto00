@@ -5,7 +5,7 @@ const Details = () => {
   
   return(
     <div>
-      <h2>Dog details</h2>
+      <h2>Dog id {id} details</h2>
       <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed animi ullam pariatur facere quo saepe, quam officiis, quasi excepturi possimus suscipit totam, quidem reiciendis illo laborum consequuntur dolore exercitationem est!</p>
     </div>
 
