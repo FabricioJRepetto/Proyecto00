@@ -1,6 +1,8 @@
-const API_URL = "https://localhost:3001/";
+const API_DOGS = "http://localhost:3001/dogs/";
+const API_TEMPS = "http://localhost:3001/temperaments/";
+const EL_PER_PAGE = 20;
 
-module.exports = { API_URL };
+module.exports = { API_DOGS, API_TEMPS, EL_PER_PAGE };
 
 /*
 ? get /dogs/?name=

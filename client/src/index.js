@@ -10,12 +10,6 @@ import './index.css';
 const container = document.getElementById('root'); //('app')
 const root = createRoot(container);
 
-// ReactDOM.render(
-//   <Router>     
-//     <App />          
-//   </Router>,
-//   document.getElementById('root')
-// );
 root.render(
   <Provider store={store}>
     <Router>    
@@ -24,3 +18,10 @@ root.render(
   </Provider>
 );
 
+
+// ReactDOM.render(
+//   <Router>     
+//     <App />          
+//   </Router>,
+//   document.getElementById('root')
+// );

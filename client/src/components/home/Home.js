@@ -1,32 +1,34 @@
 import React, { useEffect } from 'react'
 import axios from 'axios'
 import { useDispatch, useSelector } from "react-redux";
-import { load } from '../../slice-reducer/dogsSlice';
-import { API_URL } from '../../constants';
+import { loadDogs, loadTemps } from '../../slice-reducer/dogsSlice';
+import { API_DOGS, API_TEMPS } from '../../constants';
 
 import Filters from "./components/Filters";
 import CardContainer from "./components/CardContainer";
 import Pages from './components/Pages';
 
 const Home = () => {
-  const dogs = useSelector(state => state.dogs.value);
-  const filter = useSelector(state => state.filter.value);
+  const dogs = useSelector(state => state.dogs.main);
   const dispatch = useDispatch();
 
   useEffect(() => {
     const getDogs = async () => {
-      let { data } = await axios.get(API_URL);
-      dispatch(load(data))
+      let { data } = await axios.get(API_DOGS);
+      let { temps } = await axios.get(API_TEMPS);
+      dispatch(loadDogs(data))
+      dispatch(loadTemps(temps))
     };
-    getDogs();
+    getDogs();    
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])  
 
   return(
     <>
       <Filters />
-      {dogs.length[0] ? <p>/ LOADING . . . /</p> :
+      {!dogs[0] ? <p>/ LOADING . . . /</p> :
       <>
-        <CardContainer dogs={dogs}/>
+        <CardContainer />
         <Pages />   
       </>   
       }
