@@ -6,18 +6,44 @@ export const dogsSlice = createSlice({
     main: [],
     filtered: [],
     temps: [],
-    page: 1
+    filters: {name: false, source: 2, order: 'N', asc: true, temps: []},
+    page: 1,
+    firstLoad: true,
   },
   reducers: {
+//? estados
     loadDogs: (state, action) => {
-      state.main = state.main.concat(action.payload);
+      state.main = action.payload;
+      //state.main = state.main.concat(action.payload);
     },
     loadTemps: (state, action) => {
-      state.value.concat(action.payload)
+      state.temps = action.payload;
     },
+    loadFiltered: (state, action) =>{
+      state.filtered = action.payload
+    },
+
+
+//? filtros
+
     searchByName: (state, action) => {
-      state.filtered = state.filtered.concat(action.payload)
+      state.filtered = action.payload;
     },
+    filterSource: (state, {payload}) => {
+      if (payload === 'all') {
+        state.filtered = [...state.main]
+      } else {
+      state.filtered = [...state.main].filter(e => typeof e.id === payload)
+      }        
+    },
+
+
+
+    updateFilters: (state, action) => {
+      state.filters = {...state.filters, ...action.payload}
+    },
+
+//? paginacion
     pageIncrease: (state, action) => {
       if (state.page < action.payload) state.page += 1;
     },
@@ -27,9 +53,15 @@ export const dogsSlice = createSlice({
     pageExact: (state, action) => {
       state.page = action.payload;
     },
+
+//? extra
+    loaded: (state) => {
+      state.firstLoad = false;
+    },
+    reload: () => { },
   }
 }); 
 
-export const { loadDogs, loadTemps, searchByName, pageIncrease, pageDecrease, pageExact } = dogsSlice.actions;
+export const { loadDogs, loadTemps, loadFiltered, searchByName, updateFilters, filterSource, pageIncrease, pageDecrease, pageExact, loaded } = dogsSlice.actions;
 
 export default dogsSlice.reducer;

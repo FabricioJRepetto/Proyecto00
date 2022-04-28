@@ -1,8 +1,9 @@
 import React from "react";
+import { Link } from 'react-router-dom';
 
 const Card = ({id, name, height, weight, life_span, temps}) => {
   return(
-    <div>
+    <Link to={`${id}`}>
       <p><b>{name}</b></p>
       <p>[image placeholder]</p>
       <li>height: {height} cm</li>
@@ -10,7 +11,7 @@ const Card = ({id, name, height, weight, life_span, temps}) => {
       <li>lifespan: {life_span}</li>
       <li>temperaments: {temps}</li>
       <li>id: {id}</li>
-    </div>
+    </Link>
   );
 };
 

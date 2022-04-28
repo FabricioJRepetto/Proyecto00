@@ -1,12 +1,42 @@
+import axios from "axios";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
+import { API_DOGS } from "../../constants";
 
 const Details = () => {
+  const [details, setDetails] = useState({})
   let { id } = useParams();
   
+  useEffect(() => {
+    const petition = async () => {
+      try {
+        let { data } = await axios.get(`${API_DOGS}${id}`);
+        setDetails(() => data);
+    console.log(details);
+      } catch (err) {
+        console.error(err)
+      }
+    }
+    petition();
+
+    //return () => {}
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+  
+  let { name, height, weight, life_span, temperaments, image } = details;
+
   return(
     <div>
-      <h2>Dog id {id} details</h2>
-      <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed animi ullam pariatur facere quo saepe, quam officiis, quasi excepturi possimus suscipit totam, quidem reiciendis illo laborum consequuntur dolore exercitationem est!</p>
+      {!details.id 
+      ? <p>/ LOADING /</p> 
+      : <>
+      <h2>{name}</h2>
+      <img src={image} alt={`${name}`}/>
+      <p><b>Height: </b>{height} cm</p>
+      <p><b>Weight: </b>{weight} kg</p>
+      <p><b>Lifespan: </b>{life_span} years</p>
+      <p><b>Temperaments: </b>{temperaments}</p>
+      </>}
     </div>
 
   );

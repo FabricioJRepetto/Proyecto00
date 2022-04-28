@@ -5,10 +5,11 @@ import { EL_PER_PAGE } from '../../../constants';
 
 const Pages = () => {
   const dogs = useSelector(state => state.dogs.main);
+  const filtered = useSelector(state => state.dogs.filtered);
   const page = useSelector(state => state.dogs.page)
   const dispatch = useDispatch()
 
-  let source = dogs,  
+  let source = filtered,  
   totalPages = Math.ceil(source.length / EL_PER_PAGE),
   maxLimit = (page +1) <= totalPages,
   minLimit = (page - 1) >= 1;
