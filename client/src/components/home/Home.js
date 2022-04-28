@@ -15,15 +15,16 @@ const Home = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    const getDogs = async () => {
+    const getData = async () => {
       let { data } = await axios.get(API_DOGS);
-      let { temps } = await axios.get(API_TEMPS);
+      let { data: temps } = await axios.get('http://localhost:3001/temperaments/');
+      console.log(temps);
       dispatch(loadDogs(data))
       dispatch(loadFiltered(data))
       dispatch(loadTemps(temps))
       dispatch(loaded())
     };
-    if (firstLoad) getDogs();
+    if (firstLoad) getData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])  
 

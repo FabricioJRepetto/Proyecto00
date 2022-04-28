@@ -18,6 +18,7 @@ export const dogsSlice = createSlice({
     },
     loadTemps: (state, action) => {
       state.temps = action.payload;
+      console.log(action.payload);
     },
     loadFiltered: (state, action) =>{
       state.filtered = action.payload

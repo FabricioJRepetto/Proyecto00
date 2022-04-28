@@ -3,14 +3,14 @@ const { Dog, Temperament } = require("../db.js");
 const { API_URL, API_NAME_URL } = require("../../constants.js");
 const { default: axios } = require("axios");
 const { v4: uuidv4 } = require("uuid");
-const { stringifyTemp } = require("../../utils.js")
+const { stringifyTemp, formatParser } = require("../../utils.js")
 
 //? GET
 async function dogList(req, res, next) {
   try {
     let apiDogs = "";
     let dbDogs = "";
-    //? by QUERY
+    //? QUERY by NAME
     if (req.query.name) { 
       apiDogs = await axios.get(`${API_NAME_URL}${req.query.name}`)     
      
@@ -30,17 +30,16 @@ async function dogList(req, res, next) {
     } else {  
       //? get ALL
       apiDogs = await axios.get(API_URL)
-      //: Agregar Temps a los perros de la DB
       dbDogs = await Dog.findAll({
         include: [{
           model: Temperament,
           attributes: ["temperament"],
           through: { attributes: [] }
         }],
-      });         
+      });      
     }
     //? Respuesta a la petición
-    let response = stringifyTemp(dbDogs, true).concat(apiDogs.data);
+    let response = stringifyTemp(dbDogs, true).concat(formatParser(apiDogs.data));
     if (response[0]) {
       return res.json(response);      
     }
@@ -95,14 +94,14 @@ async function dogID(req, res, next) {
         ({
             id,              
             name,
-            height,
-            weight,
+            height: {metric: height},
+            weight: {metric: weight},
             life_span,
-            temperament,              
-            image: {url: image} = "ImagePlaceHolder",
+            temperament: temperaments,              
+            image: {url: image},
         } = match[0]);
       // Response
-        const response = {id, name, height, weight, life_span, temperament, image}; return res.json(response);
+        const response = {id, name, height, weight, life_span, temperaments, image}; return res.json(response);
       } else {
         return res.status(400).send({ error: 400, message: "No hay ningún resultado para la ID indicada." });
       }

@@ -13,7 +13,7 @@ async function devExp(req, res, next) {
           let response = [];
           const petition = await axios.get(API_URL);
           petition.data.forEach(e => {
-            if (!e.image.url || !e.image.id) {
+            if (!e.life_span.includes('years')) {
               response.push(e)
             }
           });  
