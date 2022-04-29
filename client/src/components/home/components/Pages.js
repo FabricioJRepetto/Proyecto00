@@ -19,13 +19,13 @@ const Pages = () => {
       <button onClick={() => dispatch(pageExact(1))} >{' << '}</button>
       <button onClick={() => dispatch(pageDecrease())} >{' < '}</button>
       <span>
-        <p onClick={() => dispatch(pageDecrease())}>{ 
+        <span onClick={() => dispatch(pageDecrease())}>{ 
           minLimit ? page-1 : ` - `
-        }</p>
+        }</span>
           <b>{` ${page} `}</b>
-        <p onClick={() => dispatch(pageIncrease(totalPages))}>{ 
+        <span onClick={() => dispatch(pageIncrease(totalPages))}>{ 
           maxLimit ? page+1 : ` - `
-        }</p>
+        }</span>
       </span>
       <button onClick={() => dispatch(pageIncrease(totalPages))} >{' > '}</button>
       <button onClick={() => dispatch(pageExact(totalPages))} >{' >> '}</button>

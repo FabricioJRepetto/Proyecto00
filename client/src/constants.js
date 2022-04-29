@@ -1,6 +1,6 @@
 const API_DOGS = "http://localhost:3001/dogs/";
 const API_TEMPS = "http://localhost:3001/temperaments/";
-const EL_PER_PAGE = 20;
+const EL_PER_PAGE = 10;
 
 module.exports = { API_DOGS, API_TEMPS, EL_PER_PAGE };
 

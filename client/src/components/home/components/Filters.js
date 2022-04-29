@@ -10,22 +10,14 @@ import { loadDogs,
 
 
 const Filters = () => {
-  const [payload, setPayload] = useState([]);
+  //const [payload, setPayload] = useState([]);
   const [tempList, setTempList] = useState([]);
-  const dogs = useSelector(state => state.dogs.main);
-  const filtered = useSelector(state => state.dogs.filtered);
+  //const dogs = useSelector(state => state.dogs.main);
+  //const filtered = useSelector(state => state.dogs.filtered);
   const temperaments = useSelector(state => state.dogs.temps);
   const filters = useSelector(state => state.dogs.filters);
   const dispatch = useDispatch();
-  const { name, source, order, asc, temps } = filters;
-
-  useEffect(() => {        
-      setTempList(temperaments) 
-      console.log(tempList);
-      console.log(temperaments); 
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps    
-  }, [temperaments])
+  //const { name, source, order, asc, temps } = filters;  
   
   useEffect(() => {
     
@@ -52,8 +44,7 @@ const Filters = () => {
 
     // };
 
-    return () => {      
-    }
+    return () => {   }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters])
   
@@ -62,14 +53,25 @@ const Filters = () => {
     const { data } = await axios.get(`${API_DOGS}?name=${name}`)
     dispatch(searchByName(data))
   }
-
-  const tempInput = async ()=>{
-    let name = document.getElementById('input_temp').value;
-    dispatch(searchByName(data))
-    
+  
+  let eventSource = null;
+  const eventSourceCatcher =(e)=> {    
+    eventSource = e.key === "Unidentified" ? 'list' : 'input'
   }
-
-
+  const eventValueCatcher =(e)=> {
+    if (eventSource === 'list') { 
+      if (!tempList.includes(e.target.value) && tempList.length < 3) {
+        setTempList([...tempList, e.target.value]);
+        document.getElementById('input_temps').value = '';
+        //: action
+      }
+    }
+  }
+  const deleteCardHandler = async (e)=> {
+     setTempList([...tempList].filter(
+      t=> t !== e.target.innerText
+    ))    
+  }
 
   return(
     <div>
@@ -77,28 +79,51 @@ const Filters = () => {
       <input type='text' id='input_name' placeholder='Name'></input>
       <button onClick={()=>(nameInput())}>🔍</button>
       <hr/>
-      <br/>
-      <p>Origen de resultados: </p>
-      <button onClick={()=>(dispatch(filterSource('all')))}>Everything</button>
-      <button onClick={()=>(dispatch(filterSource('number')))}>API</button>
-      <button onClick={()=>(dispatch(filterSource('string')))}>database</button>
+      <p><b>Get results from:</b></p>
+      <label>
+        < input type='radio' name='franco' value='all' 
+          defaultChecked onClick={()=>dispatch(filterSource('all'))}/>
+          All dogs 
+          </label>
+      <label>
+        < input type='radio' name='franco' value='number' 
+        onClick={()=>(dispatch(filterSource('number')))}/>
+        Originals 
+        </label>
+      <label>
+        < input type='radio' name='franco' value='string' 
+        onClick={()=>(dispatch(filterSource('string')))}/>
+        My Collection 
+        </label>      
       <br/>
       <hr/>
-      <label>Temperamentos: 
-        <input list="input_temps" /></label>
-        <datalist id="input_temps">
+      <p><b>Temperaments:</b></p>
+        <div>
+          {tempList?.map(t=>
+            <div key={t+"-f"}            
+                onClick={deleteCardHandler}>
+                <label><p>{t}</p> x</label>
+            </div>
+          )}
+        </div>
+        <input id='input_temps' list="list_temps" 
+        onKeyDown={eventSourceCatcher} 
+        onChange={eventValueCatcher} />
+        <datalist id="list_temps" >
           {
-            tempList.map(e => (
-              <option value={e}/>
+            temperaments.map(e => (
+              <option key={e} value={e} />
             ))
           }
         </datalist>
-        < button onClick={} />
       <br/>
-      <hr/>
+      <hr/>       
       <p><b>Order: asc/desc // weight/name</b></p>
-      <input type="reset" value="🔄"/>
       <br/>
+      <input type="chekbox"/>
+      <input type="reset" value=" Reset ❌"/>
+      <br/>
+      <hr/>      
     </div>
 
   );

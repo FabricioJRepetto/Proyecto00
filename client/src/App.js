@@ -10,7 +10,7 @@ import About from "./components/about/About";
 function App() {
   //? NO rederizar la Nav bar en la Landing page  
   let flag = true;
-  if (document.URL.slice(-1) === '/') flag = false
+  if (/localhost:3000\/*$/.test(document.URL)) flag = false
 
   return (   
     <>

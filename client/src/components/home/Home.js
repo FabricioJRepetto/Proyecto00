@@ -17,8 +17,7 @@ const Home = () => {
   useEffect(() => {
     const getData = async () => {
       let { data } = await axios.get(API_DOGS);
-      let { data: temps } = await axios.get('http://localhost:3001/temperaments/');
-      console.log(temps);
+      let { data: temps } = await axios.get('http://localhost:3001/temperaments/');      
       dispatch(loadDogs(data))
       dispatch(loadFiltered(data))
       dispatch(loadTemps(temps))

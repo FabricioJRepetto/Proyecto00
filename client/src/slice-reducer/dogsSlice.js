@@ -8,17 +8,15 @@ export const dogsSlice = createSlice({
     temps: [],
     filters: {name: false, source: 2, order: 'N', asc: true, temps: []},
     page: 1,
-    firstLoad: true,
+    firstLoad: true,    
   },
   reducers: {
 //? estados
     loadDogs: (state, action) => {
-      state.main = action.payload;
-      //state.main = state.main.concat(action.payload);
+      state.main = action.payload;  
     },
     loadTemps: (state, action) => {
-      state.temps = action.payload;
-      console.log(action.payload);
+      state.temps = action.payload; 
     },
     loadFiltered: (state, action) =>{
       state.filtered = action.payload
@@ -26,7 +24,6 @@ export const dogsSlice = createSlice({
 
 
 //? filtros
-
     searchByName: (state, action) => {
       state.filtered = action.payload;
     },

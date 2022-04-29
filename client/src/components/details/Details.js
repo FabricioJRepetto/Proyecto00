@@ -11,8 +11,7 @@ const Details = () => {
     const petition = async () => {
       try {
         let { data } = await axios.get(`${API_DOGS}${id}`);
-        setDetails(() => data);
-    console.log(details);
+        setDetails(() => data);    
       } catch (err) {
         console.error(err)
       }
