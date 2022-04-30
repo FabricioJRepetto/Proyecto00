@@ -17,11 +17,3 @@ root.render(
     </Router>
   </Provider>
 );
-
-
-// ReactDOM.render(
-//   <Router>     
-//     <App />          
-//   </Router>,
-//   document.getElementById('root')
-// );

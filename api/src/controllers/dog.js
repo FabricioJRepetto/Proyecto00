@@ -41,7 +41,7 @@ async function dogList(req, res, next) {
     //? Respuesta a la petición
     let response = stringifyTemp(dbDogs, true).concat(formatParser(apiDogs.data));
     if (response[0]) {
-      return res.json(response);      
+      return res.json(response);
     }
       return res.json({ error: 400, message: "No hay ningún resultado para el nombre indicado." });
 
@@ -64,8 +64,8 @@ async function dogID(req, res, next) {
           through: { attributes: [] }
         }],
     })       
-    // destructuring
     if (petition !== null) {
+    // destructuring
         ({
           id,              
           name,
@@ -85,23 +85,16 @@ async function dogID(req, res, next) {
       // Petición y filtrado
       const petition = await axios.get(API_URL)        
       let match = [];
+      
       petition.data.forEach(e => {
         // por qué no funciona con .filter o .find ???
-        if (e.id === parseInt(id)) match.push(e);          
+        if (e.id === parseInt(id)) {
+          match.push(e)
+        };          
       });
-      if (match.length) {
-      // Destructuring
-        ({
-            id,              
-            name,
-            height: {metric: height},
-            weight: {metric: weight},
-            life_span,
-            temperament: temperaments,              
-            image: {url: image},
-        } = match[0]);
-      // Response
-        const response = {id, name, height, weight, life_span, temperaments, image}; return res.json(response);
+      if (match[0]) {
+        return res.json(formatParser(match)[0]);
+
       } else {
         return res.status(400).send({ error: 400, message: "No hay ningún resultado para la ID indicada." });
       }

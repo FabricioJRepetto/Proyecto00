@@ -2,23 +2,34 @@ import axios from "axios";
 import React, { useEffect, useState } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { API_DOGS } from "../../../constants";
-import { loadDogs,
+import { 
+  loadDogs,
   loadFiltered,
   updateFilters,
+  searchByName,
   filterSource,
-  searchByName,} from "../../../slice-reducer/dogsSlice";
+  filterTemperament,
+  setAsc,
+  orderBy,
+  reload,
+} from "../../../slice-reducer/dogsSlice";
 
 
 const Filters = () => {
   //const [payload, setPayload] = useState([]);
+  const [name, setName] = useState(false);
+  const [source, setSource] = useState(1);
   const [tempList, setTempList] = useState([]);
+  const [order, setOrder] = useState('name');
   //const dogs = useSelector(state => state.dogs.main);
   //const filtered = useSelector(state => state.dogs.filtered);
+  const asc = useSelector(state => state.dogs.asc);
   const temperaments = useSelector(state => state.dogs.temps);
   const filters = useSelector(state => state.dogs.filters);
   const dispatch = useDispatch();
   //const { name, source, order, asc, temps } = filters;  
   
+  //? -------------- Filtrado ENCADENADO -------------- //
   useEffect(() => {
     
     // 1) Filtrado
@@ -47,51 +58,91 @@ const Filters = () => {
     return () => {   }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters])
-  
-  const nameInput = async ()=>{
-    let name = document.getElementById('input_name').value;
-    const { data } = await axios.get(`${API_DOGS}?name=${name}`)
-    dispatch(searchByName(data))
+
+
+  //? -------------- Manejo por NOMBRE -------------- //
+  const nameInput = (e)=>{
+    if (e.code === 'Enter' || e.type === 'click') {
+      let inputName = document.getElementById('input_name').value.toLowerCase();
+      if (inputName) {
+        setName(inputName)
+      } else {
+        setName(false)
+      }
+      //! DISPATCH
+      dispatch(searchByName(inputName));
+    }
   }
   
+  //? -------------- Manejo TEMPERAMENTOS  -------------- //
   let eventSource = null;
   const eventSourceCatcher =(e)=> {    
     eventSource = e.key === "Unidentified" ? 'list' : 'input'
   }
-  const eventValueCatcher =(e)=> {
+  const eventValueCatcher = async (e)=> {
     if (eventSource === 'list') { 
       if (!tempList.includes(e.target.value) && tempList.length < 3) {
-        setTempList([...tempList, e.target.value]);
+        setTempList([...tempList, e.target.value]);  
+        //: action mandar un dispatch por cada elemento de tempList
+        //: dispatch(filterTemperament(tempList))
         document.getElementById('input_temps').value = '';
-        //: action
       }
     }
   }
-  const deleteCardHandler = async (e)=> {
-     setTempList([...tempList].filter(
+  const deleteCardHandler = (e)=> {    
+      setTempList([...tempList].filter(
       t=> t !== e.target.innerText
     ))    
   }
+  useEffect(() => {
+    let array = [...tempList]
+    //! DISPATCH
+    array.forEach(t => {
+      dispatch(filterTemperament(t))
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [tempList])
+  
+  //? -------------- Manejo ORDEN -------------- //
+  useEffect(() => {
+      asc ? (document.getElementById('ascButton').innerText = '⬆Ascendent')
+      : (document.getElementById('ascButton').innerText = '⬇Descendent')      
+  }, [asc])
+  const orderButtonHandler =(arg)=> {
+    setOrder(arg)
+    dispatch(orderBy(arg))
+  };  
+  const ascButtonHandler=(e)=> {    
+    dispatch(setAsc())    
+    dispatch(orderBy(order))
+  };
 
+//? -------------- RESET -------------- //
+  const resetButton =()=> {
+    dispatch(reload())
+  }
+
+//? -------------- RENDER -------------- //
   return(
     <div>
       <h2>Dog Filters</h2>
-      <input type='text' id='input_name' placeholder='Name'></input>
-      <button onClick={()=>(nameInput())}>🔍</button>
+      <input type='text' id='input_name' placeholder='Name'
+        onKeyDown={(e)=>(nameInput(e))}></input>
+      <button onClick={(e)=>(nameInput(e))}>🔍</button>
       <hr/>
       <p><b>Get results from:</b></p>
       <label>
-        < input type='radio' name='franco' value='all' 
+        < input type='radio' name='source' value='all' 
           defaultChecked onClick={()=>dispatch(filterSource('all'))}/>
           All dogs 
           </label>
       <label>
-        < input type='radio' name='franco' value='number' 
+        < input type='radio' name='source' value='number' 
         onClick={()=>(dispatch(filterSource('number')))}/>
         Originals 
         </label>
       <label>
-        < input type='radio' name='franco' value='string' 
+        < input type='radio' name='source' value='string' 
         onClick={()=>(dispatch(filterSource('string')))}/>
         My Collection 
         </label>      
@@ -118,10 +169,35 @@ const Filters = () => {
         </datalist>
       <br/>
       <hr/>       
-      <p><b>Order: asc/desc // weight/name</b></p>
+      <p><b>Order: </b></p>
+      <label>
+        < input type='radio' name='order_by' defaultChecked 
+        onClick={()=>orderButtonHandler('name')}/>
+          Name 
+          </label>
+      <label>
+        < input type='radio' name='order_by' 
+        onClick={()=>orderButtonHandler('life_span')}/>
+         Lifespan
+        </label>
+
+      <label>
+        < input type='radio' name='order_by' 
+        onClick={()=>orderButtonHandler('height')}/>
+         Height
+        </label>
+      <label>
+        < input type='radio' name='order_by' 
+        onClick={()=>orderButtonHandler('weight')}/>
+         Weight
+        </label>
       <br/>
-      <input type="chekbox"/>
-      <input type="reset" value=" Reset ❌"/>
+      <hr/>
+      <button type="button" id='ascButton'
+        value='⬆Ascendent'
+        onClick={ascButtonHandler}        
+        >⬆Ascendent</button>        
+      <button onClick={resetButton}> Reset ❌</button>
       <br/>
       <hr/>      
     </div>

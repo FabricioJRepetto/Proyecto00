@@ -13,11 +13,11 @@ async function devExp(req, res, next) {
           let response = [];
           const petition = await axios.get(API_URL);
           petition.data.forEach(e => {
-            if (!e.life_span.includes('years')) {
+            if (!/^[0-9]/i.test(e.weight.metric)) {
               response.push(e)
             }
           });  
-          res.json(response.length + response);
+          res.json("coincidencias: "+response.length +" / "+ response[0].id + " " + response[1].id);
 
     // ------------------------------------------------ \\  
     } else {

@@ -19,7 +19,9 @@ const CardContainer = () =>{
     setGroup(() => source.slice(start, end))    
     
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filtered, dogs, page])  
+  }, [filtered, dogs, page])
+  //!                 ⬆
+  //! necesito dogs aca?
 
   return(
     <div>
@@ -28,8 +30,8 @@ const CardContainer = () =>{
         id={e.id} 
         key={e.id} 
         name={e.name} 
-        height={e.height.metric} 
-        weight={e.weight.metric}
+        height={e.height} 
+        weight={e.weight}
         life_span={e.life_span}
         temps={e.temperaments}
         image={e.image}
