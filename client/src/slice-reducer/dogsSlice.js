@@ -6,7 +6,7 @@ export const dogsSlice = createSlice({
     main: [],
     filtered: [],
     temps: [],
-    filters: {name: false, source: 2, temps: []},
+    filters: {source: 'all', order: 'name'},
     page: 1,
     asc: true,
     firstLoad: true,
@@ -19,11 +19,10 @@ export const dogsSlice = createSlice({
         main: action.payload
       }  
     },
-    loadTemps: (state, action) => {      
-       return{
-        ...state,
-        temps: action.payload
-      }
+    loadTemps: (state, action) => {        
+        state.temps = action.payload.sort((a, b)=>
+            a > b ? 1 : a < b ? -1 : 0
+        );
     },
     loadFiltered: (state, action) =>{
       return{
@@ -34,7 +33,7 @@ export const dogsSlice = createSlice({
 
 //? filtros
     searchByName: (state, action) => {
-      state.filtered = [...state.main].filter(dog => (
+      state.filtered = [...state.filtered].filter(dog => (
         dog.name.toLowerCase().includes(action.payload)
       ))
     },
@@ -45,63 +44,65 @@ export const dogsSlice = createSlice({
       state.filtered = [...state.main].filter(e => typeof e.id === payload)
       }        
     },
-    filterTemperament: (state, action) => {
-        state.filtered = [...state.filtered].filter(dog => (
-          dog.temperaments?.includes(action.payload)
-        ))
+    filterTemperament: (state, action) => { 
+        let aux = [];
+            aux = state.filtered.filter((dog) => (
+            dog.temperaments?.includes(action.payload)
+            ))
+        state.filtered = aux;        
     },
     orderBy: ( state, { payload }) => {
-      if (state.asc) { //Ascendente
-          if (payload === 'name') { //alfabetico
-            state.filtered = state.filtered.slice().sort((a, b) => {
-              return (a.name > b.name) ? 1 : (a.name < b.name) ? -1 : 0
-            })
-          } else { // numeros
-            state.filtered = state.filtered.slice().sort((a, b) => {
-              return parseInt(a[payload].split(' - ')[0]) - parseInt(b[payload].split(' - ')[0]);
-            })
-          }
-      } else { //Descendente
-          if (payload === 'name') { //alfabetico
-            state.filtered = state.filtered.slice().sort((a, b) => {
-              return (a.name < b.name) ? 1 : (a.name > b.name) ? -1 : 0
-            })
-          } else { // numeros
-            state.filtered = state.filtered.slice().sort((a, b) => {
-              return parseInt(b[payload].split(' - ')[0]) - parseInt(a[payload].split(' - ')[0]);
-            })
-          }
-      }
+        if (state.asc) { //Ascendente
+            if (payload === 'name') { //alfabetico
+                state.filtered = state.filtered.slice().sort((a, b) => {
+                return (a.name > b.name) ? 1 : (a.name < b.name) ? -1 : 0
+                })
+            } else { // numeros
+                state.filtered = state.filtered.slice().sort((a, b) => {
+                return parseInt(a[payload].split(' - ')[0]) - parseInt(b[payload].split(' - ')[0]);
+                })
+            }
+        } else { //Descendente
+            if (payload === 'name') { //alfabetico
+                state.filtered = state.filtered.slice().sort((a, b) => {
+                return (a.name < b.name) ? 1 : (a.name > b.name) ? -1 : 0
+                })
+            } else { // numeros
+                state.filtered = state.filtered.slice().sort((a, b) => {
+                return parseInt(b[payload].split(' - ')[0]) - parseInt(a[payload].split(' - ')[0]);
+                })
+            }
+        }
     },
     setAsc: (state) => {
-      state.asc ? state.asc = false : state.asc = true
+        state.asc ? state.asc = false : state.asc = true
     },
-
-    updateFilters: (state, action) => {
-      state.filters = {...state.filters, ...action.payload}
+    // filters: {source: 2, temps: false, order: 'name'},
+    updateFilters: (state, action) => {      
+         state.filters = {...state.filters, ...action.payload}
     },
 
 //? paginacion
     pageIncrease: (state, action) => {
-      if (state.page < action.payload) state.page += 1;
+         if (state.page < action.payload) state.page += 1;
     },
     pageDecrease: (state) => {
-      if (state.page > 1) state.page -= 1;
+        if (state.page > 1) state.page -= 1;
     },
     pageExact: (state, action) => {
-      state.page = action.payload;
+        state.page = action.payload;
     },
 
 //? extra
     loaded: (state) => {
-      state.firstLoad = false;
+        state.firstLoad = false;
     },
-    reload: (state) => {
-      state.filtered = [...state.main]
+    reloadFiltered: (state) => {
+        state.filtered = [...state.main]
     },
   }
 }); 
 
-export const { loadDogs, loadTemps, loadFiltered, searchByName, orderBy, setAsc, updateFilters, filterSource, filterTemperament, pageIncrease, pageDecrease, pageExact, loaded, reload } = dogsSlice.actions;
+export const { loadDogs, loadTemps, loadFiltered, searchByName, orderBy, setAsc, updateFilters, filterSource, filterTemperament, pageIncrease, pageDecrease, pageExact, loaded, reloadFiltered } = dogsSlice.actions;
 
 export default dogsSlice.reducer;

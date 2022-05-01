@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import axios from 'axios'
 import { useDispatch, useSelector } from "react-redux";
 import { loadDogs, loadTemps, loadFiltered, loaded } from '../../slice-reducer/dogsSlice';
-import { API_DOGS, API_TEMPS } from '../../constants';
+import { API_DOGS } from '../../constants';
 
 import Filters from "./components/Filters";
 import CardContainer from "./components/CardContainer";
@@ -11,7 +11,7 @@ import Pages from './components/Pages';
 const Home = () => {  
   const dogs = useSelector(state => state.dogs.main);
   const firstLoad = useSelector(state => state.dogs.firstLoad);
-  const filtered = useSelector(state => state.dogs.filtered);
+  //const filtered = useSelector(state => state.dogs.filtered);
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -32,8 +32,9 @@ const Home = () => {
       <Filters />
       {dogs < 1 ? <p>/ LOADING . . . /</p> :
       <>
+        <Pages />
         <CardContainer />
-        <Pages />   
+        <Pages />
       </>   
       }
     </>

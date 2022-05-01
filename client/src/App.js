@@ -8,7 +8,6 @@ import Form from "./components/form/Form";
 import About from "./components/about/About";
 
 function App() {
-  //? NO rederizar la Nav bar en la Landing page  
   let flag = true;
   if (/localhost:3000\/*$/.test(document.URL)) flag = false
 

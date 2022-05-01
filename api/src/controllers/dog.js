@@ -30,6 +30,7 @@ async function dogList(req, res, next) {
     } else {  
       //? get ALL
       apiDogs = await axios.get(API_URL)
+      
       dbDogs = await Dog.findAll({
         include: [{
           model: Temperament,

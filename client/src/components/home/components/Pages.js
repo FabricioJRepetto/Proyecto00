@@ -14,21 +14,34 @@ const Pages = () => {
   maxLimit = (page +1) <= totalPages,
   minLimit = (page - 1) >= 1;
 
+<div>
+    {filtered.length>0 ?
+    <p><b>Dogs: </b>{filtered.length}</p>
+    : null
+    }
+</div>   
+
   return(
     <>
-      <button onClick={() => dispatch(pageExact(1))} >{' << '}</button>
-      <button onClick={() => dispatch(pageDecrease())} >{' < '}</button>
-      <span>
-        <span onClick={() => dispatch(pageDecrease())}>{ 
-          minLimit ? page-1 : ` - `
-        }</span>
-          <b>{` ${page} `}</b>
-        <span onClick={() => dispatch(pageIncrease(totalPages))}>{ 
-          maxLimit ? page+1 : ` - `
-        }</span>
-      </span>
-      <button onClick={() => dispatch(pageIncrease(totalPages))} >{' > '}</button>
-      <button onClick={() => dispatch(pageExact(totalPages))} >{' >> '}</button>
+        <div>{filtered.length !== dogs.length ?
+            <p><b>Dogs: </b>{filtered.length}</p>
+            : null
+            }
+        </div>   
+        <button onClick={() => dispatch(pageExact(1))} >{' << '}</button>
+        <button onClick={() => dispatch(pageDecrease())} >{' < '}</button>
+        <span>
+            <span onClick={() => dispatch(pageDecrease())}>{ 
+            minLimit ? page-1 : ` - `
+            }</span>
+            <b>{` ${page} `}</b>
+            <span onClick={() => dispatch(pageIncrease(totalPages))}>{ 
+            maxLimit ? page+1 : ` - `
+            }</span>
+        </span>
+        <button onClick={() => dispatch(pageIncrease(totalPages))} >{' > '}</button>
+        <button onClick={() => dispatch(pageExact(totalPages))} >{' >> '}</button>
+        <span> /{totalPages}</span>
     </>
   );
 };
