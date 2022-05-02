@@ -10,9 +10,10 @@ import {
   reloadFiltered,
   saveInputs
 } from "../../../slice-reducer/dogsSlice";
-import './filters.css'
+import './Filters.css'
 
 const Filters = () => {
+  const dispatch = useDispatch();
   const [name, setName] = useState('');
   const [tempList, setTempList] = useState([]);
   const [order, setOrder] = useState('name');
@@ -22,7 +23,6 @@ const Filters = () => {
   const savedName = useSelector(state => state.dogs.nameInput);
   const savedTemps = useSelector(state => state.dogs.tempsInput);
   const firstLoad = useSelector(state => state.dogs.firstLoad);
-  const dispatch = useDispatch();
   
   
   //? -------------- Keeping filter options after unmount -------------- //
@@ -59,9 +59,9 @@ const Filters = () => {
 
   //? -------------- Name handler -------------- //
   const nameInput = (e)=>{      
-      let inputName = document.getElementById('input_name').value.toLowerCase();
-      inputName ? setName(inputName) : setName('');
-      dispatch(saveInputs({input: 'name', data: inputName}))
+      let value = e.target.value.toLowerCase();
+      value ? setName(value) : setName('');
+      dispatch(saveInputs({input: 'name', data: value}))
 
   }
   
@@ -149,7 +149,15 @@ const Filters = () => {
               
             <div>
             <p><b>Temperaments:</b></p>
-                <div>
+                <input id='input_temps' list="list_temps" 
+                onKeyDown={eventSourceCatcher} 
+                onChange={eventValueCatcher} />
+                <datalist id="list_temps" >
+                    {temperaments.map(t => (
+                        <option key={`filter-${t}`} value={t} />
+                    ))}
+                </datalist>
+                <div className="filter-temps-box">
                 {tempList?.map(t=>
                     <div key={t+"-f"}            
                         onClick={deleteCardHandler}>
@@ -157,16 +165,6 @@ const Filters = () => {
                     </div>
                 )}
                 </div>
-                <input id='input_temps' list="list_temps" 
-                onKeyDown={eventSourceCatcher} 
-                onChange={eventValueCatcher} />
-                <datalist id="list_temps" >
-                {
-                    temperaments.map(e => (
-                    <option key={e} value={e} />
-                    ))
-                }
-                </datalist>
             </div>
                       
             <div>
