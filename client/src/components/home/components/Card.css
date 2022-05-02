@@ -1,0 +1,32 @@
+.card {
+   text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 10rem;
+    margin: 1.5rem;
+}
+.cardTemps {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+.tempTag{
+    background-color: #1c1e24;
+    height: 1.5rem;
+    border-radius: 10px;
+    margin: 5px;
+    padding-left: 8px;
+    padding-right: 8px;
+}
+.image{
+    height: 10rem;
+    width: 10rem;
+}
+
+.apidog{
+    color: red;
+}
+.dbdog{
+    color: blue;
+}

@@ -7,35 +7,42 @@ export const dogsSlice = createSlice({
     filtered: [],
     temps: [],
     filters: {source: 'all', order: 'name'},
-    page: 1,
     asc: true,
+    nameInput: "",
+    tempsInput: [],
+    page: 1,
     firstLoad: true,
   },
   reducers: {
 //? estados
     loadDogs: (state, action) => {
-       return{
-        ...state,
-        main: action.payload
-      }  
+       state.main = action.payload
     },
-    loadTemps: (state, action) => {        
-        state.temps = action.payload.sort((a, b)=>
-            a > b ? 1 : a < b ? -1 : 0
-        );
+    loadTemps: (state, action) => {
+        state.temps = action.payload
     },
     loadFiltered: (state, action) =>{
-      return{
-        ...state,
-        filtered: action.payload
-      }
+        state.filtered = action.payload;      
+    //   return{
+    //     ...state,
+    //     filtered: action.payload
+    //   }
+    },
+
+//? INPUTS
+    saveInputs: (state, action) => {
+        if (action.payload.input === 'temps') {
+            state.tempsInput = action.payload.data
+        } else {
+            state.nameInput = action.payload.data
+        }
     },
 
 //? filtros
     searchByName: (state, action) => {
-      state.filtered = [...state.filtered].filter(dog => (
-        dog.name.toLowerCase().includes(action.payload)
-      ))
+        state.filtered = [...state.filtered].filter(dog => (
+            dog.name.toLowerCase().includes(action.payload.toLowerCase())
+        ))
     },
     filterSource: (state, {payload}) => {
       if (payload === 'all') {
@@ -77,7 +84,7 @@ export const dogsSlice = createSlice({
     setAsc: (state) => {
         state.asc ? state.asc = false : state.asc = true
     },
-    // filters: {source: 2, temps: false, order: 'name'},
+    // filters: {source: 'all', order: 'name'}
     updateFilters: (state, action) => {      
          state.filters = {...state.filters, ...action.payload}
     },
@@ -103,6 +110,6 @@ export const dogsSlice = createSlice({
   }
 }); 
 
-export const { loadDogs, loadTemps, loadFiltered, searchByName, orderBy, setAsc, updateFilters, filterSource, filterTemperament, pageIncrease, pageDecrease, pageExact, loaded, reloadFiltered } = dogsSlice.actions;
+export const { loadDogs, loadTemps, loadFiltered, searchByName, orderBy, setAsc, updateFilters, saveInputs, filterSource, filterTemperament, pageIncrease, pageDecrease, pageExact, loaded, reloadFiltered } = dogsSlice.actions;
 
 export default dogsSlice.reducer;

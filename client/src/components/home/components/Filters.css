@@ -1,3 +1,6 @@
-.filtros {
-  background-color: #282c34;
+.filters{
+    display: flex;
+    width: 250px;
+    justify-content: flex-start;
+    flex-direction: column;
 }

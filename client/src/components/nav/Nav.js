@@ -1,9 +1,10 @@
 import React from "react";
 import { Link } from 'react-router-dom'
+import './Nav.css'
 
 const navBar = ({visible}) => {
   return(    
-    <>
+    <div className='navBar'>
     { visible && <>
     <h2>NAV BAR / / / / </h2>
       <span>
@@ -12,7 +13,7 @@ const navBar = ({visible}) => {
         <Link to="create">- Create Dog</Link>
       </span>
     </> }
-    </>
+    </div>
   )
 };
 

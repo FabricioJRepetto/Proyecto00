@@ -2,6 +2,7 @@ import React from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { pageIncrease, pageDecrease, pageExact } from '../../../slice-reducer/dogsSlice';
 import { EL_PER_PAGE } from '../../../constants';
+import './Pages.css'
 
 const Pages = () => {
   const dogs = useSelector(state => state.dogs.main);
@@ -22,7 +23,7 @@ const Pages = () => {
 </div>   
 
   return(
-    <>
+    <div className='pages'>
         <div>{filtered.length !== dogs.length ?
             <p><b>Dogs: </b>{filtered.length}</p>
             : null
@@ -42,7 +43,7 @@ const Pages = () => {
         <button onClick={() => dispatch(pageIncrease(totalPages))} >{' > '}</button>
         <button onClick={() => dispatch(pageExact(totalPages))} >{' >> '}</button>
         <span> /{totalPages}</span>
-    </>
+    </div>
   );
 };
 

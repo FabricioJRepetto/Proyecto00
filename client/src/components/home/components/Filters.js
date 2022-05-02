@@ -8,8 +8,9 @@ import {
   setAsc,
   orderBy,
   reloadFiltered,
+  saveInputs
 } from "../../../slice-reducer/dogsSlice";
-import './Filters.css'
+import './filters.css'
 
 const Filters = () => {
   const [name, setName] = useState('');
@@ -18,9 +19,25 @@ const Filters = () => {
   const asc = useSelector(state => state.dogs.asc);
   const temperaments = useSelector(state => state.dogs.temps);
   const filters = useSelector(state => state.dogs.filters);
+  const savedName = useSelector(state => state.dogs.nameInput);
+  const savedTemps = useSelector(state => state.dogs.tempsInput);
+  const firstLoad = useSelector(state => state.dogs.firstLoad);
   const dispatch = useDispatch();
   
-  //? -------------- Filtrado ENCADENADO -------------- //
+  
+  //? -------------- Keeping filter options after unmount -------------- //
+    useEffect(() => {
+        let {source, order} = filters;
+        if (!firstLoad) {
+            setName(savedName)
+            setTempList(savedTemps)
+            document.getElementById(`radio-${source}`).checked = true;
+            document.getElementById(`radio-${order}`).checked = true;
+        }        
+        // eslint-disable-next-line react-hooks/exhaustive-deps    
+    }, [])
+
+  //? -------------- Chained filter -------------- //
   useEffect(() => {
         const { source, order } = filters;
         let inputName = document.getElementById('input_name').value
@@ -40,13 +57,15 @@ const Filters = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, name])
 
-  //? -------------- Manejo por NOMBRE -------------- //
+  //? -------------- Name handler -------------- //
   const nameInput = (e)=>{      
       let inputName = document.getElementById('input_name').value.toLowerCase();
-      inputName ? setName(inputName) : setName('')
+      inputName ? setName(inputName) : setName('');
+      dispatch(saveInputs({input: 'name', data: inputName}))
+
   }
   
-  //? -------------- Manejo TEMPERAMENTOS  -------------- //
+  //? -------------- Temperament handler  -------------- //
   let eventSource = null;
   const eventSourceCatcher =(e)=> {    
     eventSource = e.key === "Unidentified" ? 'list' : 'input'
@@ -65,14 +84,15 @@ const Filters = () => {
       t=> t !== e.target.innerText
     ))
   }  
-  useEffect(() => {    
-      tempList.length ? dispatch(updateFilters({ temp: tempList }))
-      : dispatch(updateFilters({ temp: false }))
+  useEffect(() => {
+        tempList.length ? dispatch(updateFilters({ temp: tempList }))
+        : dispatch(updateFilters({ temp: false }))
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+        dispatch(saveInputs({input: 'temps', data: tempList}))
+        // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tempList])
   
-  //? -------------- Manejo ORDEN -------------- //
+  //? -------------- Order handler -------------- //
   useEffect(() => {
       asc ? (document.getElementById('ascButton').innerText = '⬆Ascendent')
       : (document.getElementById('ascButton').innerText = '⬇Descendent')      
@@ -86,7 +106,7 @@ const Filters = () => {
     dispatch(orderBy(order))
   };
 
-//? -------------- RESET -------------- //
+//? -------------- Reset -------------- //
   const resetButton =()=> {
     dispatch(reloadFiltered())
     dispatch(updateFilters({source: 'all', order: 'name'}))
@@ -94,95 +114,91 @@ const Filters = () => {
     setTempList([])
   }  
 
-//? -------------- RENDER -------------- //
-    //* Solución al '1 state behind'
-        //? 1) onChange llama una funcion para setear el state. 
-        //? 2) el value del input tiene que tener el nombre del state. 
-        //? 3) inicializar el state con un "" en este caso.
+//? -------------- RENDER -------------- //   
   return(
-        <div className="filtros">
-            <h2>Dog Filters</h2>
-            <form>
+    <form className="filters">
+        <h2>Dog Filters</h2>
+            <div>
                 <input type='text' id='input_name'
                     placeholder='Name' value={name}
                     onChange={nameInput}></input>
                 <button type="button" onClick={(e)=>(nameInput(e))} value='Search'>🔍</button>
-
+            </div>
                     
-                <hr/>
+            <div>
                 <p><b>Get results from:</b></p>
                 <div>
                     <label>
-                        < input type='radio' name='source' value='all' 
+                        < input id='radio-all' type='radio' name='source' value='all' 
                         defaultChecked 
                         onClick={()=>dispatch(updateFilters({source: 'all'}))}/>
                         All dogs 
                         </label>
                 </div>
                 <label>
-                    < input type='radio' name='source' value='number'       
+                    < input id='radio-number' type='radio' name='source' value='number'       
                     onClick={()=>(dispatch(updateFilters({source: 'number'})))}/>
                     Originals 
                     </label>
                 <label>
-                    < input type='radio' name='source' value='string'         
+                    < input id='radio-string' type='radio' name='source' value='string'         
                     onClick={()=>(dispatch(updateFilters({source: 'string'})))}/>
                     My Collection 
-                    </label>  
-
-                <br/>
-                <hr/>
-                <p><b>Temperaments:</b></p>
-                    <div>
-                    {tempList?.map(t=>
-                        <div key={t+"-f"}            
-                            onClick={deleteCardHandler}>
-                            <div><span>{t}</span>   x</div>
-                        </div>
-                    )}
+                    </label>
+            </div>
+              
+            <div>
+            <p><b>Temperaments:</b></p>
+                <div>
+                {tempList?.map(t=>
+                    <div key={t+"-f"}            
+                        onClick={deleteCardHandler}>
+                        <div><span>{t}</span>   x</div>
                     </div>
-                    <input id='input_temps' list="list_temps" 
-                    onKeyDown={eventSourceCatcher} 
-                    onChange={eventValueCatcher} />
-                    <datalist id="list_temps" >
-                    {
-                        temperaments.map(e => (
-                        <option key={e} value={e} />
-                        ))
-                    }
-                    </datalist>
-
-                <br/>
-                <hr/>       
+                )}
+                </div>
+                <input id='input_temps' list="list_temps" 
+                onKeyDown={eventSourceCatcher} 
+                onChange={eventValueCatcher} />
+                <datalist id="list_temps" >
+                {
+                    temperaments.map(e => (
+                    <option key={e} value={e} />
+                    ))
+                }
+                </datalist>
+            </div>
+                      
+            <div>
                 <p><b>Order: </b></p>
                 <div>
                     <label>
-                        < input type='radio' name='order_by' defaultChecked 
+                        < input id='radio-name' type='radio' name='order_by' defaultChecked 
                         onClick={()=>orderButtonHandler('name')}/>
-                        Name 
+                        Name
                         </label>
                     <label>
-                        < input type='radio' name='order_by' 
+                        < input id='radio-life_span' type='radio' name='order_by' 
                         onClick={()=>orderButtonHandler('life_span')}/>
                         Lifespan
                         </label>
-                </div>
-                    
+                </div>                    
                 <div>
                     <label>
-                        < input type='radio' name='order_by' 
+                        < input id='radio-height' type='radio' name='order_by' 
                         onClick={()=>orderButtonHandler('height')}/>
                         Height
                         </label>
                     <label>
-                        < input type='radio' name='order_by' 
+                        < input id='radio-weight' type='radio' name='order_by' 
                         onClick={()=>orderButtonHandler('weight')}/>
                         Weight
                     </label>
                 </div>
+            </div>
+            
 
-                <br/>
-                <hr/>
+            <div>
                 <button type="button" id='ascButton'
                     value='⬆Ascendent'
                     onClick={ascButtonHandler}>
@@ -191,11 +207,8 @@ const Filters = () => {
 
                 <input type="reset" value="Reset ❌"
                 onClick={resetButton}/>
-                <br/>
-                <hr/>
-            </form>
-        </div>
-
+            </div>
+        </form>
   );
 };
 
