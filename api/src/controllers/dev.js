@@ -11,13 +11,16 @@ async function devExp(req, res, next) {
     // ------------------------------------------------ \\  
 
           let response = [];
+          let aux = 100
+          let name = ''
           const petition = await axios.get(API_URL);
           petition.data.forEach(e => {
-            if (!/^[0-9]/i.test(e.weight.metric)) {
-              response.push(e)
-            }
-          });  
-          res.json("coincidencias: "+response.length +" / "+ response[0].id + " " + response[1].id);
+              if (e.name.trim().length < aux) {
+                  aux = e.name.trim().length
+                  name = e.name
+              }
+          })
+          res.json("coincidencias: "+name+' '+aux)
 
     // ------------------------------------------------ \\  
     } else {

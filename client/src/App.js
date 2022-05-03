@@ -8,12 +8,11 @@ import About from "./components/about/About";
 import "./App.css"
 
 function App() {
-  let flag = true;
-  if (/localhost:3000\/*$/.test(document.URL)) flag = false
-
+//   let flag = true;
+//   if (/localhost:3000\/*$/.test(document.URL)) flag = false
   return (   
     <div className='App'>
-      <Nav visible={flag} className='navBar' />
+      <Nav className='NavBar' />
       <Routes>
           <Route path="/" element={<LandingPage />}/>        
           <Route path='home' element={<Home />} />

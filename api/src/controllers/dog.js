@@ -110,7 +110,7 @@ async function addDog(req, res, next) {
 try {    
     //: falta la IMAGEN?
     let { name, height, weight, life_span} = req.body;    
-    let temps = req.body.temperament.split(", ");  
+    let temps = req.body.temperaments.split(", ");  
     let auxArray = [];
     let tempsToAdd = [];
 
