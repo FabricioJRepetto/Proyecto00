@@ -1,12 +1,13 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { API_DOGS } from "../../constants";
 import './Details.css'
 
 const Details = () => {
   const [details, setDetails] = useState({})
   const [error, setError] = useState(false)
+  const navigate = useNavigate();
   let { id } = useParams();
   
   useEffect(() => {
@@ -16,23 +17,25 @@ const Details = () => {
         setDetails(() => data);    
       } catch (err) {
         console.error(err)
-        setError(true)
+        setError(err)
       }
     }
     petition();
-
-    //return () => {}
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   
   let { name, height, weight, life_span, temperaments, image } = details;
 
   return(
-      error ? <p>Error</p>
+      error ? <div>
+          <h2>Something went wrong</h2>
+          <p>Dog #{id} not foud</p>
+      </div>
       : <div >
             {!details.id 
             ? <p>/ LOADING /</p> 
             : <>
+            <button onClick={()=>navigate(-1)}>{`< Back`}</button>
             <h1 >{name}</h1>
             <div className="details-container">
                 

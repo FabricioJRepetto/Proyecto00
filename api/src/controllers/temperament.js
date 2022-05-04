@@ -13,11 +13,11 @@ async function temperamentList(req, res, next) {
         });
       }
     });  
-    const dbTemps = await Temperament.findAll();      
+    const dbTemps = await Temperament.findAll();
     dbTemps.forEach(e => {
-      if (response.includes(e) === false) response.push(e.temperament);
+      response.includes(e.dataValues.temperament) || response.push(e.dataValues.temperament);
     });
-  
+    
     res.json(response);
 
   } catch (err) {

@@ -161,7 +161,7 @@ const Filters = () => {
                 {tempList?.map(t=>
                     <div key={t+"-f"}            
                         onClick={deleteCardHandler}>
-                        <div><span>{t}</span>   x</div>
+                        <span>{t}</span>
                     </div>
                 )}
                 </div>

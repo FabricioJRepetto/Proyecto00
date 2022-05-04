@@ -1,0 +1,12 @@
+.error-message {
+    color: brown;
+}
+.loading {
+    color: yellow;
+}
+.invalid {
+    color: brown;
+}
+.valid {
+    color: green;
+}

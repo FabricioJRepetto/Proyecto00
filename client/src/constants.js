@@ -1,10 +1,11 @@
 const API_DOGS = "http://localhost:3001/dogs/";
 const API_TEMPS = "http://localhost:3001/temperaments/";
+const API_NAMES = 'http://localhost:3001/dogs/names';
 const API_POST = 'http://localhost:3001/dogs/';
 const EL_PER_PAGE = 15;
 const TEMPS_PER_CARD = 3;
 
-module.exports = { API_DOGS, API_TEMPS, API_POST, EL_PER_PAGE, TEMPS_PER_CARD };
+module.exports = { API_DOGS, API_TEMPS, API_NAMES, API_POST, EL_PER_PAGE, TEMPS_PER_CARD };
 
 /*
 ? get /dogs/?name=
@@ -17,3 +18,15 @@ module.exports = { API_DOGS, API_TEMPS, API_POST, EL_PER_PAGE, TEMPS_PER_CARD };
 ? get /dev/{req.body.pasword}
 */
 
+/*
+
+v !== 0 ? 
+    v === 1 ? Cargando
+    : v === 2 ? Error : correcto
+: Vacio
+
+
+
+
+
+*/
