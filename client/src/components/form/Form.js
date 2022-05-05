@@ -1,11 +1,16 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import { API_POST } from "../../constants";
-import useGetData from "../../utils";
+import { useGetData, useModal } from "../../helpers";
+import { loaded } from "../../slice-reducer/dogsSlice";
+import Modal from "../modal/Modal";
 import './Form.css'
 
 const Form = () => {    
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const [form, setForm] = useState({});
     const [error, setError] = useState({}); 
     const [mount, setMount] = useState(false); 
@@ -15,9 +20,13 @@ const Form = () => {
     const [height, setHeight] = useState('');
     const [weight, setWeight] = useState('');
     const [life_span, setLife_span] = useState('');
+    const [data, setData] = useState('');
+    const [reqError, setReqError] = useState('');
     const temps = useSelector(state => state.dogs.temps);
     const dogs = useSelector(state => state.dogs.main);
-
+    const [isOpen1, openModal1, closeModal1] = useModal();
+    const [isOpen2, openModal2, closeModal2] = useModal();
+    
     useGetData()
 
 //? temperaments
@@ -32,10 +41,9 @@ const Form = () => {
                 document.getElementById('form-temps').value = '';
             }
         }
-        //validator(e)
     };
     const enterHandler =(e)=> {
-        if (e.code === 'Enter') {
+        if (e.code === 'Enter' && e.target.value) {
             if (!tempList.includes(e.target.value) && tempList.length < 3) {
                 setTemperaments([...tempList, e.target.value]);
                 document.getElementById('form-temps').value = '';
@@ -89,7 +97,7 @@ const Form = () => {
                         let flag = true;
                         dogs.forEach(n => {
                             if (n.name.toLowerCase() === value.toLowerCase()) {
-                                setError({...errors, [input]: 'Nombre ya utilizado'});
+                                errors = {...errors, [input]: 'Nombre ya utilizado'};
                                 setValidating('invalid');
                                 return flag = false;
                             }
@@ -126,8 +134,8 @@ const Form = () => {
                     forms = {...forms, temperaments: tempList?.join(', ')}
             }
         }
-        setError(errors); //!
-        setForm(forms); //!
+        setError(errors);
+        setForm(forms);
     };
     useEffect(() => {
         mount ? validator({target: {name: 'name', value: name}}) : setMount(true)
@@ -148,31 +156,60 @@ const Form = () => {
             !weight &&  (aux = ({...aux, weight: 'Campo requerido.'}));
             !life_span &&  (aux = ({...aux, life_span: 'Campo requerido.'}));
             setError({...aux});
-            return console.log('no lo envia è_é');
+            return console.log('no se envia è_é'); //!!
         }
         if (Object.keys(error).length === 0) {
-            console.log('enviado e_e');
+            console.log('enviando e_e'); //!!
             e.preventDefault();
             try {
-                console.log(form);
+                //console.log(form); //!!
                 const req = await axios.post(API_POST, form);
-                console.log(req);
-            } catch (err) {
-                alert(err)            
+                setData({...req.data});
+                openModal1();
+            } catch (error) {
+                if (error.response) {
+                    console.log(error.response);
+                    //errorModalHandler(error.response.data.message);
+                    setReqError(error.response.data)
+                    openModal2()
+                }
             }
         };
     };
 
+    const handleCloseModal = (redirect) => {
+        dispatch(loaded(true));
+        closeModal1();
+        redirect && navigate(`/home/${data.id}`);
+    };
   return(
-        <div>
+        <div className="form-page">
             <h2>Create a new dog!</h2>
-            <form autoComplete="off">                    
+
+            <Modal isOpen={isOpen1} closeModal={closeModal1}>
+                <h3>Creation Succeed!</h3>
+                <p>{`${data.name} is now part of the world!`}</p>
                 <div>
+                <button onClick={()=>handleCloseModal(true)}>See details</button>
+                <button onClick={()=>handleCloseModal(false)}>Great!</button>
+                </div>
+            </Modal>
+            <Modal isOpen={isOpen2} closeModal={closeModal2}>
+                <h3>Something went wrong</h3>
+                <p>{`${reqError.message}`}</p>
+                <div>
+                <button onClick={closeModal2}>Try again</button>
+                </div>
+            </Modal>
+
+            <form autoComplete="off" className="form-container">                    
+                <div className="form-box">
                     <label htmlFor='form-name'>Name: </label>
                     <input type="text" 
                     name='name' 
                     value={name}
-                    onChange={validator}/>
+                    onChange={validator}
+                    className='input'/>
                     {validating !== 'idle'
                         ? validating === 'loading' ? <p>🕗</p>
                             : validating === 'invalid' ? <p>❗</p>
@@ -182,7 +219,7 @@ const Form = () => {
                     {error.name && <p className='error-message' >{error.name}</p>}
                 </div>
 
-                <div>
+                <div className="temp-box">
                     <label htmlFor="form-temps">Temperaments: </label>
                     <input id='form-temps' 
                     name='temps' 
@@ -206,7 +243,7 @@ const Form = () => {
                     {error.temperaments && <p className='error-message'>{error.temperaments}</p>}
                 </div>
                 
-                <div>                    
+                <div className="form-box">                    
                     <label htmlFor="height">Height: </label>
                     <input type="text" 
                     name='height' 
@@ -215,16 +252,17 @@ const Form = () => {
                     {error.height && <p className='error-message'>{error.height}</p>}
                 </div>
                 
-                <div>                    
-                    <label htmlFor="weight">Weight: </label>
-                    <input type="text" 
-                    name='weight' 
-                    value={weight} 
-                    onChange={validator} />
+                <div className="form-box">                    
+                    <label htmlFor="weight">Weight: 
+                        <input type="text" 
+                        name='weight' 
+                        value={weight} 
+                        onChange={validator} />
+                    </label>
                     {error.weight && <p className='error-message'>{error.weight}</p>}
                 </div>
                 
-                <div>                    
+                <div className="form-box">                    
                     <label htmlFor="life_span">Lifespan: </label>
                     <input type="text"
                     name='life_span' 
@@ -245,28 +283,3 @@ export default Form;
 //  twitch  'https://www.twitch.tv';
 //  Dofus  'https://www.dofus.com/es/mmorpg/jugar';
 //  Google  'https://accounts.google.com/info/sessionexpired?continue=https%3A%2F%2Fwww.google.com%2Fsearch%3Fclient%3Dopera-gx%26q%3Dgoogle%26sourceid%3Dopera%26ie%3DUTF-8%26oe%3DUTF-8&hl=es&dsh=S-1425723599%3A1651466382608226&biz=false&flowName=GlifWebSignIn&flowEntry=SignUp';
-
- //? Validar nombre unico en la DataBase
-        // const nameValidator = async (name)=> {
-        //     let flag = true;
-        //     setValidating('loading')
-        //     if (name) {
-        //         try {
-        //             const { data } = await axios.get(API_NAMES)
-        //             data.forEach(n => {
-        //                 if (n.toLowerCase() === name.toLowerCase()) {
-        //                     setError({...errors, [input]: 'Nombre ya utilizado'});
-        //                     setValidating('invalid');
-        //                     flag = false;
-        //                 }
-        //             })
-        //             if (flag) {
-        //                 delete error.name
-        //                 setForm({...form, [input]: name});
-        //                 setValidating('valid');
-        //             }
-        //         } catch (error) {
-        //             console.log(error);
-        //         }
-        //     }
-        // };

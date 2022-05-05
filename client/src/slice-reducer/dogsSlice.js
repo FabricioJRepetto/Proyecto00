@@ -102,8 +102,8 @@ export const dogsSlice = createSlice({
     },
 
 //? extra
-    loaded: (state) => {
-        state.firstLoad = false;
+    loaded: (state, action) => {
+        state.firstLoad = action.payload;
     },
     reloadFiltered: (state) => {
         state.filtered = [...state.main]

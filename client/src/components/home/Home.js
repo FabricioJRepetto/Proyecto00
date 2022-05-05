@@ -2,7 +2,7 @@ import { useSelector } from "react-redux";
 import Filters from "./components/Filters";
 import CardContainer from "./components/CardContainer";
 import Pages from './components/Pages';
-import useGetData from '../../utils';
+import {useGetData} from '../../helpers';
 import "./Home.css"
 
 const Home = () => {
