@@ -6,3 +6,29 @@
     flex-direction: column;
     align-content: center;
 }
+.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    width: -webkit-fill-available;
+};
+.loading-img {
+    background-color: brown;
+    color: aqua;
+    height: 150px;
+    width: 150px;
+};
+@media (prefers-reduced-motion: no-preference) {
+    .loading-img {
+        animation: Loading-img-spin infinite 3s linear;
+    };
+};
+@keyframes Loading-img-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+};

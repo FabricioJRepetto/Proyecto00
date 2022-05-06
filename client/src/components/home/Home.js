@@ -13,8 +13,11 @@ const Home = () => {
     return(
         <div className='home'>
         <Filters />
-        {firstLoad ? <p>/ LOADING . . . /</p> :
-        <div className='homeContainer'>
+        {firstLoad 
+            ? <div className="loading">
+                    <img src={require('../../assets/loading.png')} alt="" className="loading-img"/>
+            </div> 
+            : <div className='homeContainer'>
             <Pages />
             <CardContainer />
             <Pages />

@@ -20,8 +20,6 @@ const Details = () => {
             let wikiDesc = await wikiExtract(data.name);
             //console.log(wikiDesc);
             wikiDesc && setDetails({...data, desc: wikiDesc});
-            
-
         } catch (err) {
             console.error(err)
             setError(err)

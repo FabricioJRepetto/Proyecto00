@@ -1,7 +1,73 @@
 .navBar {
     display: flex;
-    flex-flow: column;
     justify-content: space-between;
-    flex-direction: row;
+    align-items: flex-start;
+    max-height: 100px;
+    width: 100%;
+    margin-bottom: 80px;
+    font-family: 'Amatic SC', cursive;
+    background: linear-gradient(to bottom, rgba(0, 0, 0, 0.60),rgba(0, 0, 0, 0.0));
+    /*position: fixed;*/
+}
+
+.logo {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+.logo-bg {
+    margin-left: 40px;
+    /* background-color: #202020; */
+    border-radius: 50%;
+    height: 150px;
+    width: 150px;
+    padding: 10px;
+    z-index: 2;
+}
+.logo-name {
+    margin-left: 60px;
+    font-size: 3rem;
+    position: absolute;
+    top: 0;
+    left: 0;
+    margin-top: 32px;
+    margin-left: 85px;
+    z-index: 50;
+}
+.logo-img {    
+    margin-top: 7px;
+    margin-left: 50px;
+    height: 150px;
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+@media (prefers-reduced-motion: no-preference) {
+    .logo-img {
+        animation: App-logo-spin infinite 130s linear;
+    }
+}
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.nav-buttons {
+    height: 100px;
+    width: 800px;
+    display: flex;
     align-items: flex-end;
+    justify-content: flex-end;
+    margin-right: 50px;
+    font-size: 2rem;
+    border-bottom: #fffdde 2px dashed;
+
+
+}
+.buttons {
+    margin: 1rem;
 }

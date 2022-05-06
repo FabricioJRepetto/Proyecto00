@@ -184,95 +184,101 @@ const Form = () => {
     };
   return(
         <div className="form-page">
-            <h2>Create a new dog!</h2>
+            <div className="form-box-container">
+                <h2 className="form-title">Create a new dog!</h2>
 
-            <Modal isOpen={isOpen1} closeModal={closeModal1}>
-                <h3>Creation Succeed!</h3>
-                <p>{`${data.name} is now part of the world!`}</p>
-                <div>
-                <button onClick={()=>handleCloseModal(true)}>See details</button>
-                <button onClick={()=>handleCloseModal(false)}>Great!</button>
-                </div>
-            </Modal>
-            <Modal isOpen={isOpen2} closeModal={closeModal2}>
-                <h3>Something went wrong</h3>
-                <p>{`${reqError.message}`}</p>
-                <div>
-                <button onClick={closeModal2}>Try again</button>
-                </div>
-            </Modal>
-
-            <form autoComplete="off" className="form-container">                    
-                <div className="form-box">
-                    <label htmlFor='form-name'>Name: </label>
-                    <input type="text" 
-                    name='name' 
-                    value={name}
-                    onChange={validator}
-                    className='input'/>
-                    {validating !== 'idle'
-                        ? validating === 'loading' ? <p>🕗</p>
-                            : validating === 'invalid' ? <p>❗</p>
-                                 : <p>✅</p>
-                        : <p></p>
-                    }
-                    {error.name && <p className='error-message' >{error.name}</p>}
-                </div>
-
-                <div className="temp-box">
-                    <label htmlFor="form-temps">Temperaments: </label>
-                    <input id='form-temps' 
-                    name='temps' 
-                    list='form-list-temps'
-                    onKeyDown={eventSourceCatcher}                    
-                    onChange={eventValueCatcher} 
-                    onKeyUp={enterHandler}/>
-                    <datalist id='form-list-temps'>
-                        {temps.map(t => (
-                            <option key={`form-${t}`} value={t} />
-                        ))}
-                    </datalist>
-                    <div className="form-temps-box">
-                        {tempList?.map(t=>
-                            <div key={t+"-form"}            
-                            onClick={deleteCardHandler}>
-                                <div><span>{t}</span>   x</div>
-                            </div>
-                        )}
+                <Modal isOpen={isOpen1} closeModal={closeModal1}>
+                    <h3>Creation Succeed!</h3>
+                    <p>{`${data.name} is now part of the world!`}</p>
+                    <div>
+                    <button onClick={()=>handleCloseModal(true)}>See details</button>
+                    <button onClick={()=>handleCloseModal(false)}>Great!</button>
                     </div>
-                    {error.temperaments && <p className='error-message'>{error.temperaments}</p>}
-                </div>
-                
-                <div className="form-box">                    
-                    <label htmlFor="height">Height: </label>
-                    <input type="text" 
-                    name='height' 
-                    value={height} 
-                    onChange={validator} />
-                    {error.height && <p className='error-message'>{error.height}</p>}
-                </div>
-                
-                <div className="form-box">                    
-                    <label htmlFor="weight">Weight: 
+                </Modal>
+                <Modal isOpen={isOpen2} closeModal={closeModal2}>
+                    <h3>Something went wrong</h3>
+                    <p>{`${reqError.message}`}</p>
+                    <div>
+                    <button onClick={closeModal2}>Try again</button>
+                    </div>
+                </Modal>
+
+                <form autoComplete="off" className="form-container">                    
+                    <div className="form-box">
+                        <label htmlFor='form-name'>Name: </label>
                         <input type="text" 
-                        name='weight' 
-                        value={weight} 
+                        name='name' 
+                        value={name}
+                        onChange={validator}
+                        className='input'/>
+                        {validating !== 'idle'
+                            ? validating === 'loading' ? <p>🕗</p>
+                                : validating === 'invalid' ? <p>❗</p>
+                                    : <p>✅</p>
+                            : <p></p>
+                        }
+                        {error.name && <p className='error-message' >{error.name}</p>}
+                    </div>
+
+                    <div className="temp-box">
+                        <label htmlFor="form-temps">Temperaments: </label>
+                        <input id='form-temps' 
+                        name='temps' 
+                        list='form-list-temps'
+                        className='input'
+                        onKeyDown={eventSourceCatcher}                    
+                        onChange={eventValueCatcher} 
+                        onKeyUp={enterHandler}/>
+                        <datalist id='form-list-temps'>
+                            {temps.map(t => (
+                                <option key={`form-${t}`} value={t} />
+                            ))}
+                        </datalist>
+                        <div className="form-temps-box">
+                            {tempList?.map(t=>
+                                <div key={t+"-form"}            
+                                onClick={deleteCardHandler}>
+                                    <div><span>{t}</span>   x</div>
+                                </div>
+                            )}
+                        </div>
+                        {error.temperaments && <p className='error-message'>{error.temperaments}</p>}
+                    </div>
+                    
+                    <div className="form-box">                    
+                        <label htmlFor="height">Height: </label>
+                        <input type="text" 
+                        name='height' 
+                        value={height} 
+                        className='input'
                         onChange={validator} />
-                    </label>
-                    {error.weight && <p className='error-message'>{error.weight}</p>}
-                </div>
-                
-                <div className="form-box">                    
-                    <label htmlFor="life_span">Lifespan: </label>
-                    <input type="text"
-                    name='life_span' 
-                    value={life_span} 
-                    onChange={validator} />
-                    {error.life_span && <p className='error-message'>{error.life_span}</p>}
-                </div>
-                   
-                   <input type="button" value='Create!' onClick={handleSubmit}/>
-            </form>
+                        {error.height && <p className='error-message'>{error.height}</p>}
+                    </div>
+                    
+                    <div className="form-box">                    
+                        <label htmlFor="weight">Weight: 
+                            <input type="text" 
+                            name='weight' 
+                            value={weight} 
+                            className='input'
+                            onChange={validator} />
+                        </label>
+                        {error.weight && <p className='error-message'>{error.weight}</p>}
+                    </div>
+                    
+                    <div className="form-box">                    
+                        <label htmlFor="life_span">Lifespan: </label>
+                        <input type="text"
+                        name='life_span' 
+                        value={life_span} 
+                        className='input'
+                        onChange={validator} />
+                        {error.life_span && <p className='error-message'>{error.life_span}</p>}
+                    </div>
+                    
+                    <input type="button" value='Create!' onClick={handleSubmit}/>
+                </form>
+            </div>
         </div>
   );
 };

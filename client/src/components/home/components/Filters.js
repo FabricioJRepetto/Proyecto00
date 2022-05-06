@@ -10,6 +10,7 @@ import {
   reloadFiltered,
   saveInputs
 } from "../../../slice-reducer/dogsSlice";
+import { ReactComponent as IconSearch } from '../../../assets/search-icon.svg'
 import './Filters.css'
 
 const Filters = () => {
@@ -117,95 +118,97 @@ const Filters = () => {
 //? -------------- RENDER -------------- //   
   return(
     <form className="filters">
-        <h2>Dog Filters</h2>
-            <div>
-                <input type='text' id='input_name'
-                    placeholder='Name' value={name}
-                    onChange={nameInput}></input>
-                <button type="button" onClick={(e)=>(nameInput(e))} value='Search'>🔍</button>
-            </div>
-                    
-            <div>
-                <p><b>Get results from:</b></p>
-                <div>
-                    <label>
-                        < input id='radio-all' type='radio' name='source' value='all' 
-                        defaultChecked 
-                        onClick={()=>dispatch(updateFilters({source: 'all'}))}/>
-                        All dogs 
-                        </label>
+        <div className="filter-container">
+            <h2>Dog Filters</h2>
+                <div className='filter-box'>
+                    <input type='text' id='input_name'
+                        value={name} onChange={nameInput} placeholder=' name' className='input'></input>
+                        <IconSearch color='#fffdde' className="search-button" onClick={(e)=>(nameInput(e))} />                        
                 </div>
-                <label>
-                    < input id='radio-number' type='radio' name='source' value='number'       
-                    onClick={()=>(dispatch(updateFilters({source: 'number'})))}/>
-                    Originals 
-                    </label>
-                <label>
-                    < input id='radio-string' type='radio' name='source' value='string'         
-                    onClick={()=>(dispatch(updateFilters({source: 'string'})))}/>
-                    My Collection 
-                    </label>
-            </div>
-              
-            <div>
-            <p><b>Temperaments:</b></p>
-                <input id='input_temps' list="list_temps" 
-                onKeyDown={eventSourceCatcher} 
-                onChange={eventValueCatcher} />
-                <datalist id="list_temps" >
-                    {temperaments.map(t => (
-                        <option key={`filter-${t}`} value={t} />
-                    ))}
-                </datalist>
-                <div className="filter-temps-box">
-                {tempList?.map(t=>
-                    <div key={t+"-f"}            
-                        onClick={deleteCardHandler}>
-                        <span>{t}</span>
+                        
+                <div className='filter-box'>
+                    <h3><b>Get results from:</b></h3>
+                    <div>
+                        <label>
+                            < input id='radio-all' type='radio' name='source' value='all' 
+                            defaultChecked 
+                            onClick={()=>dispatch(updateFilters({source: 'all'}))}/>
+                            All dogs 
+                            </label>
                     </div>
-                )}
+                    <label>
+                        < input id='radio-number' type='radio' name='source' value='number'       
+                        onClick={()=>(dispatch(updateFilters({source: 'number'})))}/>
+                        Originals 
+                        </label>
+                    <label>
+                        < input id='radio-string' type='radio' name='source' value='string'         
+                        onClick={()=>(dispatch(updateFilters({source: 'string'})))}/>
+                        My Collection 
+                        </label>
                 </div>
-            </div>
-                      
-            <div>
-                <p><b>Order: </b></p>
-                <div>
-                    <label>
-                        < input id='radio-name' type='radio' name='order_by' defaultChecked 
-                        onClick={()=>orderButtonHandler('name')}/>
-                        Name
-                        </label>
-                    <label>
-                        < input id='radio-life_span' type='radio' name='order_by' 
-                        onClick={()=>orderButtonHandler('life_span')}/>
-                        Lifespan
-                        </label>
-                </div>                    
-                <div>
-                    <label>
-                        < input id='radio-height' type='radio' name='order_by' 
-                        onClick={()=>orderButtonHandler('height')}/>
-                        Height
-                        </label>
-                    <label>
-                        < input id='radio-weight' type='radio' name='order_by' 
-                        onClick={()=>orderButtonHandler('weight')}/>
-                        Weight
-                    </label>
+                
+                <div className='filter-box'>
+                <p><b>Temperaments:</b></p>
+                    <input id='input_temps' list="list_temps" className='input'
+                    onKeyDown={eventSourceCatcher} 
+                    onChange={eventValueCatcher} />
+                    <datalist id="list_temps" >
+                        {temperaments.map(t => (
+                            <option key={`filter-${t}`} value={t} />
+                        ))}
+                    </datalist>
+                    <div className="filter-temps-box">
+                    {tempList?.map(t=>
+                        <div key={t+"-f"}            
+                            onClick={deleteCardHandler}>
+                            <span>{t}</span>
+                        </div>
+                    )}
+                    </div>
                 </div>
-            </div>
-            
+                        
+                <div className='filter-box'>
+                    <p><b>Order: </b></p>
+                    <div>
+                        <label>
+                            < input id='radio-name' type='radio' name='order_by' defaultChecked 
+                            onClick={()=>orderButtonHandler('name')}/>
+                            Name
+                            </label>
+                        <label>
+                            < input id='radio-life_span' type='radio' name='order_by' 
+                            onClick={()=>orderButtonHandler('life_span')}/>
+                            Lifespan
+                            </label>
+                    </div>                    
+                    <div>
+                        <label>
+                            < input id='radio-height' type='radio' name='order_by' 
+                            onClick={()=>orderButtonHandler('height')}/>
+                            Height
+                            </label>
+                        <label>
+                            < input id='radio-weight' type='radio' name='order_by' 
+                            onClick={()=>orderButtonHandler('weight')}/>
+                            Weight
+                        </label>
+                    </div>
+                </div>
+                
 
-            <div>
-                <button type="button" id='ascButton'
-                    value='⬆Ascendent'
-                    onClick={ascButtonHandler}>
-                        ⬆Ascendent
-                </button>
+                <div className='bottom-box'>
+                    <button type="button" id='ascButton'
+                        value='⬆Ascendent' className='button'
+                        onClick={ascButtonHandler}>
+                            ⬆Ascendent
+                    </button>
 
-                <input type="reset" value="Reset ❌"
-                onClick={resetButton}/>
-            </div>
+                    <input type="reset" value="Reset ❌"
+                    onClick={resetButton}
+                    className='button-reset'/>
+                </div>
+          </div>
         </form>
   );
 };

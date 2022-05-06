@@ -19,6 +19,7 @@ const LandingPage = () => {
 
   return(
     <div className='landing-page'>
+        <video src="../../assets/2e8ba8c7-a691-46d9-b5ae-d18050ce273a.mp4"></video>
       <h2>LANDING PAGE</h2>
       <Link to="/home">CONTINUE TO MAIN PAGE</Link>
     </div>    
