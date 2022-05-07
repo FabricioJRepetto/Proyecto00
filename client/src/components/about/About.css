@@ -1,0 +1,7 @@
+.cajon {
+    display: flex;
+    height: -webkit-fill-available;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}

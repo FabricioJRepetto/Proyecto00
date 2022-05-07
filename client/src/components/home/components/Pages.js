@@ -2,10 +2,13 @@ import React from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { pageIncrease, pageDecrease, pageExact } from '../../../slice-reducer/dogsSlice';
 import { EL_PER_PAGE } from '../../../constants';
+import { ReactComponent as IconLeft } from "../../../assets/left.svg";
+import { ReactComponent as IconRight } from "../../../assets/right.svg";
+import { ReactComponent as IconLastPage } from "../../../assets/last_page.svg";
+import { ReactComponent as IconFirstPage } from "../../../assets/first_page.svg";
 import './Pages.css'
 
 const Pages = () => {
-  const dogs = useSelector(state => state.dogs.main);
   const filtered = useSelector(state => state.dogs.filtered);
   const page = useSelector(state => state.dogs.page)
   const dispatch = useDispatch()
@@ -15,34 +18,32 @@ const Pages = () => {
   maxLimit = (page +1) <= totalPages,
   minLimit = (page - 1) >= 1;
 
-<div>
-    {filtered.length>0 ?
-    <p><b>Dogs: </b>{filtered.length}</p>
-    : null
-    }
-</div>   
-
   return(
     <div className='pages'>
-        <div>{filtered.length !== dogs.length ?
-            <p><b>Dogs: </b>{filtered.length}</p>
-            : null
-            }
-        </div>   
-        <button onClick={() => dispatch(pageExact(1))} >{' << '}</button>
-        <button onClick={() => dispatch(pageDecrease())} >{' < '}</button>
+        <div className='page-button' onClick={() => dispatch(pageExact(1))}>
+            <IconFirstPage className='page-icon'></IconFirstPage>
+        </div>
+        <div className='page-button' onClick={() => dispatch(pageDecrease())}>
+            <IconLeft className='page-icon'></IconLeft>
+        </div>
+
         <span>
-            <span onClick={() => dispatch(pageDecrease())}>{ 
+            <span className='pages-nums' onClick={() => dispatch(pageDecrease())}>{ 
             minLimit ? page-1 : ` - `
             }</span>
-            <b>{` ${page} `}</b>
-            <span onClick={() => dispatch(pageIncrease(totalPages))}>{ 
+            <b className='pages-nums'>{` ${page} `}</b>
+            <span className='pages-nums' onClick={() => dispatch(pageIncrease(totalPages))}>{ 
             maxLimit ? page+1 : ` - `
             }</span>
         </span>
-        <button onClick={() => dispatch(pageIncrease(totalPages))} >{' > '}</button>
-        <button onClick={() => dispatch(pageExact(totalPages))} >{' >> '}</button>
-        <span> /{totalPages}</span>
+
+        <div className='page-button' onClick={() => dispatch(pageIncrease(totalPages))}>
+            <IconRight className='page-icon' ></IconRight>
+        </div>
+        <div className='page-button' onClick={() => dispatch(pageExact(totalPages))}>
+            <IconLastPage className='page-icon' ></IconLastPage>
+        </div>
+        <span className='pages-pages'> /{totalPages}</span>
     </div>
   );
 };

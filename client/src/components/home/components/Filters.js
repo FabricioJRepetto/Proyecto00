@@ -11,6 +11,7 @@ import {
   saveInputs
 } from "../../../slice-reducer/dogsSlice";
 import { ReactComponent as IconSearch } from '../../../assets/search-icon.svg'
+import { ReactComponent as IconClose } from '../../../assets/close-icon.svg'
 import './Filters.css'
 
 const Filters = () => {
@@ -119,7 +120,7 @@ const Filters = () => {
   return(
     <form className="filters">
         <div className="filter-container">
-            <h2>Dog Filters</h2>
+            <h2>Filters</h2>
                 <div className='filter-box'>
                     <input type='text' id='input_name'
                         value={name} onChange={nameInput} placeholder=' name' className='input'></input>
@@ -149,8 +150,8 @@ const Filters = () => {
                 </div>
                 
                 <div className='filter-box'>
-                <p><b>Temperaments:</b></p>
-                    <input id='input_temps' list="list_temps" className='input'
+                <h3><b>Temperaments:</b></h3>
+                    <input id='input_temps' list="list_temps" className='input input-plus'
                     onKeyDown={eventSourceCatcher} 
                     onChange={eventValueCatcher} />
                     <datalist id="list_temps" >
@@ -160,16 +161,18 @@ const Filters = () => {
                     </datalist>
                     <div className="filter-temps-box">
                     {tempList?.map(t=>
-                        <div key={t+"-f"}            
+                        <div key={t+"-filter"}
+                            className="temp-card"
                             onClick={deleteCardHandler}>
                             <span>{t}</span>
+                            <IconClose className="close-button" /> 
                         </div>
                     )}
                     </div>
                 </div>
                         
                 <div className='filter-box'>
-                    <p><b>Order: </b></p>
+                    <h3><b>Order: </b></h3>
                     <div>
                         <label>
                             < input id='radio-name' type='radio' name='order_by' defaultChecked 

@@ -8,8 +8,38 @@
     color: #fffdde;
 }
 .filter-temps-box{
-    height: 3.5rem;
+    height: 4.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
+.temp-card {
+    background-color: rgb(255, 203, 203);
+    color: rgb(70, 70, 70);
+    cursor: pointer;
+    position: relative;
+    border-radius: 5px;
+    width: fit-content;
+    padding-left: .5rem;
+    padding-right: 1.7rem;
+    padding-top: .2rem;
+    padding-bottom: .2rem;
+    margin: 2px;
+}
+.close-button {
+    transform: scale(.35);
+    position: absolute;
+    right: 15px;
+    top: 10px;
+    background-color: rgba(0, 0, 0, 0);
+    top: -11px;
+    right: -10px;
+    pointer-events: none;
+}
+.close-button path {
+    fill: rgb(70, 70, 70);
+}
+
 .filter-container{
     height: 600px;
     border-right:  #fffdde 2px dashed;
@@ -19,6 +49,9 @@
     position: relative;
     padding: 1rem;
 }
+.filter-box h3 {
+    margin-bottom: .8rem;
+}
 .input {
     background-color: #fffdde;
     border: none;
@@ -27,6 +60,9 @@
     padding-left: .5rem;
     height: 2rem;
     width: 184px;
+}
+.input-plus{
+    margin-bottom: 2px;
 }
 .search-button {
     transform: scale(.55);
@@ -44,7 +80,7 @@
     border: none;
     border-radius: 4px ;
     cursor: pointer;
-    height: 1.5rem;
+    height: 1.7rem;
     width: 6rem;
 }
 .button-reset {
@@ -52,11 +88,10 @@
     background-color: rgba(255, 253, 222, 0);
     border:#fffdde solid 2px;
     border-radius: 4px ;
-    cursor: pointer;
-    height: 1.5rem;
     width: 4.5rem;
 }
 .bottom-box {
     display: flex;
     justify-content: space-evenly;
+    margin-top: 1rem;
 }

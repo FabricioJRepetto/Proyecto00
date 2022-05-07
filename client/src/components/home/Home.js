@@ -4,6 +4,7 @@ import CardContainer from "./components/CardContainer";
 import Pages from './components/Pages';
 import {useGetData} from '../../helpers';
 import "./Home.css"
+import TopFilters from "./components/TopFilters";
 
 const Home = () => {
     const firstLoad = useSelector(state => state.dogs.firstLoad);
@@ -15,13 +16,13 @@ const Home = () => {
         <Filters />
         {firstLoad 
             ? <div className="loading">
-                    <img src={require('../../assets/loading.png')} alt="" className="loading-img"/>
+                    <img className="loading-img" src={require('../../assets/loading.png')} alt="" />
             </div> 
             : <div className='homeContainer'>
-            <Pages />
-            <CardContainer />
-            <Pages />
-        </div>   
+                <TopFilters />
+                <CardContainer />
+                <Pages />
+            </div>   
         }
         </div>
     );

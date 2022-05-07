@@ -1,4 +1,33 @@
 .pages {
     display: flex;
     justify-content: center;
+    font-size: 1.2rem;
+    align-items: center;
+}
+.page-button {
+    background-color: #fffdde;
+    margin-right: 5px;
+    margin-left: 5px;
+    border: none;
+    border-radius: 4px;
+    height: 1.5rem;
+    width: 1.5rem;
+    position: relative;
+}
+.page-icon {
+    transform: scale(.55);
+    position: absolute;
+    top: -12px;
+    left: -12px;
+}
+.page-icon path {
+    fill: rgb(70, 70, 70);
+
+}
+.pages-nums {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+.pages-pages {
+    margin-left: 20px;
 }

@@ -6,6 +6,10 @@ import { API_POST } from "../../constants";
 import { useGetData, useModal } from "../../helpers";
 import { loaded } from "../../slice-reducer/dogsSlice";
 import Modal from "../modal/Modal";
+import { ReactComponent as IconCancel } from '../../assets/cancel.svg'
+import { ReactComponent as IconCheck } from '../../assets/check.svg'
+import { ReactComponent as IconClose } from '../../assets/close-icon.svg'
+
 import './Form.css'
 
 const Form = () => {    
@@ -39,6 +43,7 @@ const Form = () => {
             if (!tempList.includes(e.target.value) && tempList.length < 3) {
                 setTemperaments([...tempList, e.target.value]);
                 document.getElementById('form-temps').value = '';
+                setMount(true)
             }
         }
     };
@@ -58,6 +63,7 @@ const Form = () => {
 
 //? inputValidator
     const validator = (e) => {
+        setMount(true)
         let errors = {...error};
         let forms = {...form};
         let value = e.target.value;
@@ -86,18 +92,18 @@ const Form = () => {
         };
 
         if (input === 'name') {
-            setValidating('idle')
+            //setValidating('idle')
             setName(value)
             if (value) {
                     if (value?.trim().length < 2) {
-                           errors = {...errors, [input]: 'Nombre demasiado corto.'}
+                           errors = {...errors, [input]: 'Name too short.'}
                     } else if (!/^[a-z ñáéíóú]*$/gi.test(value)) {
-                            errors = {...errors, [input]: 'Solo se aceptan letras y espacios.'}
+                            errors = {...errors, [input]: 'Only letters and spaces are allowed.'}
                     } else {
                         let flag = true;
                         dogs.forEach(n => {
                             if (n.name.toLowerCase() === value.toLowerCase()) {
-                                errors = {...errors, [input]: 'Nombre ya utilizado'};
+                                errors = {...errors, [input]: 'Name alredy in use.'};
                                 setValidating('invalid');
                                 return flag = false;
                             }
@@ -110,7 +116,7 @@ const Form = () => {
                     }
             } else {
                     delete forms[input];
-                    errors = {...errors, [input]: 'Campo requerido.'}
+                    errors = {...errors, [input]: 'Required field.'}
             }
         }
         if (input === 'height') {
@@ -128,7 +134,7 @@ const Form = () => {
         if (input === 'temps') {
             if (tempList.length < 1) {
                     delete forms.temperaments;
-                    errors = {...errors, temperaments: 'Selecciona o crea por lo menos un temperamento.'}
+                    errors = {...errors, temperaments: 'Select or Create at least one temperament.'}
             } else {
                     delete errors.temperaments
                     forms = {...forms, temperaments: tempList?.join(', ')}
@@ -150,11 +156,11 @@ const Form = () => {
     const handleSubmit = async (e) => {
         if (Object.values(form).length < 5) {
             let aux = {};
-            name[0] &&  (aux = ({...error, name: 'Campo requerido.'}));
-            (tempList.length < 1) &&  (aux = ({...aux, temperaments: 'Campo requerido.'}));
-            !height &&  (aux = ({...aux, height: 'Campo requerido.'}));
-            !weight &&  (aux = ({...aux, weight: 'Campo requerido.'}));
-            !life_span &&  (aux = ({...aux, life_span: 'Campo requerido.'}));
+            name.length < 2 &&  (aux = ({...error, name: 'Required field.'}));
+            (tempList.length < 1) &&  (aux = ({...aux, temperaments: 'Required field.'}));
+            !height &&  (aux = ({...aux, height: 'Required field.'}));
+            !weight &&  (aux = ({...aux, weight: 'Required field.'}));
+            !life_span &&  (aux = ({...aux, life_span: 'Required field.'}));
             setError({...aux});
             return console.log('no se envia è_é'); //!!
         }
@@ -173,6 +179,8 @@ const Form = () => {
                     setReqError(error.response.data)
                     openModal2()
                 }
+                    setReqError(error)
+                    openModal2()
             }
         };
     };
@@ -184,101 +192,132 @@ const Form = () => {
     };
   return(
         <div className="form-page">
+        <div className="border-form-container">
             <div className="form-box-container">
-                <h2 className="form-title">Create a new dog!</h2>
-
-                <Modal isOpen={isOpen1} closeModal={closeModal1}>
-                    <h3>Creation Succeed!</h3>
-                    <p>{`${data.name} is now part of the world!`}</p>
+                <h2 className="form-title">CREATE A NEW DOG!</h2>
+                
+                <Modal isOpen={isOpen1} 
+                closeModal={closeModal1}>
+                    <h1>Creation Succeed!</h1>
+                    <p className="dog-name"><b>{data.name}</b></p>
+                    <p> is now part of the world!</p>
                     <div>
-                    <button onClick={()=>handleCloseModal(true)}>See details</button>
-                    <button onClick={()=>handleCloseModal(false)}>Great!</button>
+                        <button className="button-details"
+                        onClick={()=>handleCloseModal(true)}>See details</button>
+                        <button 
+                        className="button-ok"
+                        onClick={()=>handleCloseModal(false)}>Great!</button>
+                        <img className="modal-image"
+                        src={require('./../../assets/pug-creation.png')} alt="succes"/>
                     </div>
                 </Modal>
-                <Modal isOpen={isOpen2} closeModal={closeModal2}>
-                    <h3>Something went wrong</h3>
-                    <p>{`${reqError.message}`}</p>
-                    <div>
-                    <button onClick={closeModal2}>Try again</button>
-                    </div>
-                </Modal>
 
-                <form autoComplete="off" className="form-container">                    
+                <Modal isOpen={isOpen2} 
+                closeModal={closeModal2}>
+                    <div className="modal-container">
+                        <h1>Something went wrong</h1>
+                        <p>{`${reqError.message}`}</p>
+                        <div>
+                            <button 
+                            className="button-ok"
+                            onClick={closeModal2}>Try again</button>
+                        </div>
+                        <img className="modal-image"
+                        src={require('./../../assets/pug-error.png')} alt="error 400"/>
+                    </div>
+                </Modal>{
+//?  ------------ MODALES ------------------------
+                }<form autoComplete="off" className="form-container">
+
                     <div className="form-box">
-                        <label htmlFor='form-name'>Name: </label>
                         <input type="text" 
                         name='name' 
                         value={name}
                         onChange={validator}
-                        className='input'/>
-                        {validating !== 'idle'
+                        placeholder=' '
+                        className={`input i-form ${(error.name &&'invalid-input')}`}/>
+                        <label className={`placeholder ${(error.name &&'invalid')}`}>name</label>
+                        <div className='name-verfication'>{validating !== 'idle'
                             ? validating === 'loading' ? <p>🕗</p>
-                                : validating === 'invalid' ? <p>❗</p>
-                                    : <p>✅</p>
+                                : validating === 'invalid' ? <IconCancel className='icon cancel'/>
+                                    : <IconCheck className='icon check'/>
                             : <p></p>
-                        }
+                        }</div>
                         {error.name && <p className='error-message' >{error.name}</p>}
                     </div>
 
-                    <div className="temp-box">
-                        <label htmlFor="form-temps">Temperaments: </label>
+                    <div className="form-box">                    
+                        <input type="text" 
+                        name='height' 
+                        value={height} 
+                        className={`input i-form ${(error.height && 'invalid-input')}`}
+                        placeholder=' '
+                        onChange={validator} />
+                        <label className={`${(error.height && 'invalid')}`}>height</label>
+                        {error.height && <p className='error-message'>{error.height}</p>}
+                    </div>
+                    
+                    <div className="form-box">                    
+                            <input type="text" 
+                            name='weight' 
+                            value={weight} 
+                            className={`input i-form ${(error.weight &&  'invalid-input')}`}
+                            placeholder=' '
+                            onChange={validator} />
+                        <label className={`${(error.weight && 'invalid')}`}>weight</label>
+                        {error.weight && <p className='error-message'>{error.weight}</p>}
+                    </div>
+                    
+                    <div className="form-box">                    
+                        <input type="text"
+                        name='life_span' 
+                        value={life_span} 
+                        className={`input i-form ${(error.life_span && 'invalid-input')}`}
+                        placeholder=' '
+                        onChange={validator} />
+                        <label className={`${(error.life_span && 'invalid')}`}>lifespan</label>
+                        {error.life_span && <p className='error-message'>{error.life_span}</p>}
+                    </div>
+                    
+                     <div className="form-box">
                         <input id='form-temps' 
                         name='temps' 
                         list='form-list-temps'
-                        className='input'
-                        onKeyDown={eventSourceCatcher}                    
-                        onChange={eventValueCatcher} 
+                        className={`input i-form ${(error.temperaments && 'invalid-input')}`}
+                        placeholder=' '
+                        onKeyDown={eventSourceCatcher}
+                        onChange={eventValueCatcher}
                         onKeyUp={enterHandler}/>
+                        <label className={error.temperaments && 'invalid'}>temperaments</label>
+
                         <datalist id='form-list-temps'>
                             {temps.map(t => (
                                 <option key={`form-${t}`} value={t} />
                             ))}
                         </datalist>
-                        <div className="form-temps-box">
+                        <div className="filter-temps-box-form">
                             {tempList?.map(t=>
-                                <div key={t+"-form"}            
+                                <div key={t+"-form"}
+                                className="temp-card-form"
                                 onClick={deleteCardHandler}>
-                                    <div><span>{t}</span>   x</div>
+                                <span>{t}</span>
+                                <IconClose className="close-button" /> 
                                 </div>
                             )}
                         </div>
                         {error.temperaments && <p className='error-message'>{error.temperaments}</p>}
                     </div>
-                    
-                    <div className="form-box">                    
-                        <label htmlFor="height">Height: </label>
-                        <input type="text" 
-                        name='height' 
-                        value={height} 
-                        className='input'
-                        onChange={validator} />
-                        {error.height && <p className='error-message'>{error.height}</p>}
-                    </div>
-                    
-                    <div className="form-box">                    
-                        <label htmlFor="weight">Weight: 
-                            <input type="text" 
-                            name='weight' 
-                            value={weight} 
-                            className='input'
-                            onChange={validator} />
-                        </label>
-                        {error.weight && <p className='error-message'>{error.weight}</p>}
-                    </div>
-                    
-                    <div className="form-box">                    
-                        <label htmlFor="life_span">Lifespan: </label>
-                        <input type="text"
-                        name='life_span' 
-                        value={life_span} 
-                        className='input'
-                        onChange={validator} />
-                        {error.life_span && <p className='error-message'>{error.life_span}</p>}
-                    </div>
-                    
-                    <input type="button" value='Create!' onClick={handleSubmit}/>
+                        
+                    <label className="submit-container">
+                        <input type="button" 
+                        className="submit-form" 
+                        value='Create!' onClick={handleSubmit}/>
+                        <img src={require('../../assets/ticket3.png')} alt="submit ticket"/>
+                    </label>
+
                 </form>
             </div>
+        </div>    
         </div>
   );
 };

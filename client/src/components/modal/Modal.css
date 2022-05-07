@@ -11,10 +11,55 @@
     align-items: center;
 }
 .modal-container {
-    height: 20vh;
-    width: 30vw;
-    background-color: rgb(124, 124, 124);
+    height: 250px;
+    width: 500px;
+    background-color: rgb(42, 42, 42);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    border-radius: 10px;
 }
 .modal.is-open {
     display: flex;
+}
+.modal-container h1 {
+    font-size: 2rem;
+}
+.modal-container p {
+    font-size: 1.5rem;
+}
+.dog-name {
+    color: chocolate;
+    border-bottom: 2px #fff dashed;
+}
+.button-details {
+    font-family: 'Neucha', cursive;
+    font-weight: 600;
+    font-size: 1.1rem;
+    background-color: rgb(255, 138, 55);
+    border: none;
+    border-radius: 8px;
+    padding: 5px 15px 5px 15px;
+    margin: 10px;
+    cursor: pointer;
+}
+.button-ok {
+    font-family: 'Neucha', cursive;
+    font-weight: 600;
+    font-size: 1.1rem;
+    background-color: rgb(110, 212, 255);
+    border: none;
+    border-radius: 8px;
+    padding: 5px 15px 5px 15px;
+    margin: 10px;
+    cursor: pointer;
+}
+.modal-image {
+    height: 300px;
+    position: absolute;
+    z-index: 999;
+    top: 70px;
+    right: -100px;
 }

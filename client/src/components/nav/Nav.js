@@ -23,9 +23,10 @@ const NavBar = () => {
         </div>
 
         <div className="nav-buttons">
-            <Link to="home" className="buttons">- Home </Link>
-            <Link to="create" className="buttons">- Create Dog</Link>
-            <Link to="about" className="buttons">- About </Link>
+            <Link to="home" className="buttons"> Home </Link>
+            <Link to="create" className="buttons"> Create </Link>
+            <Link to="home" className="buttons"> Favorites </Link>
+            <Link to="about" className="buttons"> About </Link>
         </div>
         </>}
         </div>

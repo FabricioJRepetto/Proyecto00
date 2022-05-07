@@ -1,0 +1,13 @@
+.top-filters {
+    display: flex;
+    height: 1.5rem;
+    width: -webkit-fill-available;
+    align-items: center;
+    justify-content: flex-end;
+}
+.total-results-list {
+    margin-right: 100px;
+}
+.total-results {
+    margin-right: 100px;
+}
