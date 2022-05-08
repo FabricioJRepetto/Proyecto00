@@ -5,14 +5,16 @@
     align-items: center;
 }
 .page-button {
-    background-color: #fffdde;
+    background-color: rgba(0, 0, 0, .5);
     margin-right: 5px;
     margin-left: 5px;
     border: none;
     border-radius: 4px;
     height: 1.5rem;
     width: 1.5rem;
+    cursor: pointer;
     position: relative;
+    transition: all 0.2s;
 }
 .page-icon {
     transform: scale(.55);
@@ -21,13 +23,24 @@
     left: -12px;
 }
 .page-icon path {
-    fill: rgb(70, 70, 70);
-
+    fill: rgb(255, 253, 222);
+}
+.page-button:hover {
+    background-color: rgba(70, 70, 70, .5);
+}
+.page-button:active {
+    background-color: rgba(180, 180, 180, .5);
+}
+.pages-num-box {
+    width: 120px;
+    text-align: center;
 }
 .pages-nums {
     margin-right: 10px;
     margin-left: 10px;
+    cursor: pointer;
 }
 .pages-pages {
     margin-left: 20px;
+    pointer-events: none;
 }

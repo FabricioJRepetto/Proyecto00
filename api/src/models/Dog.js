@@ -24,6 +24,14 @@ module.exports = sequelize => {
         type: DataTypes.STRING,
         allowNull: false,
       },
+      description: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      image: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
     {
       freezeTableName: true,

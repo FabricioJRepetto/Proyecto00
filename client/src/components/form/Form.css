@@ -72,7 +72,7 @@ input:focus + label, input:not(:placeholder-shown) + label{
 }
 .name-verfication {
     position: absolute;
-    top: 1px;
+    top: 3px;
     right: -6px;
 }
 .icon {
@@ -101,7 +101,7 @@ input:focus + label, input:not(:placeholder-shown) + label{
 }
 .submit-container input {
     height: 4rem;
-    width: 190px;
+    width: 70px;
     background-color: rgba(0, 0, 0, 0);
     color: #2c2c2c;
     border: none;
@@ -110,15 +110,23 @@ input:focus + label, input:not(:placeholder-shown) + label{
     font-weight: 600;
     position: absolute;
     top: -3px;
-    left: -42px;
+    right: 18px;
     z-index: 1;
     cursor: pointer;
+    transition: 0.1s;
 }
 .submit-container img {
     height: 4rem;
     top: 0px;
     left: 0px;
     cursor: pointer;
+}
+.submit-container:hover input {
+    font-size: 2.2rem;
+    color: rgb(0, 0, 0);
+}
+.submit-container:active input {
+    font-size: 1.9rem;
 }
 
 .form-temps-box {
@@ -128,7 +136,7 @@ input:focus + label, input:not(:placeholder-shown) + label{
     align-items: flex-start;
 }
 .temp-card-form {
-    background-color: rgb(255, 203, 203);
+    background-color: #FFFDDE;
     color: rgb(50, 50, 50);
     cursor: pointer;
     position: relative;
@@ -139,6 +147,7 @@ input:focus + label, input:not(:placeholder-shown) + label{
     padding-top: .2rem;
     padding-bottom: .2rem;
     margin: 4px;
+    transition: all 0.2s;
 }
 .close-button {
     transform: scale(.35);
@@ -151,5 +160,11 @@ input:focus + label, input:not(:placeholder-shown) + label{
     pointer-events: none;
 }
 .close-button path {
-    fill: rgb(70, 70, 70);
+    fill: rgb(150, 150, 150);
+}
+.temp-card-form:hover {
+    background-color: #cccccc;
+}
+.temp-card-form:hover .close-button path {
+    fill: brown;
 }

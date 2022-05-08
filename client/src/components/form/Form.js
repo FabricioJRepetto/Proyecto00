@@ -311,8 +311,8 @@ const Form = () => {
                     <label className="submit-container">
                         <input type="button" 
                         className="submit-form" 
-                        value='Create!' onClick={handleSubmit}/>
-                        <img src={require('../../assets/ticket3.png')} alt="submit ticket"/>
+                        value='Create' onClick={handleSubmit}/>
+                        <img src={require('../../assets/ticket2.png')} alt="submit ticket"/>
                     </label>
 
                 </form>

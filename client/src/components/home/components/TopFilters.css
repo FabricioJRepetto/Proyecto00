@@ -1,13 +1,42 @@
 .top-filters {
     display: flex;
-    height: 1.5rem;
-    width: -webkit-fill-available;
     align-items: center;
     justify-content: flex-end;
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+    height: 30px;
+    width: -webkit-fill-available;
 }
-.total-results-list {
+.dpp-list {
     margin-right: 100px;
+    position: relative;
 }
 .total-results {
     margin-right: 100px;
+}
+.dpp-list select {
+    font-family: 'Neucha', cursive;
+    font-size: 1rem;
+    background-color: #fffdde;
+    border: none;
+    outline: none;
+    margin-left: 15px;
+    border-radius: 4px;
+    padding-left: .5rem;
+    height: 2rem;
+    width: 50px;
+    -moz-appearance:none;
+    -webkit-appearance:none;
+    appearance: none;
+    cursor: pointer;
+}
+.selectArrow {
+    transform: scale(.8);
+    position: absolute;
+    top: -8px;
+    right: -10px;
+    pointer-events: none;
+}
+.selectArrow path {
+    fill: rgb(50, 50, 50)
 }

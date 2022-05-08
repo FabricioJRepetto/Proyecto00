@@ -11,6 +11,7 @@ export const dogsSlice = createSlice({
     nameInput: "",
     tempsInput: [],
     page: 1,
+    dogsPerPage: 16,
     nav: true,
     firstLoad: true,
   },
@@ -111,9 +112,12 @@ export const dogsSlice = createSlice({
     viewNav: (state, action) => {
         state.nav = action.payload;
     },
+    dogsPerPage: (state, action) => {
+        state.dogsPerPage = action.payload;
+    }
   }
 }); 
 
-export const { loadDogs, loadTemps, loadFiltered, searchByName, orderBy, setAsc, updateFilters, saveInputs, filterSource, filterTemperament, pageIncrease, pageDecrease, pageExact, loaded, reloadFiltered, viewNav } = dogsSlice.actions;
+export const { loadDogs, loadTemps, loadFiltered, searchByName, orderBy, setAsc, updateFilters, saveInputs, filterSource, filterTemperament, pageIncrease, pageDecrease, pageExact, loaded, reloadFiltered, viewNav, dogsPerPage } = dogsSlice.actions;
 
 export default dogsSlice.reducer;

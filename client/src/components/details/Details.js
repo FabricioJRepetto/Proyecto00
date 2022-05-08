@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { wikiExtract } from "../../helpers";
 import { API_DOGS } from "../../constants";
+import { ReactComponent as BackArrow } from '../../assets/back-arrow.svg'
 import './Details.css'
 
 const Details = () => {
@@ -18,7 +19,7 @@ const Details = () => {
             let { data } = await axios.get(`${API_DOGS}${id}`);
             setDetails({...data});
             let wikiDesc = await wikiExtract(data.name);
-            //console.log(wikiDesc);
+            console.log(wikiDesc);
             wikiDesc && setDetails({...data, desc: wikiDesc});
         } catch (err) {
             console.error(err)
@@ -36,26 +37,36 @@ const Details = () => {
           <h2>Something went wrong</h2>
           <p>Dog #{id} not foud</p>
       </div>
-      : <div >
+      : <div className="details-page-container">
             {!details.id 
             ? <p>/ LOADING /</p> 
             : <>
-            <button onClick={()=>navigate(-1)}>{`< Back`}</button>
-
-            <h1 >{name}</h1>
             <div className="details-container">
+
+                <div className="border-details-container">
+                    <div className="details-header">
+                        <BackArrow className='back-button' onClick={()=>navigate(-1)}/>
+                        <h1>{name}</h1>
+                    </div>
+
+                    <div className="details-body">
+                        <img src={image} alt={`${name}`} className='detail-image'/>
+                        <div className="details">
+                            <p className="detail-element"><b>Height: </b>{height} cm</p>
+                            <p className="detail-element"><b>Weight: </b>{weight} kg</p>
+                            <p className="detail-element"><b>Lifespan: </b>{life_span} years</p>
+                            <div className="detail-element">
+                            <p><b>Temperaments:</b></p>
+                            <p>{temperaments}</p>
+                            </div>
+                            <div className="desc-text">
+                                <p><b>Description:</b></p>
+                                <p>{ desc }</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 
-                <div className="image-container">
-                <img src={image} alt={`${name}`} className='detail-image'/>
-                </div>
-                    
-                <div className="details">
-                    <p><b>Height: </b>{height} cm</p>
-                    <p><b>Weight: </b>{weight} kg</p>
-                    <p><b>Lifespan: </b>{life_span} years</p>
-                    <p><b>Temperaments: </b>{temperaments}</p>
-                    <p>{ desc }</p>
-                </div>
             </div>
             </>}
             </div>        

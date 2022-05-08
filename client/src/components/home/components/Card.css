@@ -1,27 +1,56 @@
 .card {
-   text-decoration: none;
+    background-color: rgba(0, 0, 0, .3);
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    width: 10rem;
+    height: 20rem;
+    padding: 1rem;
+    margin: .25rem;
+    border-radius: 10px;
+    border: 1px rgba(255, 255, 255, .0) solid;
+    
+    transition: all 0.2s ease;
+}
+.dog-name-card {
+    font-size: 1.2rem;
+    text-align: center;
+    height: 2rem;
+}
+.temps-section {
     display: flex;
     flex-direction: column;
     align-items: center;
-    max-width: 10rem;
-    margin: 1.5rem;
+}
+.temps-section span {
+    margin-bottom: 3px;
 }
 .cardTemps {
+    max-height: fit-content;
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
+    align-content: center;
 }
 .tempTag{
-    background-color: #1c1e24;
-    height: 1.5rem;
+    display: flex;
+    align-items: center;
+    background-color: rgba(125, 125, 125, .7);
+    height: 1.2rem;
     border-radius: 10px;
-    margin: 5px;
+    margin: 2px;
     padding-left: 8px;
     padding-right: 8px;
 }
 .image{
+    display: flex;
+    justify-content: center;
+    align-items: center;
     height: 10rem;
     width: 10rem;
+    border-radius: 5px;
 }
 
 .apidog{
@@ -29,4 +58,10 @@
 }
 .dbdog{
     color: blue;
+}
+.card:hover {
+    margin-top: -6px;
+    border: 1px rgba(255, 255, 255, .3) solid;
+    box-shadow: 0px 10px 20px black;
+
 }

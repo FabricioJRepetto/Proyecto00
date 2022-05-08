@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { Link } from 'react-router-dom'
+import { Link, NavLink } from 'react-router-dom'
 import './Nav.css'
 import { } from '../../assets/logo.png'
 
@@ -23,10 +23,20 @@ const NavBar = () => {
         </div>
 
         <div className="nav-buttons">
-            <Link to="home" className="buttons"> Home </Link>
-            <Link to="create" className="buttons"> Create </Link>
-            <Link to="home" className="buttons"> Favorites </Link>
-            <Link to="about" className="buttons"> About </Link>
+            <Link to="home" className="buttons nav-home"> <p>Home</p> 
+                <div className="relleno relleno-home"></div>
+            </Link>
+            <Link to="create" className="buttons nav-create"> 
+            <p>Create</p> 
+               <div className="relleno relleno-create"></div>
+            </Link>
+            <Link to="home" className="buttons nav-dogs"> <p>My Dogs</p> 
+               <div className="relleno relleno-dogs"></div>
+            </Link>
+            <Link to="about" className="buttons nav-about">
+                <p>About</p>
+                <div className="relleno relleno-about"></div>
+            </Link>
         </div>
         </>}
         </div>

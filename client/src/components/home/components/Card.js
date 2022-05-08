@@ -28,24 +28,32 @@ const Card = ({id, name, image, height, weight, life_span, temps, filter}) => {
 
     return(
         <Link to={`${id}`} className='card'>
-        <p className={typeof id === 'number' ? 'apidog' : 'dbdog'}><b>{name}</b></p>{
-            image
+
+        {/* <className={typeof id === 'number' ? 'apidog' : 'dbdog'}> */}
+        <p className="dog-name-card">{name}</p>
+
+        <div className='image'>
+        {image
             ? <img src={image} alt={name} className='image'/>
-            : <h1>🐶</h1>
-            }
-        <div>{
+            : <h1>🐶</h1>}
+        </div>
+
+        <div className="filter-option">{
             (filter === 'life_span' || filter === 'height' || filter === 'weight')
-            ? <>{filter}: {props[filter]}</>            
+            ? <>· {filter}: {props[filter]}</>            
             :   <p> </p>
         }</div>
-        
-            <p>temperaments:</p>
+
+                
+            <div className="temps-section">
+            <span>· temperaments:</span>
             <div className="cardTemps">
                 {tempsBox.map(t =>(
                     <div key={`${id}${t}`} className="tempTag">{t}</div>
                 ))}
                 {moreTemps && <p className="tempTag">···</p>
                 }
+            </div>
             </div>
         
 

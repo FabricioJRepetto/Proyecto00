@@ -14,7 +14,7 @@
     align-items: flex-start;
 }
 .temp-card {
-    background-color: rgb(255, 203, 203);
+    background-color: #FFFDDE;
     color: rgb(70, 70, 70);
     cursor: pointer;
     position: relative;
@@ -25,6 +25,7 @@
     padding-top: .2rem;
     padding-bottom: .2rem;
     margin: 2px;
+    transition: all 0.2s;
 }
 .close-button {
     transform: scale(.35);
@@ -36,8 +37,12 @@
     right: -10px;
     pointer-events: none;
 }
-.close-button path {
-    fill: rgb(70, 70, 70);
+
+.temp-card:hover {
+    background-color: #cccccc;
+}
+.temp-card:hover .close-button path {
+    fill: brown;
 }
 
 .filter-container{
@@ -75,20 +80,36 @@
 .search-button path {
     fill: rgb(70, 70, 70);
 }
-.button {
+.button-asc {
+    font-family: 'Neucha', cursive;
+    font-weight: 600;
+    font-size: 1rem;
     background-color: #fffdde;
+    width: 4.5rem;
     border: none;
-    border-radius: 4px ;
+    border-radius: 4px;
     cursor: pointer;
-    height: 1.7rem;
-    width: 6rem;
+    transition: all 0.2s;
+}
+.button-asc:hover {
+    background-color: #cccccc;
+}
+.button-asc:active {
+    background-color: #E7FBBE;
 }
 .button-reset {
+    font-family: 'Neucha', cursive;
+    font-size: 1rem;
     color: #fffdde;
     background-color: rgba(255, 253, 222, 0);
     border:#fffdde solid 2px;
     border-radius: 4px ;
     width: 4.5rem;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+.button-reset:hover {
+    border: brown solid 2px;
 }
 .bottom-box {
     display: flex;

@@ -56,3 +56,7 @@ body a {
   color: #FFFDDE;
   text-decoration: none;
 }
+body input {
+    font-family: 'Neucha', cursive;
+    font-size: 1.2rem;
+}

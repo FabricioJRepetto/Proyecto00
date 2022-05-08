@@ -1,10 +1,17 @@
-import React from 'react'
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { dogsPerPage, pageExact } from '../../../slice-reducer/dogsSlice';
+import { ReactComponent as SelectArrow } from '../../../assets/arrow-down.svg'
 import './TopFilters.css'
 
 const TopFilters = () => {
     const dogs = useSelector(state => state.dogs.main)
     const filtered = useSelector(state => state.dogs.filtered)
+    const dispatch = useDispatch() ;
+     
+    let changeHandler = (e) => {
+        dispatch(dogsPerPage(e.target.value))
+        dispatch(pageExact(1))
+    };
 
   return (
     <div className='top-filters'>
@@ -13,13 +20,15 @@ const TopFilters = () => {
             : null
             }
         </div> 
-        <div>{null}</div>
-        <div className='total-results-list'>results per page
-            <select>
-                <option defaultValue>14</option>
-                <option>21</option>
-                <option>28</option>
+        
+        <div className='dpp-list'>results per page:
+            <select onChange={changeHandler}>
+                <option>8</option>
+                <option selected>16</option>
+                <option>24</option>
+                <option>32</option>
             </select>
+            <SelectArrow className='selectArrow'/>
         </div>
     </div>
   )

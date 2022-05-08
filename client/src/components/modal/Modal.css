@@ -44,6 +44,7 @@
     padding: 5px 15px 5px 15px;
     margin: 10px;
     cursor: pointer;
+    transition: all 0.3s;
 }
 .button-ok {
     font-family: 'Neucha', cursive;
@@ -55,6 +56,13 @@
     padding: 5px 15px 5px 15px;
     margin: 10px;
     cursor: pointer;
+    transition: all 0.3s;
+}
+.button-ok:hover {
+    background-color: rgb(199, 238, 255);
+}
+.button-details:hover {
+        background-color: rgb(255, 201, 163);
 }
 .modal-image {
     height: 300px;
@@ -62,4 +70,5 @@
     z-index: 999;
     top: 70px;
     right: -100px;
+    pointer-events: none;
 }

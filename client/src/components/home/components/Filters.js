@@ -8,7 +8,8 @@ import {
   setAsc,
   orderBy,
   reloadFiltered,
-  saveInputs
+  saveInputs,
+  pageExact
 } from "../../../slice-reducer/dogsSlice";
 import { ReactComponent as IconSearch } from '../../../assets/search-icon.svg'
 import { ReactComponent as IconClose } from '../../../assets/close-icon.svg'
@@ -96,8 +97,8 @@ const Filters = () => {
   
   //? -------------- Order handler -------------- //
   useEffect(() => {
-      asc ? (document.getElementById('ascButton').innerText = '⬆Ascendent')
-      : (document.getElementById('ascButton').innerText = '⬇Descendent')      
+      asc ? (document.getElementById('ascButton').innerText = '⬆ Asc.')
+      : (document.getElementById('ascButton').innerText = '⬇ Desc.')      
   }, [asc])
   const orderButtonHandler =(arg)=> {
     setOrder(arg)
@@ -114,6 +115,7 @@ const Filters = () => {
     dispatch(updateFilters({source: 'all', order: 'name'}))
     setName('')
     setTempList([])
+    dispatch(pageExact(1))
   }  
 
 //? -------------- RENDER -------------- //   
@@ -202,12 +204,12 @@ const Filters = () => {
 
                 <div className='bottom-box'>
                     <button type="button" id='ascButton'
-                        value='⬆Ascendent' className='button'
+                        value='⬆ Asc.' className='button-asc'
                         onClick={ascButtonHandler}>
-                            ⬆Ascendent
+                            ⬆ Asc.
                     </button>
 
-                    <input type="reset" value="Reset ❌"
+                    <input type="reset" value="Reset"
                     onClick={resetButton}
                     className='button-reset'/>
                 </div>

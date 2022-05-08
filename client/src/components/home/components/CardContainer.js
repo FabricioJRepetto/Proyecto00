@@ -1,26 +1,25 @@
 import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { EL_PER_PAGE } from "../../../constants.js";
 import Card from './Card.js';
 import './CardContainer.css'
 
 const CardContainer = () =>{
-  const [group, setGroup] = useState([]);
-  const dogs = useSelector(state => state.dogs.main);
-  const filtered = useSelector(state => state.dogs.filtered);
-  const page = useSelector(state => state.dogs.page);
-  const filters = useSelector(state => state.dogs.filters);
+    const [group, setGroup] = useState([]);
+    const dogs = useSelector(state => state.dogs.main);
+    const filtered = useSelector(state => state.dogs.filtered);
+    const page = useSelector(state => state.dogs.page);
+    const filters = useSelector(state => state.dogs.filters);
+    const dpp = useSelector(state => state.dogs.dogsPerPage)
+
 
   useEffect(() => {
-    let end = page * EL_PER_PAGE,       
-    start = end-EL_PER_PAGE;    
+    let end = page * dpp,       
+    start = end-dpp;    
     //! por qué no anda un for ?
     setGroup(() => filtered.slice(start, end))    
     
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filtered, dogs, page])
-  //!                 ⬆
-  //! necesito dogs aca?
+  }, [filtered, dogs, page, dpp])
 
   return(
     <div className="cardContainer">
