@@ -84,21 +84,11 @@
     width: 75px;
     transition: all 0.15s ease-in;
 }
-.relleno-home {
-    background-color: #FFCBCB;
-}
-.relleno-create {
-    background-color: #E7FBBE;
-}
-.relleno-dogs {
-    background-color: #FFFDDE;
-}
-.relleno-about {
-    background-color: #D9D7F1;
-}
 .buttons:hover .relleno {
     height: 120px;
-    border-radius: 0px 0px 10px 10px;
+}
+.active .relleno {
+    height: 120px;
 }
 .buttons:hover p {
     color: rgb(25, 25, 25);

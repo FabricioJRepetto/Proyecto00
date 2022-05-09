@@ -17,7 +17,7 @@
     justify-content: flex-start;
     flex-direction: column;
     align-items: center;
-    width: 425px;
+    width: 850px;
     height: 800px;
     border-radius: 10px;
     padding: 50px;
@@ -37,6 +37,40 @@
     align-items: flex-end;
     border-bottom: #fff 2px dashed;
 }
+.inputs-containers {
+    display: flex;
+}
+.inputs-container-a {
+    margin-right: 50px;
+}
+.inputs-container-b {
+    width: 320px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+ .form-image-selection {
+    display: flex;
+    align-items: center;
+    justify-content: center;;
+    background-color: #252525;
+    border-radius: 50%;
+    border: #FFFDDE 2px dashed;
+    width: 200px;
+    height: 200px;
+    margin-top: 20px;
+    margin-bottom: 43px;
+    cursor: pointer;
+}
+
+.inputs-container-b textarea {
+    font-family: 'Neucha', cursive;
+    font-size: 1.2rem;
+    width: 320px;
+    height: 122px;
+    resize: none;
+}
+
 .form-box {
     height: 5rem;
     padding-top: .5rem;
@@ -47,7 +81,7 @@
     width: 300px;
     border: 2px solid #fff ;
 }
-input:focus + label, input:not(:placeholder-shown) + label{
+.input:focus + label, .input:not(:placeholder-shown) + label{
     top: -6px;
     color: #000;
     background-color: white ;
@@ -168,3 +202,4 @@ input:focus + label, input:not(:placeholder-shown) + label{
 .temp-card-form:hover .close-button path {
     fill: brown;
 }
+

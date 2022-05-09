@@ -61,3 +61,6 @@
 .back-button path {
     fill: rgb(255, 253, 222);
 }
+.delete-button {
+    top: 20px;
+}

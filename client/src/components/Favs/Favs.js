@@ -1,11 +1,11 @@
 import { useGetData } from "../../helpers";
-import './About.css'
+import './Favs.css'
 
-const About = () => {
+const Favs = () => {
     useGetData()
     return(
-        <div className="cajon">
-                <h2>About this project:</h2>
+        <div className="cajon-favs">
+                <h2>SECTION WIP</h2>
                 <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Sed animi ullam pariatur facere quo saepe, quam officiis, quasi excepturi possimus suscipit totam, quidem reiciendis illo laborum consequuntur dolore exercitationem est!</p>
                 <br/>
                 <p><b>Lorem@ipsum.dolor</b></p> 
@@ -13,4 +13,4 @@ const About = () => {
     );
 };
 
-export default About;
+export default Favs;

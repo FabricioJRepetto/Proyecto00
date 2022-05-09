@@ -30,12 +30,14 @@ const Card = ({id, name, image, height, weight, life_span, temps, filter}) => {
         <Link to={`${id}`} className='card'>
 
         {/* <className={typeof id === 'number' ? 'apidog' : 'dbdog'}> */}
+
         <p className="dog-name-card">{name}</p>
 
         <div className='image'>
-        {image
+        { typeof image === 'string'
             ? <img src={image} alt={name} className='image'/>
-            : <h1>🐶</h1>}
+            : <img src={require(`../../../assets/default-images/${image}.png`)} 
+            alt={name} className='image'/>}
         </div>
 
         <div className="filter-option">{

@@ -23,20 +23,25 @@ const NavBar = () => {
         </div>
 
         <div className="nav-buttons">
-            <Link to="home" className="buttons nav-home"> <p>Home</p> 
-                <div className="relleno relleno-home"></div>
-            </Link>
-            <Link to="create" className="buttons nav-create"> 
+
+
+            <NavLink to="home" className="buttons nav-home" activeclassname='active'> <p>Home</p> 
+                <img src={require('../../assets/button-home.png')} className="relleno" alt='home button background' />
+            </NavLink>
+
+            <NavLink to="create" className="buttons nav-create" activeclassname='active'> 
             <p>Create</p> 
-               <div className="relleno relleno-create"></div>
-            </Link>
-            <Link to="home" className="buttons nav-dogs"> <p>My Dogs</p> 
-               <div className="relleno relleno-dogs"></div>
-            </Link>
-            <Link to="about" className="buttons nav-about">
+               <img src={require('../../assets/button-create.png')} className="relleno" alt='home button background' />
+            </NavLink>
+
+            <NavLink to="favourites" className="buttons nav-dogs" activeclassname='active'> <p>My Dogs</p> 
+               <img src={require('../../assets/button-dogs.png')} className="relleno" alt='home button background' />
+            </NavLink>
+             
+            <NavLink to="about" className="buttons nav-about" activeclassname='active'>
                 <p>About</p>
-                <div className="relleno relleno-about"></div>
-            </Link>
+               <img src={require('../../assets/button-about.png')} className="relleno" alt='home button background' />
+            </NavLink>
         </div>
         </>}
         </div>

@@ -9,8 +9,9 @@ import Modal from "../modal/Modal";
 import { ReactComponent as IconCancel } from '../../assets/cancel.svg'
 import { ReactComponent as IconCheck } from '../../assets/check.svg'
 import { ReactComponent as IconClose } from '../../assets/close-icon.svg'
-
 import './Form.css'
+
+var defaultImages =[];
 
 const Form = () => {    
     const dispatch = useDispatch();
@@ -19,19 +20,32 @@ const Form = () => {
     const [error, setError] = useState({}); 
     const [mount, setMount] = useState(false); 
     const [validating, setValidating] = useState('idle'); 
+
     const [name, setName] = useState('');
     const [tempList, setTemperaments] = useState([]);
     const [height, setHeight] = useState('');
     const [weight, setWeight] = useState('');
     const [life_span, setLife_span] = useState('');
+    const [description, setDescription] = useState('');
+    const [image, setImage] = useState(1);
+
     const [data, setData] = useState('');
     const [reqError, setReqError] = useState('');
     const temps = useSelector(state => state.dogs.temps);
     const dogs = useSelector(state => state.dogs.main);
     const [isOpen1, openModal1, closeModal1] = useModal();
     const [isOpen2, openModal2, closeModal2] = useModal();
-    
+    const [isOpen3, openModal3, closeModal3] = useModal();
+
     useGetData()
+
+//? pre load images for later rendering 
+    let importAll = (r) => {
+        return r.keys().map(r);
+    };
+    useEffect(() => {
+       defaultImages = importAll(require.context('../../assets/default-images', false, /\.(png)$/));
+    }, [])
 
 //? temperaments
     let source = null;
@@ -60,6 +74,13 @@ const Form = () => {
             t=> t !== e.target.innerText
         ))
     };
+
+//? descriptionHandler
+    const descriptionHandler = (e) => {
+
+        setDescription(e.target.value)
+
+    }
 
 //? inputValidator
     const validator = (e) => {
@@ -151,6 +172,11 @@ const Form = () => {
         mount ? validator({target: {name: 'temps'}}) : setMount(true)
     // eslint-disable-next-line react-hooks/exhaustive-deps    
     }, [tempList])
+    useEffect(() => {
+        setForm({...form, description: description, image: image})
+    // eslint-disable-next-line react-hooks/exhaustive-deps    
+    }, [description, image])
+    
 
 //? Submit
     const handleSubmit = async (e) => {
@@ -167,15 +193,14 @@ const Form = () => {
         if (Object.keys(error).length === 0) {
             console.log('enviando e_e'); //!!
             e.preventDefault();
+            setForm({...form, image: image})
             try {
-                //console.log(form); //!!
                 const req = await axios.post(API_POST, form);
                 setData({...req.data});
                 openModal1();
             } catch (error) {
                 if (error.response) {
                     console.log(error.response);
-                    //errorModalHandler(error.response.data.message);
                     setReqError(error.response.data)
                     openModal2()
                 }
@@ -183,6 +208,12 @@ const Form = () => {
                     openModal2()
             }
         };
+    };
+
+    const imageClickHandler = (e) => {
+        let file = e.target.id
+        setImage(file)
+        closeModal3();
     };
 
     const handleCloseModal = (redirect) => {
@@ -194,9 +225,9 @@ const Form = () => {
         <div className="form-page">
         <div className="border-form-container">
             <div className="form-box-container">
-                <h2 className="form-title">CREATE A NEW DOG!</h2>
-                
-                <Modal isOpen={isOpen1} 
+                <h2 className="form-title">CREATE A NEW DOG!</h2>{
+//?  ------------ MODAL 1 ------------------------
+            }<Modal isOpen={isOpen1} 
                 closeModal={closeModal1}>
                     <h1>Creation Succeed!</h1>
                     <p className="dog-name"><b>{data.name}</b></p>
@@ -210,9 +241,9 @@ const Form = () => {
                         <img className="modal-image"
                         src={require('./../../assets/pug-creation.png')} alt="succes"/>
                     </div>
-                </Modal>
-
-                <Modal isOpen={isOpen2} 
+                </Modal>{
+//? ------------ MODAL 2 ------------------------
+            }<Modal isOpen={isOpen2} 
                 closeModal={closeModal2}>
                     <div className="modal-container">
                         <h1>Something went wrong</h1>
@@ -226,93 +257,130 @@ const Form = () => {
                         src={require('./../../assets/pug-error.png')} alt="error 400"/>
                     </div>
                 </Modal>{
+//? ------------ MODAL 3 ------------------------
+            }<Modal isOpen={isOpen3} 
+                closeModal={closeModal3}>
+                    <div className="modal-container">
+                        <h1>Select an image for your breed</h1>
+                        <div className="image-form-container">
+                                {defaultImages.map((img, index) => (
+                                    <button onClick={imageClickHandler} key={img+'button'} id={index+1} className='def-img-button'>
+                                        <img src={img} key={img+'img'} alt={img} className="def-img"/>
+                                    </button>
+                                ))}
+                        </div>
+                        <button className="button-ok" onClick={closeModal3}> X </button>
+                    </div>
+                </Modal>{
 //?  ------------ MODALES ------------------------
                 }<form autoComplete="off" className="form-container">
+                    <div className="inputs-containers">
 
-                    <div className="form-box">
-                        <input type="text" 
-                        name='name' 
-                        value={name}
-                        onChange={validator}
-                        placeholder=' '
-                        className={`input i-form ${(error.name &&'invalid-input')}`}/>
-                        <label className={`placeholder ${(error.name &&'invalid')}`}>name</label>
-                        <div className='name-verfication'>{validating !== 'idle'
-                            ? validating === 'loading' ? <p>🕗</p>
-                                : validating === 'invalid' ? <IconCancel className='icon cancel'/>
-                                    : <IconCheck className='icon check'/>
-                            : <p></p>
-                        }</div>
-                        {error.name && <p className='error-message' >{error.name}</p>}
-                    </div>
+                        <div className="inputs-container-a">
+                            <div className="form-box">
+                                <input type="text" 
+                                name='name' 
+                                value={name}
+                                onChange={validator}
+                                placeholder=' '
+                                className={`input i-form ${(error.name &&'invalid-input')}`}/>
+                                <label className={`placeholder ${(error.name &&'invalid')}`}>name</label>
+                                <div className='name-verfication'>{validating !== 'idle'
+                                    ? validating === 'loading' ? <p>🕗</p>
+                                        : validating === 'invalid' ? <IconCancel className='icon cancel'/>
+                                            : <IconCheck className='icon check'/>
+                                    : <p></p>
+                                }</div>
+                                {error.name && <p className='error-message' >{error.name}</p>}
+                            </div>
 
-                    <div className="form-box">                    
-                        <input type="text" 
-                        name='height' 
-                        value={height} 
-                        className={`input i-form ${(error.height && 'invalid-input')}`}
-                        placeholder=' '
-                        onChange={validator} />
-                        <label className={`${(error.height && 'invalid')}`}>height</label>
-                        {error.height && <p className='error-message'>{error.height}</p>}
-                    </div>
-                    
-                    <div className="form-box">                    
-                            <input type="text" 
-                            name='weight' 
-                            value={weight} 
-                            className={`input i-form ${(error.weight &&  'invalid-input')}`}
-                            placeholder=' '
-                            onChange={validator} />
-                        <label className={`${(error.weight && 'invalid')}`}>weight</label>
-                        {error.weight && <p className='error-message'>{error.weight}</p>}
-                    </div>
-                    
-                    <div className="form-box">                    
-                        <input type="text"
-                        name='life_span' 
-                        value={life_span} 
-                        className={`input i-form ${(error.life_span && 'invalid-input')}`}
-                        placeholder=' '
-                        onChange={validator} />
-                        <label className={`${(error.life_span && 'invalid')}`}>lifespan</label>
-                        {error.life_span && <p className='error-message'>{error.life_span}</p>}
-                    </div>
-                    
-                     <div className="form-box">
-                        <input id='form-temps' 
-                        name='temps' 
-                        list='form-list-temps'
-                        className={`input i-form ${(error.temperaments && 'invalid-input')}`}
-                        placeholder=' '
-                        onKeyDown={eventSourceCatcher}
-                        onChange={eventValueCatcher}
-                        onKeyUp={enterHandler}/>
-                        <label className={error.temperaments && 'invalid'}>temperaments</label>
+                            <div className="form-box">                    
+                                <input type="text" 
+                                name='height' 
+                                value={height} 
+                                className={`input i-form ${(error.height && 'invalid-input')}`}
+                                placeholder=' '
+                                onChange={validator} />
+                                <label className={`${(error.height && 'invalid')}`}>height</label>
+                                {error.height && <p className='error-message'>{error.height}</p>}
+                            </div>
+                            
+                            <div className="form-box">                    
+                                    <input type="text" 
+                                    name='weight' 
+                                    value={weight} 
+                                    className={`input i-form ${(error.weight &&  'invalid-input')}`}
+                                    placeholder=' '
+                                    onChange={validator} />
+                                <label className={`${(error.weight && 'invalid')}`}>weight</label>
+                                {error.weight && <p className='error-message'>{error.weight}</p>}
+                            </div>
+                            
+                            <div className="form-box">                    
+                                <input type="text"
+                                name='life_span' 
+                                value={life_span} 
+                                className={`input i-form ${(error.life_span && 'invalid-input')}`}
+                                placeholder=' '
+                                onChange={validator} />
+                                <label className={`${(error.life_span && 'invalid')}`}>lifespan</label>
+                                {error.life_span && <p className='error-message'>{error.life_span}</p>}
+                            </div>
+                            
+                            <div className="form-box">
+                                <input id='form-temps' 
+                                name='temps' 
+                                list='form-list-temps'
+                                className={`input i-form ${(error.temperaments && 'invalid-input')}`}
+                                placeholder=' '
+                                onKeyDown={eventSourceCatcher}
+                                onChange={eventValueCatcher}
+                                onKeyUp={enterHandler}/>
+                                <label className={error.temperaments && 'invalid'}>temperaments</label>
 
-                        <datalist id='form-list-temps'>
-                            {temps.map(t => (
-                                <option key={`form-${t}`} value={t} />
-                            ))}
-                        </datalist>
-                        <div className="filter-temps-box-form">
-                            {tempList?.map(t=>
-                                <div key={t+"-form"}
-                                className="temp-card-form"
-                                onClick={deleteCardHandler}>
-                                <span>{t}</span>
-                                <IconClose className="close-button" /> 
+                                <datalist id='form-list-temps'>
+                                    {temps.map(t => (
+                                        <option key={`form-${t}`} value={t} />
+                                    ))}
+                                </datalist>
+                                <div className="filter-temps-box-form">
+                                    {tempList?.map(t=>
+                                        <div key={t+"-form"}
+                                        className="temp-card-form"
+                                        onClick={deleteCardHandler}>
+                                        <span>{t}</span>
+                                        <IconClose className="close-button" /> 
+                                        </div>
+                                    )}
                                 </div>
-                            )}
+                                {error.temperaments && <p className='error-message'>{error.temperaments}</p>}
+                            </div>
                         </div>
-                        {error.temperaments && <p className='error-message'>{error.temperaments}</p>}
+
+                        <div className="inputs-container-b">
+
+                            <div className="form-image-selection" onClick={openModal3}>
+                                <img src={require(`../../assets/default-images/${image}.png`)} alt="select" className="def-img selected-img"/>
+                            </div>
+                            
+                            <div className="form-box">                    
+                                <textarea name='description' 
+                                value={description} 
+                                className={'input i-form'}
+                                placeholder=' '
+                                onChange={descriptionHandler} />
+                                <label className={``}>description</label>
+                            </div>
+
+                        </div>
+
                     </div>
-                        
+
                     <label className="submit-container">
                         <input type="button" 
                         className="submit-form" 
                         value='Create' onClick={handleSubmit}/>
-                        <img src={require('../../assets/ticket2.png')} alt="submit ticket"/>
+                        <img src={require('../../assets/ticket3.png')} alt="submit ticket"/>
                     </label>
 
                 </form>

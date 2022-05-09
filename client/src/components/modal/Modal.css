@@ -11,8 +11,9 @@
     align-items: center;
 }
 .modal-container {
-    height: 250px;
-    width: 500px;
+    height: fit-content;
+    min-height: 250px;
+    min-width: 500px;
     background-color: rgb(42, 42, 42);
     position: relative;
     display: flex;
@@ -26,6 +27,7 @@
 }
 .modal-container h1 {
     font-size: 2rem;
+    margin-top: 10px;
 }
 .modal-container p {
     font-size: 1.5rem;
@@ -62,7 +64,7 @@
     background-color: rgb(199, 238, 255);
 }
 .button-details:hover {
-        background-color: rgb(255, 201, 163);
+    background-color: rgb(255, 201, 163);
 }
 .modal-image {
     height: 300px;
@@ -71,4 +73,25 @@
     top: 70px;
     right: -100px;
     pointer-events: none;
+}
+.image-form-container {
+    margin: 20px;
+    width: 500px;
+}
+.def-img-button {
+    background-color: rgba(0,0,0,0);
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.def-img {
+    height: 150px;
+    pointer-events: none;
+}
+.selected-img {
+    height: 170px;
+}
+.def-img-button:hover {
+    background-color: #FFCBCB;
+    border-radius: 50%;
 }
