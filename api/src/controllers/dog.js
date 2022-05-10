@@ -1,50 +1,29 @@
 const { Op } = require("sequelize");
-const { Dog, Temperament } = require("../db.js");
-const { API_URL, API_NAME_URL } = require("../../constants.js");
+const { Dog, Temperament, dogtemp } = require("../db.js");
+const { API_URL } = require("../../constants.js");
 const { default: axios } = require("axios");
 const { v4: uuidv4 } = require("uuid");
-const { stringifyTemp, formatParser } = require("../../utils.js")
+const { stringifyTemp, formatParser, setNewTemperaments } = require("../utils/utils.js")
 
 //? GET
-async function dogList(req, res, next) {
+async function dogList(__, res, next) {
   try {
     let apiDogs = "";
     let dbDogs = "";
-    //? QUERY by NAME
-    if (req.query.name) { 
-      apiDogs = await axios.get(`${API_NAME_URL}${req.query.name}`)     
-     
-      dbDogs = await Dog.findAll({
-        where: {
-          name: {
-            [Op.iLike]: `%${req.query.name}%`,
-          },
-        },
-        include: [{
-          model: Temperament,
-          attributes: ["temperament"],
-          through: { attributes: [] }
-        }],
-      });
-      
-    } else {  
-      //? get ALL
-      apiDogs = await axios.get(API_URL)
-      
-      dbDogs = await Dog.findAll({
-        include: [{
-          model: Temperament,
-          attributes: ["temperament"],
-          through: { attributes: [] }
-        }],
-      });      
-    }
-    //? Respuesta a la petición
+   
+    //? get ALL
+    apiDogs = await axios.get(API_URL)
+    
+    dbDogs = await Dog.findAll({
+    include: [{
+        model: Temperament,
+        attributes: ["temperament"],
+        through: { attributes: [] }
+    }],
+    });      
+
     let response = stringifyTemp(dbDogs, true).concat(formatParser(apiDogs.data));
-    if (response[0]) {
-      return res.json(response);
-    }
-      return res.json({ error: 400, message: "No hay ningún resultado para el nombre indicado." });
+    return res.json(response);
 
   } catch (err) {
     next(err);    
@@ -73,10 +52,12 @@ async function dogID(req, res, next) {
           height,
           weight,
           life_span,
-          temperaments              
+          temperaments,
+          description,
+          image
       } = petition);
       // Response
-      const response = {id, name, height, weight, life_span, temperaments: stringifyTemp(petition)};
+      const response = {id, name, height, weight, life_span, image, description: description.trim(), temperaments: stringifyTemp(petition)};
       return res.json(response);
     } else {
       return res.status(400).json({ error: 400, message: "No matches for the given ID." });
@@ -105,83 +86,8 @@ async function dogID(req, res, next) {
   }
 }
 
-//? POST
-async function addDog(req, res, next) {
-try {    
-    //: falta la IMAGEN?
-    let { name, height, weight, life_span} = req.body;    
-    let temps = req.body.temperaments.split(", ");  
-    let auxArray = [];
-    let tempsToAdd = [];
-    let invalid = true;
-    let code = 200;
-    let response = {};
-
-    //? Validación nombre único
-
-    const apiNames = await axios.get(API_URL);
-    const dbNames = await Dog.findAll();
-    let aux = apiNames.data.concat(dbNames);
-    console.log(name);
-    aux.forEach(dog => {
-        if (dog.name.toLowerCase() === name.toLowerCase()) {
-            invalid = false;         
-            code = 400;
-            response = {error: 400, message: 'The breed name already exists.'}
-        }
-    });    
-
-    //? Creacion del nuevo Perro    
-    if (invalid) {
-        const newDog = await Dog.create({
-          id: uuidv4(),
-          name,
-          height,
-          weight,
-          life_span,
-        });   
-     
-        //? creo/busco los temperamentos
-        // los pusheo en un array
-        await temps.forEach(temp => {        
-            auxArray.push(        
-            Temperament.findOrCreate({
-                where: { temperament: temp },       
-                defaults: {
-                id: uuidv4()
-                },
-            })
-            // .then(r => arr.push(r.id)) // rompia la relación         
-            );
-        });
-        // uso el array en un promise all, para obtener los id correctos de cada temperamento.
-        const promiseAll = await Promise.all(auxArray);
-        // Tomo los datos necesarios y los pusheo a un array para asignarlos al perro mediante la tabla intermedia
-        promiseAll.forEach(t => {
-        tempsToAdd.push(t[0].dataValues.id)
-        })
-        await newDog.addTemperaments(tempsToAdd)
-    
-        //? Respuesta a la petición
-        response = await Dog.findOne({
-        where: { name },
-        include: [{
-            model: Temperament,
-            attributes: ["temperament"],
-            through: { attributes: [] }
-        }],
-        })    
-    }
-
-    res.status(code).json(response)
-
-    } catch (err) {
-    next(err)
-    } 
-}
-
-//? Get Names
-async function dogNames (req, res, next) {
+//? Get All Names
+async function dogNames (__, res, next) {
     try {
         let response = [];
         const apiNames = await axios.get(API_URL);
@@ -199,9 +105,98 @@ async function dogNames (req, res, next) {
     }    
 }
 
+//? POST
+async function addDog(req, res, next) {
+try {
+    let { name, height, weight, life_span, description, image} = req.body;    
+    let temps = req.body.temperaments.split(", ");
+    let invalid = true;
+    let code = 200;
+    let response = {};
+
+    //? Validación nombre único
+    const apiNames = await axios.get(API_URL);
+    const dbNames = await Dog.findAll();
+    let aux = apiNames.data.concat(dbNames);
+    console.log(name);
+    aux.forEach(dog => {
+        if (dog.name.toLowerCase() === name.toLowerCase()) {
+            invalid = false;         
+            code = 400;
+            response = {error: 400, message: 'The breed name already exists.'}
+        }
+    });    
+
+    //? Creacion del nuevo Perro
+    if (invalid) {
+        const newDog = await Dog.create({
+          id: uuidv4(),
+          name,
+          height,
+          weight,
+          life_span,
+          description,
+          image
+        });   
+
+        //? Creación de temperamentos
+        let tempsToAdd = await setNewTemperaments(temps);
+        //? Addición de temperamentos
+        await newDog.addTemperaments(tempsToAdd)
+    
+        //? Respuesta a la petición
+        response = await Dog.findOne({
+        where: { name },
+        include: [{
+            model: Temperament,
+            attributes: ["temperament"],
+            through: { attributes: [] }
+        }],
+        })    
+    }
+    res.status(code).json(response)
+
+    } catch (err) {
+    next(err)
+    } 
+}
+
+//? EDIT / PUT
+async function editDog (req, res, next) {
+    let { id, name, height, weight, life_span, image, description } = req.body
+    let temps = req.body.temperaments.split(", ");
+
+    try {
+
+        const targetDog = await Dog.findByPk(id);
+        await dogtemp.destroy({
+            where: { dogId: id }
+        });
+        await targetDog.update({ name, height, weight, life_span, image, description });
+        const tempsToAdd = await setNewTemperaments(temps)
+        await targetDog.addTemperaments(tempsToAdd)
+        res.json(targetDog)
+
+    } catch (error) {
+        next(error);
+    }
+}
+
+//? DELETE
+async function deleteDog (req, res, next) {
+    let id = req.body.id;    
+    const request = await Dog.destroy({
+        where: { id }
+    })
+    console.log(request);
+    res.json(request)
+};
+
 module.exports = {
   dogList,
   addDog,
   dogID,
-  dogNames
+  dogNames,
+  deleteDog,
+  editDog
 };

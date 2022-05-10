@@ -60,19 +60,26 @@
     cursor: pointer;
     transition: all 0.3s;
 }
+.button-delete {
+    font-family: 'Neucha', cursive;
+    font-weight: 600;
+    font-size: 1.1rem;
+    background-color: rgb(255, 55, 55);
+    border: none;
+    border-radius: 8px;
+    padding: 5px 15px 5px 15px;
+    margin: 10px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
 .button-ok:hover {
     background-color: rgb(199, 238, 255);
 }
 .button-details:hover {
     background-color: rgb(255, 201, 163);
 }
-.modal-image {
-    height: 300px;
-    position: absolute;
-    z-index: 999;
-    top: 70px;
-    right: -100px;
-    pointer-events: none;
+.button-delete:hover {
+    background-color: rgb(255, 115, 115);
 }
 .image-form-container {
     margin: 20px;

@@ -25,11 +25,11 @@ module.exports = sequelize => {
         allowNull: false,
       },
       description: {
-        type: DataTypes.STRING,
+        type: DataTypes.CHAR,
         allowNull: true,
       },
       image: {
-        type: DataTypes.STRING,
+        type: DataTypes.INTEGER,
         allowNull: false,
       },
     },

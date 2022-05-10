@@ -90,6 +90,11 @@
 .active .relleno {
     height: 120px;
 }
+.active p {
+    color: rgb(25, 25, 25);
+    font-weight: 600;
+    margin-bottom: 10px;
+}
 .buttons:hover p {
     color: rgb(25, 25, 25);
     font-weight: 600;

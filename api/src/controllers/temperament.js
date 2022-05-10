@@ -2,7 +2,7 @@ const { Temperament } = require("../db");
 const { default: axios } = require("axios");
 const { API_URL } = require("../../constants.js");
 
-async function temperamentList(req, res, next) {
+async function temperamentList(__, res, next) {
   try {
     let response = [];
     const apiTemps = await axios.get(API_URL);  

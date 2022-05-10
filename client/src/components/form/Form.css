@@ -59,10 +59,13 @@
     width: 200px;
     height: 200px;
     margin-top: 20px;
-    margin-bottom: 43px;
+    margin-bottom: 40px;
     cursor: pointer;
+    transition: all 0.5s;
 }
-
+ .form-image-selection:hover {
+    background-color: #363a3d;
+ }
 .inputs-container-b textarea {
     font-family: 'Neucha', cursive;
     font-size: 1.2rem;

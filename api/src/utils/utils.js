@@ -1,3 +1,6 @@
+const { Temperament } = require('../db.js')
+const { v4: uuidv4 } = require('uuid')
+
 const stringifyTemp=(arg, set = false) => {
   if (arg.length < 1) return [];
 
@@ -18,7 +21,9 @@ const stringifyTemp=(arg, set = false) => {
         name,
         height,
         weight,
-        life_span             
+        life_span,
+        description,
+        image
         } = arg[i]);
 
       let aux = "";
@@ -31,7 +36,9 @@ const stringifyTemp=(arg, set = false) => {
         name,
         height,
         weight,
-        life_span, 
+        life_span,
+        description,
+        image,
         temperaments: aux.slice(0, -2),
       })
     } 
@@ -61,7 +68,34 @@ const formatParser=(arg) =>{
   return aux;
 };
 
+const setNewTemperaments = async (temps) => {
+    //? recibe un array
+    let auxArray = [];
+    //? creo/busco los temperamentos
+    // los pusheo en un array
+    await temps.forEach(temp => {        
+        auxArray.push(        
+            Temperament.findOrCreate({
+                where: { temperament: temp },       
+                defaults: {
+                id: uuidv4()
+                },
+            })
+        );
+    });
+    // uso el array en un promise all, para obtener los id correctos de cada temperamento.
+    const promiseAll = await Promise.all(auxArray);
+    // Tomo los datos necesarios y los pusheo a un array para asignarlos al perro mediante la tabla intermedia
+    let arrayIDs = [];
+    promiseAll.forEach(t => {
+    arrayIDs.push(t[0].dataValues.id)
+    })
+    //? retorno un array con los ID de los temps
+    return arrayIDs;
+};
+
 module.exports = {
   stringifyTemp,
   formatParser,
+  setNewTemperaments
 }
