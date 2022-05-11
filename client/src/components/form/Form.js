@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { API_DOGS, API_POST } from "../../constants";
-import { useGetData, useModal } from "../../helpers";
+import { errorHandler, useGetData, useModal } from "../../helpers";
 import { loaded } from "../../slice-reducer/dogsSlice";
 import Modal from "../modal/Modal";
 import { ReactComponent as IconCancel } from '../../assets/cancel.svg'
@@ -37,6 +37,7 @@ const Form = ({ editMode = false, id, initialName }) => {
     const [isOpen2, openModal2, closeModal2] = useModal();
     const [isOpen3, openModal3, closeModal3] = useModal();
     const [isOpen4, openModal4, closeModal4] = useModal();
+    const [isOpenLoading, openModalLoading, closeModalLoading] = useModal();
 
     useGetData()
 
@@ -225,18 +226,20 @@ const Form = ({ editMode = false, id, initialName }) => {
         if (Object.keys(error).length === 0) {
             console.log('enviando e_e'); //!!
             e.preventDefault();
+            openModalLoading();
             setForm({...form, image: image})
             
             try {
                 if (editMode) {
                     const req = await axios.put(API_POST, {...form, id: id});
                     setData({...req.data});
+                    closeModalLoading();
                     openModal4()
                 } else {
                     const req = await axios.post(API_POST, form);
                     setData({...req.data});
 
-                    //? agrego a la localStore
+                    //? agrego ID a la localStore
                     let listaCreados = JSON.parse(localStorage.getItem('createdList'));
                     if (!listaCreados) { // estaba vacio, seteo la id en un ARRAY
                         localStorage.setItem('createdList', JSON.stringify([req.data.id]));
@@ -244,17 +247,13 @@ const Form = ({ editMode = false, id, initialName }) => {
                         listaCreados.push(req.data.id);
                         localStorage.setItem('createdList', JSON.stringify(listaCreados));
                     }
-
+                    closeModalLoading();
                     openModal1();
                 }
-            } catch (error) {
-                if (error.response) {
-                    console.log(error.response);
-                    setReqError(error.response.data)
-                    openModal2()
-                }
-                    setReqError(error)
-                    openModal2()
+            } catch (err) {
+                setReqError(errorHandler(err))
+                closeModalLoading();
+                openModal2()
             }
         };
     };
@@ -267,7 +266,7 @@ const Form = ({ editMode = false, id, initialName }) => {
     const handleCloseModal = (redirect) => {
         dispatch(loaded(true));
         closeModal1();
-        redirect && navigate(`/home/${data.id}`);
+        redirect ? navigate(`/home/${data.id}`) : window.location.reload();
     };
     const handleSaveModal = () => {
         dispatch(loaded(true));
@@ -299,7 +298,8 @@ const Form = ({ editMode = false, id, initialName }) => {
                     closeModal={closeModal2}>
                         <div className="modal-container">
                             <h1>Something went wrong</h1>
-                            <p>{`${reqError.message}`}</p>
+                            <p>{reqError.code}</p>
+                            <p>{reqError.message}</p>
                             <div>
                                 <button 
                                 className="button-ok"
@@ -322,12 +322,19 @@ const Form = ({ editMode = false, id, initialName }) => {
                             <button className="button-ok" onClick={closeModal3}> X </button>
                         </div>
                     </Modal>{
-    //?  ------------ MODALE 4 ------------------------
+    //?  ------------ MODAL 4 ------------------------
                     }<Modal isOpen={isOpen4}>
                         <h1>Changes applied</h1>
                         <button className="button-ok" onClick={handleSaveModal}>Great!</button>
+                    </Modal>{
+//?  ------------ MODAL LOADING ------------------------
+                    }<Modal isOpen={isOpenLoading}>
+                        <div className="loading">
+                            <img className="loading-img" src={require('../../assets/loading.png')} alt="" />
+                        </div> 
                     </Modal>
-                    
+
+
                     <form autoComplete="off" className="form-container">
                         <div className="inputs-containers">
 
@@ -446,8 +453,3 @@ const Form = ({ editMode = false, id, initialName }) => {
 };
 
 export default Form;
-
-//  twitter  'https://mobile.twitter.com/i/flow/signup';
-//  twitch  'https://www.twitch.tv';
-//  Dofus  'https://www.dofus.com/es/mmorpg/jugar';
-//  Google  'https://accounts.google.com/info/sessionexpired?continue=https%3A%2F%2Fwww.google.com%2Fsearch%3Fclient%3Dopera-gx%26q%3Dgoogle%26sourceid%3Dopera%26ie%3DUTF-8%26oe%3DUTF-8&hl=es&dsh=S-1425723599%3A1651466382608226&biz=false&flowName=GlifWebSignIn&flowEntry=SignUp';

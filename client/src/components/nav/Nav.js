@@ -21,11 +21,6 @@ const NavBar = () => {
         </div>
 
         <div className="nav-buttons">
-        <>
-            <button onClick={() => localStorage.clear()}> clear LS</button>
-            <button onClick={() => console.log(JSON.parse(localStorage.getItem('favList')))}> log fav</button>
-            <button onClick={() => console.log(JSON.parse(localStorage.getItem('createdList')))}> log cre</button>
-        </>
 
             <NavLink to="home" className="buttons nav-home" activeclassname='active'> <p>Home</p> 
                 <img src={require('../../assets/button-home.png')} className="relleno" alt='home button background' />

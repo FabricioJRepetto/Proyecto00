@@ -37,7 +37,9 @@ const Favs = () => {
                         {dogs.map(e => (
                             favList?.includes(e.id) &&
                             <Card 
-                                id={e.id} 
+                                id={e.id}
+                                created={typeof e.id === 'string' && (createdList?.includes(e.id) ? true : false)}
+                                favorite={true}
                                 key={e.id} 
                                 name={e.name} 
                                 height={e.height} 
@@ -56,6 +58,8 @@ const Favs = () => {
                             <Card 
                                 id={e.id} 
                                 key={e.id} 
+                                created={true}
+                                favorite={favList?.includes(e.id) ? true : false}
                                 name={e.name} 
                                 height={e.height} 
                                 weight={e.weight}

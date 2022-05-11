@@ -10,17 +10,9 @@ async function devExp(req, res, next) {
     if (req.body.password === DB_PASSWORD) {    
     // ------------------------------------------------ \\  
 
-          let response = [];
-          let aux = 100
-          let name = ''
-          const petition = await axios.get(API_URL);
-          petition.data.forEach(e => {
-              if (e.name.trim().length < aux) {
-                  aux = e.name.trim().length
-                  name = e.name
-              }
-          })
-          res.json("coincidencias: "+name+' '+aux)
+          const {data} = await axios.get(API_URL);
+          let response = data.filter(e => e.temperament?.includes('asdf'))
+          res.json(response)
 
     // ------------------------------------------------ \\  
     } else {

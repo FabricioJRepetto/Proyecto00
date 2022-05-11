@@ -11,35 +11,35 @@ const CardContainer = () =>{
     const filters = useSelector(state => state.dogs.filters);
     const dpp = useSelector(state => state.dogs.dogsPerPage);
     let favList = JSON.parse(localStorage.getItem('favList'));
+    let creList = JSON.parse(localStorage.getItem('createdList'));
+        
+    useEffect(() => {
+        let end = page * dpp,
+        start = end-dpp;
+        setGroup(() => filtered.slice(start, end))    
+        
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [filtered, dogs, page, dpp])
 
-
-
-  useEffect(() => {
-    let end = page * dpp,
-    start = end-dpp;
-    setGroup(() => filtered.slice(start, end))    
-    
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [filtered, dogs, page, dpp])
-
-  return(
-    <div className="cardContainer">
-      {group.map(e => (
-        <Card 
-        id={e.id}
-        favorite={favList?.includes(e.id) ? true : false}
-        key={e.id} 
-        name={e.name} 
-        height={e.height} 
-        weight={e.weight}
-        life_span={e.life_span}
-        temps={e.temperaments}
-        image={e.image}
-        filter={filters.order}
-        />
-      ))}
-    </div>
-  )
+    return(
+        <div className="cardContainer">
+        {group.map(e => (
+            <Card 
+            id={e.id}
+            created={typeof e.id === 'string' && (creList?.includes(e.id) ? true : false)}
+            favorite={favList?.includes(e.id) ? true : false}
+            key={e.id} 
+            name={e.name} 
+            height={e.height} 
+            weight={e.weight}
+            life_span={e.life_span}
+            temps={e.temperaments}
+            image={e.image}
+            filter={filters.order}
+            />
+        ))}
+        </div>
+    )
 };
 
 export default CardContainer;

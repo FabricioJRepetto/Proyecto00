@@ -9,8 +9,6 @@ import Favs from "./components/Favs/Favs";
 import "./App.css"
 
 function App() {
-//   let flag = true;
-//   if (/localhost:3000\/*$/.test(document.URL)) flag = false
   return (   
     <div className='App'>
       <Nav className='NavBar' />

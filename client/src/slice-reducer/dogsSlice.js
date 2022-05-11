@@ -8,8 +8,6 @@ export const dogsSlice = createSlice({
     temps: [],
     filters: {source: 'all', order: 'name'},
     asc: true,
-    nameInput: "",
-    tempsInput: [],
     page: 1,
     dogsPerPage: 16,
     nav: true,
@@ -29,15 +27,6 @@ export const dogsSlice = createSlice({
     //     ...state,
     //     filtered: action.payload
     //   }
-    },
-
-//? INPUTS
-    saveInputs: (state, action) => {
-        if (action.payload.input === 'temps') {
-            state.tempsInput = action.payload.data
-        } else {
-            state.nameInput = action.payload.data
-        }
     },
 
 //? filtros
@@ -118,6 +107,6 @@ export const dogsSlice = createSlice({
   }
 }); 
 
-export const { loadDogs, loadTemps, loadFiltered, loadFavList, deleteFav, searchByName, orderBy, setAsc, updateFilters, saveInputs, filterSource, filterTemperament, pageIncrease, pageDecrease, pageExact, loaded, reloadFiltered, viewNav, dogsPerPage } = dogsSlice.actions;
+export const { loadDogs, loadTemps, loadFiltered, loadFavList, deleteFav, searchByName, orderBy, setAsc, updateFilters, filterSource, filterTemperament, pageIncrease, pageDecrease, pageExact, loaded, reloadFiltered, viewNav, dogsPerPage } = dogsSlice.actions;
 
 export default dogsSlice.reducer;

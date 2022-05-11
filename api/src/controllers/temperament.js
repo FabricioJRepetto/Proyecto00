@@ -6,12 +6,11 @@ async function temperamentList(__, res, next) {
   try {
     let response = [];
     const apiTemps = await axios.get(API_URL);  
-    apiTemps.data.forEach(e => {
-      if (e.temperament) { // Hay perros sin temperamentos
-        e.temperament.split(", ").forEach(e => {
-          if (response.includes(e) === false) response.push(e);
+    apiTemps.data.forEach(e => { 
+        // hay perros sin temps
+        e.temperament?.split(", ").forEach(e => {
+            response.includes(e) || response.push(e);
         });
-      }
     });  
     const dbTemps = await Temperament.findAll();
     dbTemps.forEach(e => {

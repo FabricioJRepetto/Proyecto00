@@ -1,6 +1,7 @@
 const { Temperament } = require('../db.js')
 const { v4: uuidv4 } = require('uuid')
 
+// Concateno los temperamentos recibidos de la Database a un solo string (individual o grupalmente)
 const stringifyTemp=(arg, set = false) => {
   if (arg.length < 1) return [];
 
@@ -13,7 +14,7 @@ const stringifyTemp=(arg, set = false) => {
   } 
 
   if (set) {    
-    let newSet = [];
+    let newList = [];
     for (let i = 0; i < arg.length; i++) {
       // destructuring
       ({
@@ -31,7 +32,7 @@ const stringifyTemp=(arg, set = false) => {
         aux += t.temperament + ", ";
       });
       
-      newSet.push({ 
+      newList.push({ 
         id,              
         name,
         height,
@@ -42,10 +43,11 @@ const stringifyTemp=(arg, set = false) => {
         temperaments: aux.slice(0, -2),
       })
     } 
-    return newSet;
+    return newList;
   }   
 };
 
+// Formateo los datos recibidos de la API
 const formatParser=(arg) =>{
   let aux = [];
 
@@ -60,7 +62,7 @@ const formatParser=(arg) =>{
         } = e;    
     image || (image = `https://cdn2.thedogapi.com/images/${e.reference_image_id}`);
     life_span = e.life_span.slice(0, -6);
-    //? hay 2 perros con datos corruptos, hago esto para que el ordenamiento en el front funcione como es debido.
+    // hay 2 perros con datos corruptos, hago esto para que el ordenamiento en el front funcione como es debido.
     (/^[a-z]/i.test(weight)) && (weight = "15");
 
     aux.push({id, name, height, weight, life_span, temperaments, image})
@@ -68,11 +70,11 @@ const formatParser=(arg) =>{
   return aux;
 };
 
+// Crea temperamentos nuevos y devuelve sus IDs para asociarlos a un perro.
 const setNewTemperaments = async (temps) => {
     //? recibe un array
     let auxArray = [];
-    //? creo/busco los temperamentos
-    // los pusheo en un array
+    
     await temps.forEach(temp => {        
         auxArray.push(        
             Temperament.findOrCreate({

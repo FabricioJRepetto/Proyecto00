@@ -5,7 +5,7 @@ import { ReactComponent as IconStars } from '../../../assets/stars.svg'
 import { ReactComponent as IconFav } from '../../../assets/favorite-0.svg'
 import './Card.css'
 
-const Card = ({id, name, image, height, weight, life_span, temps, filter, favorite}) => {
+const Card = ({id, name, image, height, weight, life_span, temps, filter, favorite, created = false}) => {
     const [tempsBox, setTempsBox] = useState([])
     const [moreTemps, setMoreTemps] = useState(false)
     const navigate = useNavigate();
@@ -32,7 +32,7 @@ const Card = ({id, name, image, height, weight, life_span, temps, filter, favori
     return(
         <div onClick={()=>navigate(`/home/${id}`)} className='card'>
 
-        {typeof id === 'string' && <IconStars className='createdDog' />}
+        {created && <IconStars className='createdDog' />}
         {favorite && <IconFav className='favedDog' />}
 
         <p className="dog-name-card">{name}</p>

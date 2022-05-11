@@ -23,7 +23,7 @@ export const useGetData =  () => {
         dispatch(loadTemps(temps))
         dispatch(orderBy('name'))
 
-        //? filtrar localStore de IDs caducadas
+        //? limpiar localStore de IDs caducadas
         let idList = data.map(e => e.id);
         let localFavList = await JSON.parse(localStorage.getItem('favList'));
         localFavList = localFavList?.filter(id => idList.includes(id));
@@ -38,24 +38,6 @@ export const useGetData =  () => {
     firstLoad && petition()
 };
 
-export const wikiExtract = async (NAME) => {
-    const SENTENCES = '1';
-
-    const {data} = await axios.get(`https://en.wikipedia.org/w/api.php?action=query&format=json&prop=extracts&titles=${NAME}&formatversion=2&exsentences=${SENTENCES}&exlimit=1&explaintext=1&origin=*`)
-        
-    let text = data.query.pages[0].extract;
-    if (text) {
-        let inicio = text.indexOf('(')
-        let final = text.indexOf(')')
-    
-        let primerTrozo = text.slice(0, inicio)
-        let segundoTrozo = text.slice(final+2)
-
-        return (primerTrozo+segundoTrozo);
-    }
-        return null;
-};
-
 export const useModal = (initialValue = false) => {
     const [isOpen, setIsOpen] = useState(initialValue);
 
@@ -68,3 +50,31 @@ export const useModal = (initialValue = false) => {
 export const randomNumber = (max) => {
     return Math.floor(Math.random()* ((max+1)-1)+1);
 }
+
+export const errorHandler = (err) => {
+    let errorMessage = {
+        s: true,
+        code: '-',
+        message: '-'
+    };
+
+    if (err.message) errorMessage = {...errorMessage, code: err.message};
+    if (err.response) {
+        if (err.response.data.message) {
+            errorMessage = {...errorMessage, message: err.response.data.message};
+        }
+    }
+
+    return errorMessage;
+};
+
+//: bad req
+// error.message
+
+//: bad network req
+// error.request
+
+//: status error. !== 200
+// err.response.status
+//err.response.data.message
+//err.response.data.error

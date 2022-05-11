@@ -8,7 +8,6 @@ import {
   setAsc,
   orderBy,
   reloadFiltered,
-  saveInputs,
   pageExact
 } from "../../../slice-reducer/dogsSlice";
 import { ReactComponent as IconSearch } from '../../../assets/search-icon.svg'
@@ -16,18 +15,17 @@ import { ReactComponent as IconClose } from '../../../assets/close-icon.svg'
 import './Filters.css'
 
 const Filters = () => {
-  const dispatch = useDispatch();
-  const [name, setName] = useState('');
-  const [tempList, setTempList] = useState([]);
-  const [order, setOrder] = useState('name');
-  const asc = useSelector(state => state.dogs.asc);
-  const temperaments = useSelector(state => state.dogs.temps);
-  const filters = useSelector(state => state.dogs.filters);
-  const savedName = useSelector(state => state.dogs.nameInput);
-  const savedTemps = useSelector(state => state.dogs.tempsInput);
-  const firstLoad = useSelector(state => state.dogs.firstLoad);
-  
-  
+    const dispatch = useDispatch();
+    const [name, setName] = useState('');
+    const [tempList, setTempList] = useState([ ]);
+    const [order, setOrder] = useState('name');
+    const asc = useSelector(state => state.dogs.asc);
+    const temperaments = useSelector(state => state.dogs.temps);
+    const filters = useSelector(state => state.dogs.filters);
+    const firstLoad = useSelector(state => state.dogs.firstLoad);
+    let savedName = JSON.parse(localStorage.getItem('filter-name-input'));
+    let savedTemps = JSON.parse(localStorage.getItem('filter-temps-input'));
+
   //? -------------- Keeping filter options after unmount -------------- //
     useEffect(() => {
         let {source, order} = filters;
@@ -64,8 +62,7 @@ const Filters = () => {
   const nameInput = (e)=>{      
       let value = e.target.value.toLowerCase();
       value ? setName(value) : setName('');
-      dispatch(saveInputs({input: 'name', data: value}))
-
+      localStorage.setItem('filter-name-input', JSON.stringify(value))
   }
   
   //? -------------- Temperament handler  -------------- //
@@ -88,10 +85,11 @@ const Filters = () => {
     ))
   }  
   useEffect(() => {
-        tempList.length ? dispatch(updateFilters({ temp: tempList }))
+        tempList.length 
+        ? dispatch(updateFilters({ temp: tempList }))
         : dispatch(updateFilters({ temp: false }))
 
-        dispatch(saveInputs({input: 'temps', data: tempList}))
+        localStorage.setItem('filter-temps-input', JSON.stringify(tempList));
         // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [tempList])
   

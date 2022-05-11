@@ -3,7 +3,8 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { loaded } from "../../slice-reducer/dogsSlice";
-import { useGetData, wikiExtract, useModal } from "../../helpers";
+import { useGetData, useModal, errorHandler } from "../../helpers";
+import { wikiExtract } from "../../helpers/wiki.js";
 import { API_DEL, API_DOGS } from "../../constants";
 import { ReactComponent as BackArrow } from '../../assets/back-arrow.svg'
 import { ReactComponent as IconDelete } from '../../assets/delete.svg'
@@ -17,7 +18,7 @@ import './Details.css'
 
 const Details = () => {
     const [details, setDetails] = useState({});
-    const [error, setError] = useState(false);
+    const [error, setError] = useState({s: false});
     const [loading, setLoading] = useState(false);
     const [editMode, setEditMode] = useState(false);
     const [favorite, setFavorite] = useState(false);
@@ -30,30 +31,26 @@ const Details = () => {
 
     useGetData();
 
-    //? petición a wiki
     useEffect(() => {
         const petition = async () => {
-        try {
-            let { data } = await axios.get(`${API_DOGS}${idParam}`);
-            setDetails({...data});
+            try {
+                let { data } = await axios.get(`${API_DOGS}${idParam}`);
+                setDetails({...data});
 
-            let localFavList = await JSON.parse(localStorage.getItem('favList'));
-            localFavList.includes(data.id) && setFavorite(true)
+                let localFavList = await JSON.parse(localStorage.getItem('favList'));
+                localFavList.includes(data.id) && setFavorite(true)
 
-            let localCreatedList = JSON.parse(localStorage.getItem('createdList'));
-            localCreatedList && setCreatedList(localCreatedList);
+                let localCreatedList = JSON.parse(localStorage.getItem('createdList'));
+                localCreatedList && setCreatedList(localCreatedList);
 
-            if (!data.id.toString().includes('-') && !data.description) {
-                let wikiDesc = await wikiExtract(data.name);
-                //console.log(wikiDesc);
-                wikiDesc && setDetails({...data, description: wikiDesc});
+                if (!data.id.toString().includes('-')) {
+                    let wikiDesc = await wikiExtract(data.name);
+                    //console.log(wikiDesc);
+                    wikiDesc && setDetails({...data, description: wikiDesc});
+                }
+            } catch (err) {
+                setError(errorHandler(err))
             }
-        } catch (err) {
-            setError(true)
-            // setError({s: true, m: `status code: ${err.response ? err.response.status : 'x'}`, h: `${err.response ? err.response.data.message : 'x'}`})
-            // err.response.status
-            //err.response.data.message
-        }
         }
         petition();
         // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -97,7 +94,7 @@ const Details = () => {
     };
 
   return(
-      error ? <div className="status-error-message">
+      error.s ? <div className="status-error-message">
                     <p className="ascii">
 ··········.······················································.···········<br/>
 ········.n···················.·················.··················n.·········<br/>
@@ -125,13 +122,13 @@ dX.····9Xb······.dXb····__····················
                     <h2>Something went wrong</h2>
                     <p>Dog #{idParam} not foud</p>
                     <br/>
-                    <p>{error.m}</p>
-                    <p>{error.h}</p>
+                    <p>{error.code}</p>
+                    <p>{error.message}</p>
                     <br/>
                     <span onClick={()=>navigate(-1)}><b><u>go back to a safer place</u></b></span>
                 </div>
                : <div className="details-page-container">
-                    {!details.id //: cambiar a description cuando fuincione bien la peticiona a wikipedia
+                    {!details.id
                     ? <div className="loading">
                             <img className="loading-img" src={require('../../assets/loading.png')} alt="loading" />
                       </div> 
@@ -208,7 +205,7 @@ dX.····9Xb······.dXb····__····················
                             
                         <div className="background-details">
                             <div className="border-details-container">
-                                {typeof id === 'string' && <IconStars className='icon-stars' />}
+                                {(typeof id === 'string' && createdList?.includes(id)) && <IconStars className='icon-stars' />}
                                 <div className="details-header">
                                     <h1>{name}</h1>
                                 </div>
@@ -229,7 +226,13 @@ dX.····9Xb······.dXb····__····················
                                         </div>
                                         <div className="desc-text">
                                             <p><b>Description:</b></p>
-                                            <p>{ description }</p>
+                                            <p>{ description 
+                                            ? description 
+                                            : <>
+                                                <div className="loading">
+                                                    <img className="loading-img" src={require('../../assets/loading.png')} alt="" />
+                                                </div> 
+                                             </> }</p>
                                         </div>
                                     </div>
                                 </div>
