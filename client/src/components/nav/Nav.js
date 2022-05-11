@@ -12,18 +12,20 @@ const NavBar = () => {
         <div className="logo">
         <div className="logo-bg"></div>
         <Link to="home">
-
-            <img src={require('../../assets/logo.png')} alt="logo" className="logo-img"/>
+            <img src={require('../../assets/logo.png')} alt="logo" className="nav-logo-img logo-img"/>
             <div className="logo-name">
                 <p>DOG</p> 
                 <p>HOUSE</p> 
             </div>
-
         </Link>
         </div>
 
         <div className="nav-buttons">
-
+        <>
+            <button onClick={() => localStorage.clear()}> clear LS</button>
+            <button onClick={() => console.log(JSON.parse(localStorage.getItem('favList')))}> log fav</button>
+            <button onClick={() => console.log(JSON.parse(localStorage.getItem('createdList')))}> log cre</button>
+        </>
 
             <NavLink to="home" className="buttons nav-home" activeclassname='active'> <p>Home</p> 
                 <img src={require('../../assets/button-home.png')} className="relleno" alt='home button background' />

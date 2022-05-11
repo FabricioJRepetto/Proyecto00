@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { TEMPS_PER_CARD } from "../../../constants";
+import { ReactComponent as IconStars } from '../../../assets/stars.svg'
+import { ReactComponent as IconFav } from '../../../assets/favorite-0.svg'
 import './Card.css'
 
-const Card = ({id, name, image, height, weight, life_span, temps, filter}) => {
+const Card = ({id, name, image, height, weight, life_span, temps, filter, favorite}) => {
     const [tempsBox, setTempsBox] = useState([])
     const [moreTemps, setMoreTemps] = useState(false)
+    const navigate = useNavigate();
     let props = {
         height, 
         weight, 
@@ -27,9 +30,10 @@ const Card = ({id, name, image, height, weight, life_span, temps, filter}) => {
     }, [])
 
     return(
-        <Link to={`${id}`} className='card'>
+        <div onClick={()=>navigate(`/home/${id}`)} className='card'>
 
-        {/* <className={typeof id === 'number' ? 'apidog' : 'dbdog'}> */}
+        {typeof id === 'string' && <IconStars className='createdDog' />}
+        {favorite && <IconFav className='favedDog' />}
 
         <p className="dog-name-card">{name}</p>
 
@@ -59,7 +63,7 @@ const Card = ({id, name, image, height, weight, life_span, temps, filter}) => {
             </div>
         
 
-        </Link>
+        </div>
     );
 };
 

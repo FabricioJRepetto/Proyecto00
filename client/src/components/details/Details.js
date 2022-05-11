@@ -1,29 +1,33 @@
 import axios from "axios";
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { useGetData, wikiExtract } from "../../helpers";
+import { useDispatch } from "react-redux";
+import { loaded } from "../../slice-reducer/dogsSlice";
+import { useGetData, wikiExtract, useModal } from "../../helpers";
 import { API_DEL, API_DOGS } from "../../constants";
 import { ReactComponent as BackArrow } from '../../assets/back-arrow.svg'
 import { ReactComponent as IconDelete } from '../../assets/delete.svg'
 import { ReactComponent as IconDraw } from '../../assets/draw.svg'
+import { ReactComponent as IconFav } from '../../assets/favorite-0.svg'
+import { ReactComponent as IconNoFav } from '../../assets/favorite-1.svg'
+import { ReactComponent as IconStars } from '../../assets/stars.svg'
 import Modal from "../modal/Modal";
-import { useModal } from "../../helpers";
-import './Details.css'
-import { loaded } from "../../slice-reducer/dogsSlice";
-import { useDispatch } from "react-redux";
 import Form from "../form/Form";
+import './Details.css'
 
 const Details = () => {
-    const [details, setDetails] = useState({})
-    const [error, setError] = useState(false)
-    const [loading, setLoading] = useState(false)
-    const [editMode, setEditMode] = useState(false)
+    const [details, setDetails] = useState({});
+    const [error, setError] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [editMode, setEditMode] = useState(false);
+    const [favorite, setFavorite] = useState(false);
+    const [createdList, setCreatedList] = useState([]);
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [isOpenConfirm, openModalConfirm, closeModalConfirm] = useModal();
     const [isOpenNotif, openModalNotif, closeModalNotif] = useModal();
     let { id: idParam } = useParams();
-    
+
     useGetData();
 
     //? petición a wiki
@@ -33,14 +37,22 @@ const Details = () => {
             let { data } = await axios.get(`${API_DOGS}${idParam}`);
             setDetails({...data});
 
+            let localFavList = await JSON.parse(localStorage.getItem('favList'));
+            localFavList.includes(data.id) && setFavorite(true)
+
+            let localCreatedList = JSON.parse(localStorage.getItem('createdList'));
+            localCreatedList && setCreatedList(localCreatedList);
+
             if (!data.id.toString().includes('-') && !data.description) {
                 let wikiDesc = await wikiExtract(data.name);
-                console.log(wikiDesc);
+                //console.log(wikiDesc);
                 wikiDesc && setDetails({...data, description: wikiDesc});
             }
         } catch (err) {
-            console.error(err)
-            setError(err)
+            setError(true)
+            // setError({s: true, m: `status code: ${err.response ? err.response.status : 'x'}`, h: `${err.response ? err.response.data.message : 'x'}`})
+            // err.response.status
+            //err.response.data.message
         }
         }
         petition();
@@ -51,11 +63,32 @@ const Details = () => {
 
     const deleteHandler = async () => {
         setLoading(true);
-        const petition = await axios.delete(API_DEL, {data: {id: id}})
+        await axios.delete(API_DEL, {data: {id: id}})
         setLoading(false);
-        console.log(petition.statusText); 
         closeModalConfirm();
         openModalNotif();
+    };
+    const favHandler = async () => {
+        //let id = details.id;
+        let listaFavoritos = JSON.parse(localStorage.getItem('favList'));
+
+        if (!listaFavoritos) { // storage vacio
+            // agrega id en un array
+            localStorage.setItem('favList', JSON.stringify([id]));
+            setFavorite(true);
+        } else { // storage tiene algo
+            if (listaFavoritos.includes(id)) {
+                // id repetida, filtro la id, seteo
+                listaFavoritos = listaFavoritos.filter(e => e !== id)
+                localStorage.setItem('favList', JSON.stringify(listaFavoritos))
+                setFavorite(false);
+            } else {
+                //  id nueva, pusheo id, seteo
+                listaFavoritos.push(id);
+                localStorage.setItem('favList', JSON.stringify(listaFavoritos));
+                setFavorite(true);
+            }
+        }
     };
     const notifHandler = async () => {
         dispatch(loaded(true))
@@ -64,10 +97,38 @@ const Details = () => {
     };
 
   return(
-      error ? <div>
+      error ? <div className="status-error-message">
+                    <p className="ascii">
+··········.······················································.···········<br/>
+········.n···················.·················.··················n.·········<br/>
+··.···.dP··················dP···················9b·················9b.····.··<br/>
+·4····qXb·········.·······dX·····················Xb·······.········dXp·····t·<br/>
+dX.····9Xb······.dXb····__·························__····dXb.·····dXP·····.Xb<br/>
+9XXb._·······_.dXXXXb·dXXXXbo.·················.odXXXXb·dXXXXb._·······_.dXXP<br/>
+·9XXXXXXXXXXXXXXXXXXXVXXXXXXXXOo.···········.oOXXXXXXXXVXXXXXXXXXXXXXXXXXXXP·<br/>
+··`9XXXXXXXXXXXXXXXXXXXXX'~···~`OOO8b···d8OOO'~···~`XXXXXXXXXXXXXXXXXXXXXP'··<br/>
+····`9XXXXXXXXXXXP'·`9XX'··········`98v8P'··········`XXP'·`9XXXXXXXXXXXP'····<br/>
+········~~~~~~~·······9X.··········.db|db.··········.XP·······~~~~~~~········<br/>
+························)b.··.dbo.dP'`v'`9b.odb.··.dX(·······················<br/>
+······················,dXXXXXXXXXXXb·····dXXXXXXXXXXXb.······················<br/>
+·····················dXXXXXXXXXXXP'···.···`9XXXXXXXXXXXb·····················<br/>
+····················dXXXXXXXXXXXXb···d|b···dXXXXXXXXXXXXb····················<br/>
+····················9XXb'···`XXXXXb.dX|Xb.dXXXXX'···`dXXP····················<br/>
+·····················`'······9XXXXXX(···)XXXXXXP······`'·····················<br/>
+······························XXXX·X.`v'.X·XXXX······························<br/>
+······························XP^X'`b···d'`X^XX······························<br/>
+······························X.·9··`···'··P·)X······························<br/>
+······························`b··`·······'··d'······························<br/>
+·······························`·············'·······························<br/>
+                    </p>
+                    <br/>
                     <h2>Something went wrong</h2>
                     <p>Dog #{idParam} not foud</p>
-                    <p>{error}</p>
+                    <br/>
+                    <p>{error.m}</p>
+                    <p>{error.h}</p>
+                    <br/>
+                    <span onClick={()=>navigate(-1)}><b><u>go back to a safer place</u></b></span>
                 </div>
                : <div className="details-page-container">
                     {!details.id //: cambiar a description cuando fuincione bien la peticiona a wikipedia
@@ -119,8 +180,19 @@ const Details = () => {
                                 <BackArrow className='svg-icon' onClick={()=>navigate(-1)}/>
                                 <span className="tooltip">go back</span>
                             </div>
+                            <div className='details-button fav-button' >
+                                { favorite
+                                ? <div>
+                                    <IconFav className='svg-icon-fav faved' onClick={favHandler}/>
+                                    <span className="tooltip">remove from favorites</span>
+                                  </div>
+                                : <div>
+                                    <IconNoFav className='svg-icon-fav' onClick={favHandler}/>
+                                    <span className="tooltip">add to favorites</span>
+                                 </div>}
+                            </div>
 
-                            {typeof id === 'string' && 
+                            {(typeof id === 'string' && createdList?.includes(id)) &&
                             <>
                                 <div className='details-button edit-button' 
                                     onClick={() =>setEditMode(true)}>
@@ -136,6 +208,7 @@ const Details = () => {
                             
                         <div className="background-details">
                             <div className="border-details-container">
+                                {typeof id === 'string' && <IconStars className='icon-stars' />}
                                 <div className="details-header">
                                     <h1>{name}</h1>
                                 </div>
@@ -170,3 +243,11 @@ const Details = () => {
 };
 
 export default Details;
+
+//? en el hook useGetData, cargo en redux la lista del localStorage.
+        // JSON.parse(localStorage.getItem('favList'));
+        //? cuando toco el boton de favs, me fijo si la id esta en el estado de redux;
+        //: si está, la borro.
+        //* si no está, la agrego.
+        //? en ambos casos actualizo la localStorage.
+        // localStorage.setItem('favList', JSON.stringify(favList));

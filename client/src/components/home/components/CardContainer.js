@@ -9,13 +9,14 @@ const CardContainer = () =>{
     const filtered = useSelector(state => state.dogs.filtered);
     const page = useSelector(state => state.dogs.page);
     const filters = useSelector(state => state.dogs.filters);
-    const dpp = useSelector(state => state.dogs.dogsPerPage)
+    const dpp = useSelector(state => state.dogs.dogsPerPage);
+    let favList = JSON.parse(localStorage.getItem('favList'));
+
 
 
   useEffect(() => {
-    let end = page * dpp,       
-    start = end-dpp;    
-    //! por qué no anda un for ?
+    let end = page * dpp,
+    start = end-dpp;
     setGroup(() => filtered.slice(start, end))    
     
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -25,7 +26,8 @@ const CardContainer = () =>{
     <div className="cardContainer">
       {group.map(e => (
         <Card 
-        id={e.id} 
+        id={e.id}
+        favorite={favList?.includes(e.id) ? true : false}
         key={e.id} 
         name={e.name} 
         height={e.height} 

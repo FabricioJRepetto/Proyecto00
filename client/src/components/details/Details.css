@@ -5,6 +5,26 @@
     justify-content: center;
     overflow: hidden;
 }
+.ascii {
+    text-align: center;
+    white-space: pre-wrap;
+    font-family: "Courier New", Courier, monospace;
+}
+.status-error-message{
+    font-family: "Courier New", Courier, monospace;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: -webkit-fill-available;
+    font-size: 1.3rem;
+    color: brown;
+}
+.status-error-message span {
+    font-size: 1.4rem;
+    cursor: pointer;
+}
+
 .details-container {
     display: flex;
     flex-direction: row;
@@ -16,6 +36,7 @@
     background-color: rgba(0, 0, 0, 0.5);
     padding: 10px;
     border-radius: 28px;
+    position: relative;
 }
 .border-details-container {
     border-radius: 20px;
@@ -45,6 +66,8 @@
 }
 .desc-text {
     max-width: 400px;
+    height: 180px;
+    overflow-y: auto;
 }
 .details {
     display: flex;
@@ -56,6 +79,14 @@
 }
 .detail-element {
     margin-bottom: 1rem;
+}
+.icon-stars {
+    position: absolute;
+    top: 30px;
+    left: 30px;
+}
+.icon-stars path {
+    fill: #E7FBBE;
 }
 .edit-mode {
     display: flex;
@@ -74,6 +105,7 @@
     border-radius: 50%;
     cursor: pointer;
     position: relative;
+    height: 50px;
     top: 0px;
     left: 0px;
 }
@@ -108,6 +140,30 @@
 }
 .back-button:hover path {
     fill: rgba(255, 255, 255, 1);
+}
+.fav-button {
+    margin-bottom: 10px;
+    top: 10px;
+    box-shadow: 0 0 5px 10px rgba(255, 172, 172, 0);
+    transition: all 0.1s;
+}
+.fav-button:hover path {
+    fill: #ffacac;
+}
+.fav-button:active {
+    box-shadow: 0 0 0 0 #ffacac;
+    transition: 0.1s;
+}
+.faved path {
+    fill: #ffacac;
+    transition: all 2s;
+}
+.faved:hover path{
+    fill: rgb(125, 125, 125);
+}
+.svg-icon-fav {
+    margin-top: 3px;
+    transform: scale(.7);
 }
 .delete-button {
     top: 20px;

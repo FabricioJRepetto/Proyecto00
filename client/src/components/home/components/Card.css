@@ -1,9 +1,10 @@
 .card {
     background-color: rgba(0, 0, 0, .3);
     text-decoration: none;
+    position: relative;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
     width: 10rem;
     height: 20rem;
@@ -11,7 +12,7 @@
     margin: .25rem;
     border-radius: 10px;
     border: 1px rgba(255, 255, 255, .0) solid;
-    justify-content: space-between;    
+    cursor: pointer;
     transition: all 0.2s ease;
 }
 .dog-name-card {
@@ -62,16 +63,27 @@
     width: 10rem;
     border-radius: 5px;
 }
-
-.apidog{
-    color: red;
-}
-.dbdog{
-    color: blue;
-}
 .card:hover {
     margin-top: -6px;
     border: 1px rgba(255, 255, 255, .3) solid;
     box-shadow: 0px 10px 20px black;
+}
 
+.createdDog {
+    position: absolute;
+    transform: scale(.5);
+    top: 0;
+    left: 0;
+}
+.createdDog path {
+    fill: #E7FBBE;
+}
+.favedDog {
+    position: absolute;
+    transform: scale(.5);
+    top: 0;
+    right: 0;
+}
+.favedDog path {
+    fill: #FFCBCB;
 }

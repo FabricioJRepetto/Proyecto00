@@ -33,32 +33,35 @@ async function dogList(__, res, next) {
 //? by ID
 async function dogID(req, res, next) { 
   try {
-    let id = req.params.id;    
+    let id = req.params.id;
 
     if (id.includes("-")) {
-      const petition = await Dog.findOne({
-        where: { id },
-        include: [{
-          model: Temperament,
-          attributes: ["temperament"],
-          through: { attributes: [] }
-        }],
-    })       
-    if (petition !== null) {
-    // destructuring
-        ({
-          id,              
-          name,
-          height,
-          weight,
-          life_span,
-          temperaments,
-          description,
-          image
-      } = petition);
-      // Response
-      const response = {id, name, height, weight, life_span, image, description: description.trim(), temperaments: stringifyTemp(petition)};
-      return res.json(response);
+            
+        if (id.length !== 36) return res.status(400).json({ error: 400, message: "Invalid ID format." });
+
+        const petition = await Dog.findOne({
+            where: { id },
+            include: [{
+            model: Temperament,
+            attributes: ["temperament"],
+            through: { attributes: [] }
+            }],
+        })
+    
+        if (petition !== null) {
+        // destructuring
+            ({ id,              
+                name,
+                height,
+                weight,
+                life_span,
+                temperaments,
+                description,
+                image
+            } = petition);
+            // Response
+            const response = {id, name, height, weight, life_span, image, description: description.trim(), temperaments: stringifyTemp(petition)};
+            return res.json(response);
     } else {
       return res.status(400).json({ error: 400, message: "No matches for the given ID." });
     }

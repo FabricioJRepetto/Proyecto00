@@ -44,12 +44,13 @@ table {
 }
 
 body {
-  background: linear-gradient(to top, rgba(0, 0, 0, 0.85),rgba(0, 0, 0, 0.70)), url('./assets/background.jpg') no-repeat center center fixed;
-  background-color: #2a2a2a;
-  margin: 0;
-  font-family: 'Neucha', cursive;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.85),rgba(0, 0, 0, 0.70)), url('./assets/background.jpg') no-repeat center center fixed;
+    overflow: hidden;
+    margin: 0;
+    font-family: 'Neucha', cursive;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    
 }
 
 body a {

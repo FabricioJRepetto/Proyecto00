@@ -147,7 +147,7 @@ const Filters = () => {
                     <label>
                         < input id='radio-string' type='radio' name='source' value='string'         
                         onClick={()=>(dispatch(updateFilters({source: 'string'})))}/>
-                        My Collection 
+                        Custom 
                         </label>
                 </div>
                 

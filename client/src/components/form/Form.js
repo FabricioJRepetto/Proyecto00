@@ -235,6 +235,16 @@ const Form = ({ editMode = false, id, initialName }) => {
                 } else {
                     const req = await axios.post(API_POST, form);
                     setData({...req.data});
+
+                    //? agrego a la localStore
+                    let listaCreados = JSON.parse(localStorage.getItem('createdList'));
+                    if (!listaCreados) { // estaba vacio, seteo la id en un ARRAY
+                        localStorage.setItem('createdList', JSON.stringify([req.data.id]));
+                    } else { // ya tenía algo, pusheo la id y seteo
+                        listaCreados.push(req.data.id);
+                        localStorage.setItem('createdList', JSON.stringify(listaCreados));
+                    }
+
                     openModal1();
                 }
             } catch (error) {

@@ -118,6 +118,6 @@ export const dogsSlice = createSlice({
   }
 }); 
 
-export const { loadDogs, loadTemps, loadFiltered, searchByName, orderBy, setAsc, updateFilters, saveInputs, filterSource, filterTemperament, pageIncrease, pageDecrease, pageExact, loaded, reloadFiltered, viewNav, dogsPerPage } = dogsSlice.actions;
+export const { loadDogs, loadTemps, loadFiltered, loadFavList, deleteFav, searchByName, orderBy, setAsc, updateFilters, saveInputs, filterSource, filterTemperament, pageIncrease, pageDecrease, pageExact, loaded, reloadFiltered, viewNav, dogsPerPage } = dogsSlice.actions;
 
 export default dogsSlice.reducer;
