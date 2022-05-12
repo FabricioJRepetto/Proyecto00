@@ -12,6 +12,7 @@ import {
 } from "../../../slice-reducer/dogsSlice";
 import { ReactComponent as IconSearch } from '../../../assets/search-icon.svg'
 import { ReactComponent as IconClose } from '../../../assets/close-icon.svg'
+import { ReactComponent as IconMenu } from '../../../assets/menu.svg'
 import './Filters.css'
 
 const Filters = () => {
@@ -19,6 +20,7 @@ const Filters = () => {
     const [name, setName] = useState('');
     const [tempList, setTempList] = useState([ ]);
     const [order, setOrder] = useState('name');
+    const [filterOpen, setFilterOpen] = useState(false)
     const asc = useSelector(state => state.dogs.asc);
     const temperaments = useSelector(state => state.dogs.temps);
     const filters = useSelector(state => state.dogs.filters);
@@ -116,39 +118,33 @@ const Filters = () => {
     dispatch(pageExact(1))
   }  
 
+  const menuButtonHandler = () => {
+        
+      filterOpen ? setFilterOpen(false) : setFilterOpen(true);
+  }; 
+
 //? -------------- RENDER -------------- //   
   return(
-    <form className="filters">
+    <form className={`filters ${filterOpen && 'open'}`}>
+
+        <div className='border-menu-button'>
+            <button type='button' 
+                className='filters-switch' 
+                onClick={menuButtonHandler}>
+                <IconMenu className="button-menu"/>
+            </button>
+        </div>
+
         <div className="filter-container">
+
+            <div>
             <h2>Filters</h2>
                 <div className='filter-box'>
                     <input type='text' id='input_name'
                         value={name} onChange={nameInput} placeholder=' name' className='input'></input>
                         <IconSearch color='#fffdde' className="search-button" onClick={(e)=>(nameInput(e))} />                        
                 </div>
-                        
-                <div className='filter-box'>
-                    <h3><b>Get results from:</b></h3>
-                    <div>
-                        <label>
-                            < input id='radio-all' type='radio' name='source' value='all' 
-                            defaultChecked 
-                            onClick={()=>dispatch(updateFilters({source: 'all'}))}/>
-                            All dogs 
-                            </label>
-                    </div>
-                    <label>
-                        < input id='radio-number' type='radio' name='source' value='number'       
-                        onClick={()=>(dispatch(updateFilters({source: 'number'})))}/>
-                        Originals 
-                        </label>
-                    <label>
-                        < input id='radio-string' type='radio' name='source' value='string'         
-                        onClick={()=>(dispatch(updateFilters({source: 'string'})))}/>
-                        Custom 
-                        </label>
-                </div>
-                
+
                 <div className='filter-box'>
                 <h3><b>Temperaments:</b></h3>
                     <input id='input_temps' list="list_temps" className='input input-plus'
@@ -169,6 +165,30 @@ const Filters = () => {
                         </div>
                     )}
                     </div>
+                </div>
+            </div>
+
+            <div>
+                <div className='filter-box'>
+                    <h3><b>Get results from:</b></h3>
+                    <div>
+                        <label>
+                            < input id='radio-all' type='radio' name='source' value='all' 
+                            defaultChecked 
+                            onClick={()=>dispatch(updateFilters({source: 'all'}))}/>
+                            All dogs 
+                            </label>
+                    </div>
+                    <label>
+                        < input id='radio-number' type='radio' name='source' value='number'       
+                        onClick={()=>(dispatch(updateFilters({source: 'number'})))}/>
+                        Originals 
+                        </label>
+                    <label>
+                        < input id='radio-string' type='radio' name='source' value='string'         
+                        onClick={()=>(dispatch(updateFilters({source: 'string'})))}/>
+                        Custom 
+                        </label>
                 </div>
                         
                 <div className='filter-box'>
@@ -211,6 +231,7 @@ const Filters = () => {
                     onClick={resetButton}
                     className='button-reset'/>
                 </div>
+            </div>
           </div>
         </form>
   );

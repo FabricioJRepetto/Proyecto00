@@ -77,3 +77,54 @@ body input {
 ::-webkit-scrollbar-thumb:hover {
   background: #FFCBCB; 
 }
+
+@media (min-width: 850px) {
+    /* home */
+    .home {
+        flex-direction: row;
+    }
+    .navBar {
+        margin-bottom: 45px;
+    }
+    .nav-buttons {
+        border-bottom: #fffdde 2px dashed;
+    }
+    .pages {
+        background-color: rgba(0, 0, 0, 0);
+        position: relative;
+    }
+    .filters {
+        height: 675px;
+        margin-top: 40px;
+        min-width: 230px;
+    }
+    .filters h2 {
+    opacity: 0;
+}
+    .filter-container {
+        flex-direction: column;
+        height: 600px;
+        border-radius: 0 15px 15px 0;;
+    }
+    .border-menu-button {
+        display: none;
+    }
+    /* formulario */
+    .form-page {
+        overflow: hidden;
+    }
+    .border-form-container {
+    overflow-y: hidden;
+}
+    .inputs-containers {
+        flex-direction: row;
+    }
+    /* favorites */
+    .container-favs-page {
+        margin-top: 10px;
+    }
+    /* about */
+    .about-container {
+        border-top: none;
+    }
+}

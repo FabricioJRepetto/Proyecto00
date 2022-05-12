@@ -1,7 +1,12 @@
-.cajon {
+.about-container {
     display: flex;
     height: -webkit-fill-available;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    border-top: 2px dashed #FFFDDE;
+}
+
+.about-box {
+    width: 70vw;
 }
