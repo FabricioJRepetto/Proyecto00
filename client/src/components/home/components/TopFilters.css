@@ -8,6 +8,17 @@
     height: 30px;
     width: auto;
 }
+
+.results-page-box {
+    color: #fffdde;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    font-size: 1.3rem;
+    margin-bottom: 5px;
+    height: 30px;
+    width: auto;
+}
 .dpp-list {
     margin-right: 100px;
     position: relative;
