@@ -14,7 +14,7 @@ const TopFilters = () => {
     };
 
   return (
-    <div className='top-filters'>
+    <div className='top-home-bar'>
         <div className='total-results'>{filtered.length !== dogs.length ?
             <p><b>Dogs: </b>{filtered.length}</p>
             : null
