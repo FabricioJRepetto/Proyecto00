@@ -2,7 +2,7 @@ const server = require("./src/app.js");
 const { conn } = require("./src/db.js");
 
 // sincronizamos con la BD
-conn.sync({ force: true }).then(
+conn.sync({ force: false }).then(
   () => {
     console.log("Conection with DB: OK");
     server.listen(3001, () => {
