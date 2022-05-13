@@ -17,10 +17,8 @@ const TopFilters = () => {
     <>
         <div className="home-top-bar">
             <span className='results-page-box'>
-                <div className='total-results'>{filtered.length !== dogs.length ?
+                <div className='total-results'>
                     <p><b>Dogs: </b>{filtered.length}</p>
-                    : null
-                    }
                 </div> 
                 
                 <div className='dpp-list'>results per page:

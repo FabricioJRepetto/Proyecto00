@@ -10,7 +10,6 @@ import { ReactComponent as IconCancel } from '../../assets/cancel.svg'
 import { ReactComponent as IconCheck } from '../../assets/check.svg'
 import { ReactComponent as IconClose } from '../../assets/close-icon.svg'
 import { ReactComponent as IconStars } from '../../assets/stars.svg'
-import { ReactComponent as BackArrow } from '../../assets/back-arrow.svg'
 import './Form.css'
 
 var defaultImages =[];
@@ -430,7 +429,7 @@ const Form = ({ editMode = false, id, initialName }) => {
                             </div>
 
                             <div className="inputs-container-b">
-
+                                <p className="image-tag">Select an image</p>
                                 <div className="form-image-selection" onClick={openModal3}>
                                     <img src={require(`../../assets/default-images/${image}.png`)} alt="select" className="def-img selected-img"/>
                                 </div>

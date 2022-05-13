@@ -3,7 +3,8 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
-    height: 750px;
+    /*height: 750px;*/
+    height: -webkit-fill-available;
     padding-top: 10px;
     overflow-y: auto;
 }

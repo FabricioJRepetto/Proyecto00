@@ -50,19 +50,17 @@ const Card = ({id, name, image, height, weight, life_span, temps, filter, favori
             :   <p> </p>
         }</div>
 
-                
             <div className="temps-section">
-            <span>· temperaments:</span>
-            <div className="cardTemps">
-                {tempsBox.map(t =>(
-                    <div key={`${id}${t}`} className="tempTag">{t}</div>
-                ))}
-                {moreTemps && <p className="tempTag">···</p>
-                }
+                <span>· temperaments:</span>
+                <div className="cardTemps">
+                    {tempsBox.map(t =>(
+                        <div key={`${id}${t}`} className="tempTag">{t}</div>
+                    ))}
+                    {moreTemps && <p className="tempTag">···</p>
+                    }
+                </div>
             </div>
-            </div>
-        
-
+            
         </div>
     );
 };

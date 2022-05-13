@@ -40,7 +40,7 @@ const About = () => {
                         </div>
                     </span>
 
-                    <span>
+                    <span className="adobe">
                         <div>
                             <img src={require('../../assets/logos/adb-illustrator_icon-icons.com_50964.png')} alt="logo" />
                         </div>
