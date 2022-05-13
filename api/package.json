@@ -4,7 +4,7 @@
   "description": "App de raza de perros, Cliente/Servidor con uso de API y Base de Datos.",
   "main": "index.js",
   "engines": {
-      "node": "16.x"
+    "node": "16.x"
   },
   "scripts": {
     "start": "node index.js",
@@ -24,6 +24,7 @@
     "morgan": "^1.10.0",
     "pg": "^8.7.3",
     "sequelize": "^6.19.0",
+    "sequelize-cli": "^6.4.1",
     "supertest-as-promised": "^4.0.2",
     "uuid": "^8.3.2"
   },
