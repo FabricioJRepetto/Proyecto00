@@ -3,8 +3,11 @@
   "version": "1.0.0",
   "description": "App de raza de perros, Cliente/Servidor con uso de API y Base de Datos.",
   "main": "index.js",
+  "engines": {
+      "node": "144.x"
+  },
   "scripts": {
-    "start": "nodemon -L",
+    "start": "node index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Fabricio Repetto",
