@@ -4,8 +4,8 @@ const { conn } = require("./src/db.js");
 conn.sync({ force: false }).then(
   () => {
     console.log("Conection with DB: OK");
-    server.listen(3001, () => {
-      console.log("Server listening at 3001");
+    server.listen( process.env.DB_PORT || 3001, () => {
+      console.log("Server listening . . .");
     });
   },
   err => {
