@@ -1,9 +1,9 @@
 .details-page-container {
-    display: flex;
     height: -webkit-fill-available;
     margin-top: 50px;
     justify-content: center;
-    overflow: hidden;
+    overflow-y: scroll;
+    overflow-x: hidden;
 }
 .ascii {
     text-align: center;
@@ -29,7 +29,6 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
-    align-items: center;
     width: -webkit-fill-available;
 }
 .background-details {
@@ -42,7 +41,6 @@
     border-radius: 20px;
     border: 2px rgb(255, 253, 222) dashed;
     padding: 50px;
-    width: fit-content;
 }
 .details-header {
     display: flex;
@@ -52,30 +50,36 @@
     align-items: center;
     margin-bottom: 50px;
     position: relative;
+    transition: all .2s linear;
+}
+.details-header h1 {
+    transition: all .2s linear;
 }
 
 .details-body {
     display: flex;
-    flex-direction: row-reverse;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
     width: -webkit-fill-available;
 }
 .detail-image {
-    max-width: 600px;
-    max-height: 400px;
+    max-width: 650px;
+    max-height: 450px;
 }
 .desc-text {
-    max-width: 400px;
-    height: 180px;
-    overflow-y: auto;
+    max-width: 500px;
+    height: fit-content;
 }
 .details {
+    font-size: 1.5rem;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    width: 400px;
+    justify-content: space-evenly;
+    width: -webkit-fill-available;;
+    height: 450px;
     margin-right: 50px;
-    font-size: 1.5rem;
+    margin-top: 1rem;
 }
 .detail-element {
     margin-bottom: 1rem;
@@ -88,26 +92,21 @@
 .icon-stars path {
     fill: #E7FBBE;
 }
-.edit-mode {
-    display: flex;
-    align-items: flex-start;
-}
-.edit-mode-back-button {
-    margin: 15px;
-}
+
 .details-buttons-container {
-    position: relative;
-    top: -220px;
-    left: -20px;
+    position: fixed;
+    top: 240px;
+    left: 24px;
 }
 .details-button {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgba(0, 0, 0, 1);
     border-radius: 50%;
     cursor: pointer;
     position: relative;
     height: 50px;
     top: 0px;
     left: 0px;
+    transition: background-color 2s;
 }
 .svg-icon {
     transform: scale(.85);
@@ -176,4 +175,19 @@
 }
 .edit-button:hover path {
     fill: #c1bcf8;
+}
+
+.edit-mode {
+    display: flex;
+    justify-content: center;
+}
+.edit-form-cont {
+    position: relative;
+    width: fit-content;
+}
+.back-button-form {
+    width: fit-content;
+    position: fixed;
+    top: 240px;
+    left: 50px;
 }

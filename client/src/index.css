@@ -78,6 +78,34 @@ body input {
   background: #FFCBCB; 
 }
 
+@media (max-width: 850px) {
+    /* details */
+    .details-page-container {
+        margin-top: 85px;
+    }
+    .details-header h1 {
+        font-size: 2.5rem;
+        transition: all .2s linear;
+    }
+    .details-container {
+        flex-direction: column;
+        width: -webkit-fill-available;
+    }
+    .detail-image {
+        margin-bottom: 1rem;
+    }
+    .icon-stars {
+        left: 100px;
+    }
+    /* form */
+    .edit-mode {
+        display: unset;
+    }
+    .edit-form-cont {
+        width: unset;
+    }
+}
+
 @media (min-width: 850px) {
     /* home */
     .home {
@@ -110,12 +138,16 @@ body input {
         display: none;
     }
     /* formulario */
+    .form-box-container {
+        width: 850px;
+    }
     .form-page {
         overflow: hidden;
     }
     .border-form-container {
-    overflow-y: hidden;
-}
+        width: fit-content;
+        overflow-y: hidden;
+    }
     .inputs-containers {
         flex-direction: row;
     }
@@ -126,5 +158,64 @@ body input {
     /* about */
     .about-container {
         border-top: none;
+    }
+    /* details */
+}
+@media (min-width: 1175px) {
+    /* formulario */
+    .back-button-form {
+        position: absolute;
+        top: 45px;
+        left: -50px;
+    }
+}
+
+@media (min-width: 1300px) {
+    /* details */
+    .details-buttons-container {
+        position: absolute;
+        top: 45px;
+        left: -50px;
+    }
+    .details-button {
+        background-color: rgba(0, 0, 0, 0.5);
+    }
+    .border-details-container {
+        width: fit-content;
+    }
+    .details-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        width: -webkit-fill-available;
+    }
+    .details-body {
+        flex-direction: row-reverse;
+    }
+    .detail-image {
+        margin-bottom: 0;
+    }
+    .details {
+        font-size: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-evenly;
+        width: 400px;
+        height: 450px;
+        margin-right: 50px;
+        margin-top: 0;
+    }
+    .desc-text {
+        max-width: 400px;
+        height: 180px;
+        overflow-y: auto;
+    }
+    /* formulario */
+   
+    .back-button-form {
+        position: absolute;
+        top: 45px;
+        left: -50px;
     }
 }

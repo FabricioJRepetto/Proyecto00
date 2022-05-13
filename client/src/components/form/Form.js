@@ -9,6 +9,8 @@ import Modal from "../modal/Modal";
 import { ReactComponent as IconCancel } from '../../assets/cancel.svg'
 import { ReactComponent as IconCheck } from '../../assets/check.svg'
 import { ReactComponent as IconClose } from '../../assets/close-icon.svg'
+import { ReactComponent as IconStars } from '../../assets/stars.svg'
+import { ReactComponent as BackArrow } from '../../assets/back-arrow.svg'
 import './Form.css'
 
 var defaultImages =[];
@@ -277,8 +279,16 @@ const Form = ({ editMode = false, id, initialName }) => {
   return(
     <div className="form-page">
         <div className="border-form-container">
-            <div className="form-box-container">
-                <h2 className="form-title">{editMode ? 'EDITING A DOG...' : 'CREATE A NEW DOG!'}</h2>{
+            <div className="form-box-container">                    
+                {/* {editMode && 
+                <div className='form-edit-cancel'>
+                    <BackArrow className='svg-icon' onClick={()=>navigate(-1)}/>
+                    <span className="tooltip">cancel editing</span>
+                </div>} */}
+                <div className="form-title">
+                   <IconStars className='icon-stars-form' />
+                    <h2 >{editMode ? 'EDITING A DOG...' : 'CREATE A NEW DOG!'}</h2>
+                </div>{
     //?  ------------ MODAL 1 ------------------------
                 }<Modal isOpen={isOpen1} 
                     closeModal={closeModal1}>

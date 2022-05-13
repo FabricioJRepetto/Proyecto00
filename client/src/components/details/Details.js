@@ -136,12 +136,14 @@ dX.····9Xb······.dXb····__····················
 
                 {editMode
                     ? <div className="edit-mode">
-                            <div className='details-button back-button edit-mode-back-button'>
-                                    <BackArrow className='svg-icon' onClick={()=>setEditMode(false)}/>
+                            <div className="edit-form-cont">
+                                <div className='details-button back-button-form'>
+                                    <BackArrow className='svg-icon' onClick={()=>navigate(-1)}/>
                                     <span className="tooltip">go back</span>
+                                </div>
+                                <Form editMode={true} id={ id } 
+                                initialName={ details.name }/>
                             </div>
-                            <Form editMode={true} id={ id } 
-                            initialName={ details.name }/>
                       </div>
                     :<div className="details-container">
 
@@ -171,39 +173,40 @@ dX.····9Xb······.dXb····__····················
                         <p>{name} is no longer part of this world.</p>
                         <button onClick={notifHandler} className='button-ok'>ACCEPT</button>
                     </Modal>
-                    
-                        <div className="details-buttons-container">
-                            <div className='details-button back-button'>
-                                <BackArrow className='svg-icon' onClick={()=>navigate(-1)}/>
-                                <span className="tooltip">go back</span>
-                            </div>
-                            <div className='details-button fav-button' >
-                                { favorite
-                                ? <div>
-                                    <IconFav className='svg-icon-fav faved' onClick={favHandler}/>
-                                    <span className="tooltip">remove from favorites</span>
-                                  </div>
-                                : <div>
-                                    <IconNoFav className='svg-icon-fav' onClick={favHandler}/>
-                                    <span className="tooltip">add to favorites</span>
-                                 </div>}
-                            </div>
-
-                            {(typeof id === 'string' && createdList?.includes(id)) &&
-                            <>
-                                <div className='details-button edit-button' 
-                                    onClick={() =>setEditMode(true)}>
-                                    <IconDraw className='svg-icon'/>
-                                    <span className="tooltip">edit dog's information</span>
-                                </div>
-                                <div className='details-button delete-button'>
-                                    <IconDelete className='svg-icon' onClick={openModalConfirm} />
-                                    <span className="tooltip">delete dog</span>
-                                </div>
-                            </>}
-                        </div>
                             
                         <div className="background-details">
+
+                            <div className="details-buttons-container">
+                                <div className='details-button back-button'>
+                                    <BackArrow className='svg-icon' onClick={()=>navigate(-1)}/>
+                                    <span className="tooltip">go back</span>
+                                </div>
+                                <div className='details-button fav-button' >
+                                    { favorite
+                                    ? <div>
+                                        <IconFav className='svg-icon-fav faved' onClick={favHandler}/>
+                                        <span className="tooltip">remove from favorites</span>
+                                    </div>
+                                    : <div>
+                                        <IconNoFav className='svg-icon-fav' onClick={favHandler}/>
+                                        <span className="tooltip">add to favorites</span>
+                                    </div>}
+                                </div>
+
+                                {(typeof id === 'string' && createdList?.includes(id)) &&
+                                <>
+                                    <div className='details-button edit-button' 
+                                        onClick={() =>setEditMode(true)}>
+                                        <IconDraw className='svg-icon'/>
+                                        <span className="tooltip">edit dog's information</span>
+                                    </div>
+                                    <div className='details-button delete-button'>
+                                        <IconDelete className='svg-icon' onClick={openModalConfirm} />
+                                        <span className="tooltip">delete dog</span>
+                                    </div>
+                                </>}
+                            </div>
+
                             <div className="border-details-container">
                                 {(typeof id === 'string' && createdList?.includes(id)) && <IconStars className='icon-stars' />}
                                 <div className="details-header">

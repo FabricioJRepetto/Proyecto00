@@ -1,5 +1,6 @@
-Readme WIP:
+Dog House.
 
-the Dawn of the Dogs.
-
-This project is my first aproach to front-end and back-end development. React and Redux compose the web app. The user can search dog breeds by aplying multiple dynamic filters and create their own custom breeds, which will be stored on the data base and be shown beside the other API results. The back-end was built with Express, Sequelize and Postgresql. Using an external API as reference, an SQL database was created to storage the custom dogs entries, making that feature possible.
+In this project I put to the test the knowledge I acquired over the last few months.
+The objective was develop a database which, with support of an external API, will work as an API for a web app.
+This was accomplished using Sequelize, PostgreSQL, Express.
+The website, made with React and Redux, shows results of different dog breeds, which can be filtered with various parameters. In addition, it offers the possibility to add dogs to a list of favorites and also to create, edit and delete custom dogs, which are stored in the database.

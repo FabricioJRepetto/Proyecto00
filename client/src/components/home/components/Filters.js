@@ -56,6 +56,9 @@ const Filters = () => {
         })
         //2)Ordenado
         dispatch(orderBy(order))
+
+        //3) Cambio a página 1
+        dispatch(pageExact(1))
         
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, name])
