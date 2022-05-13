@@ -13,6 +13,20 @@ export const useGetData =  () => {
     const dispatch = useDispatch();
     const firstLoad = useSelector(state => state.dogs.firstLoad);
 
+//? llenar localStorage para evitar error
+    if (!localStorage.getItem('favList')) {
+        localStorage.setItem('favList', JSON.stringify([]))
+    }
+    if (!localStorage.getItem('createdList')) {
+        localStorage.setItem('createdList', JSON.stringify([]))
+    }
+    if (!localStorage.getItem('filter-name-input')) {
+        localStorage.setItem('filter-name-input', JSON.stringify(''))
+    }
+    if (!localStorage.getItem('filter-temps-input')) {
+        localStorage.setItem('filter-temps-input', JSON.stringify([]))
+    }
+
     const petition = async () => {
         let { data } = await axios.get(API_DOGS);
         let { data: temps } = await axios.get(API_TEMPS);
