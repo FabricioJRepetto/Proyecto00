@@ -14,23 +14,25 @@ const TopFilters = () => {
     };
 
   return (
-    <div className='top-home-bar'>
-        <div className='total-results'>{filtered.length !== dogs.length ?
-            <p><b>Dogs: </b>{filtered.length}</p>
-            : null
-            }
-        </div> 
-        
-        <div className='dpp-list'>results per page:
-            <select onChange={changeHandler} defaultValue={16}>
-                <option>8</option>
-                <option >16</option>
-                <option>24</option>
-                <option>32</option>
-            </select>
-            <SelectArrow className='selectArrow'/>
+    <>
+        <div className="top-home-bar">
+            <div className='total-results'>{filtered.length !== dogs.length ?
+                <p><b>Dogs: </b>{filtered.length}</p>
+                : null
+                }
+            </div> 
+            
+            <div className='dpp-list'>results per page:
+                <select onChange={changeHandler} defaultValue={16}>
+                    <option>8</option>
+                    <option >16</option>
+                    <option>24</option>
+                    <option>32</option>
+                </select>
+                <SelectArrow className='selectArrow'/>
+            </div>
         </div>
-    </div>
+    </>
   )
 }
 
