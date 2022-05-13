@@ -1,4 +1,4 @@
-.top-home-bar {
+.home-top-bar {
     color: #fffdde;
     display: flex;
     align-items: center;
@@ -6,7 +6,7 @@
     font-size: 1.3rem;
     margin-bottom: 5px;
     height: 30px;
-    width: -webkit-fill-available;
+    width: auto;
 }
 .dpp-list {
     margin-right: 100px;
