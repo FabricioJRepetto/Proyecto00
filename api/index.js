@@ -1,7 +1,8 @@
 const server = require("./src/app.js");
 const { conn } = require("./src/db.js");
 
-// sincronizamos con la BD
+server.get('/', (req, res) => res.send('dog house API'))
+
 conn.sync({ force: false }).then(
   () => {
     console.log("Conection with DB: OK");
