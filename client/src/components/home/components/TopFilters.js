@@ -20,7 +20,7 @@ const TopFilters = () => {
                     <p><b>Dogs: </b>{filtered.length}</p>
                 </div> 
                 
-                <div className='dpp-list'>results per page:
+                <div className='dpp-list'>Results per page:
                     <select onChange={changeHandler} defaultValue={16}>
                         <option>8</option>
                         <option >16</option>

@@ -120,14 +120,14 @@ const Form = ({ editMode = false, id, initialName }) => {
         const numValidator =(value)=> {
             if (value) {
                 if (!/^[\d-]*$/.test(value)) {
-                    errors = {...errors, [input]: 'Solo se aceptan numeros y -'}
+                    errors = {...errors, [input]: 'Only numbers and - are allowed.'}
                 } else if (!/^\d{1,2}-\d{1,2}$/.test(value)){
-                    errors = {...errors, [input]: `Debe respetar la sintaxis '12-34'`}
+                    errors = {...errors, [input]: `Have to respect syntax; i.e.: '12-34'`}
                 } else {
                     let min = parseInt(value.split('-')[0])
                     let max = parseInt(value.split('-')[1])
                     if (min > max) {
-                    errors = {...errors, [input]: 'La primer cifra no puede ser mayor a la segunda.'}
+                    errors = {...errors, [input]: `The first number can't be greater than the second one.`}
                     } else {
                         delete errors[input]
                         forms = {...forms, [input]: value};
@@ -135,7 +135,7 @@ const Form = ({ editMode = false, id, initialName }) => {
                 }
             } else {
                     delete forms[input];
-                    errors = {...errors, [input]: 'Campo requerido.'}
+                    errors = {...errors, [input]: 'Required field.'}
             }
         };
 
@@ -361,7 +361,7 @@ const Form = ({ editMode = false, id, initialName }) => {
                                 </div>
 
                                 <div className="form-box">                    
-                                    <input type="text" 
+                                    <input type="number" 
                                     name='height' 
                                     value={height} 
                                     className={`input i-form ${(error.height && 'invalid-input')}`}

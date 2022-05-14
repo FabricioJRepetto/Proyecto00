@@ -6,7 +6,7 @@
     bottom: 0;
 }
 .pages {
-    background-color: rgba(0, 0, 0, .4);
+    background-color: rgba(0, 0, 0, .8);
     font-size: 1.2rem;
     width: fit-content;
     display: flex;
@@ -16,7 +16,7 @@
     border-radius: 10px 10px 0 0;
 }
 .page-button {
-    background-color: rgba(0, 0, 0, .5);
+    background-color: rgba(0, 0, 0, .8);
     margin-right: 5px;
     margin-left: 5px;
     border: none;
@@ -34,7 +34,7 @@
     left: -12px;
 }
 .page-icon path {
-    fill: rgb(255, 253, 222);
+    fill: rgb(255, 255, 255);
 }
 .page-button:hover {
     background-color: rgba(70, 70, 70, .5);

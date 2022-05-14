@@ -174,7 +174,7 @@ body input {
     }
     .border-form-container {
         width: fit-content;
-        overflow-y: hidden;
+        overflow-y: auto;
     }
     .inputs-containers {
         flex-direction: row;
@@ -270,8 +270,7 @@ body input {
     }
     /* home */
     .cardContainer {
-        height: 750px;
-        padding-bottom: 40px;
+        padding-bottom: 60px;
     }
 
     .about-container {
