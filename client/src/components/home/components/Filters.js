@@ -44,6 +44,8 @@ const Filters = () => {
   useEffect(() => {
         const { source, order } = filters;
         let inputName = document.getElementById('input_name').value
+        localStorage.setItem('filter-name-input', JSON.stringify(inputName))
+
         //1) Filtrado
             //a) fuente
         dispatch(filterSource(source))
@@ -65,7 +67,6 @@ const Filters = () => {
         dispatch(pageExact(1))
         let value = e.target.value.toLowerCase();
         value ? setName(value) : setName('');
-        localStorage.setItem('filter-name-input', JSON.stringify(value))
   }
   
   //? -------------- Temperament handler  -------------- //
