@@ -6,6 +6,8 @@
     justify-content: center;
     align-items: center;
     border-top: 2px dashed #FFFDDE;
+    padding: 50px 0 100px 0;
+
 }
 .about-border {
     background-color: rgb(255, 253, 222);

@@ -115,7 +115,6 @@ body input {
         margin-right: 50px;
         justify-content: flex-end;
     }
-    
     .dpp-list {
         margin-left: 100px;
     }
@@ -178,7 +177,7 @@ body input {
         flex-direction: row;
     }
     .inputs-container-a {
-        margin-right: 50px;
+        margin-right: 45px;
         margin-bottom: 0px;
     }
     /* favorites */

@@ -1,9 +1,10 @@
 .container-favs-page {
     display: flex;
     flex-direction: column;
-    height: -webkit-fill-available;
+    height: fit-content;
     width: -webkit-fill-available;
     margin-top: 25px;
+    padding-bottom: 100px;
 }
 
 .favs-buttons-box {
@@ -46,7 +47,8 @@
 }
 
 .fav-box-border {
-    background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.3) 12%, rgba(0,0,0,0) 100%);
+    background: linear-gradient(180deg, rgba(0,0,0,1) 0%, rgba(0,0,0,0.3) 20%, rgba(0,0,0,0) 100%);
+    height: 500px;
     padding: 10px;
 }
 .fav-box {
@@ -56,5 +58,5 @@
     justify-content: center;
     min-height: -webkit-fill-available;
     overflow-y: auto;
-    padding: 20px;
+    padding: 50px 0 100px 0;
 }

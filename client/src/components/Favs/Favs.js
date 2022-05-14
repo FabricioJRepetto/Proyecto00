@@ -32,7 +32,7 @@ const Favs = () => {
             </div>
             <div >{
                 favorites
-                ? <div className="fav-box-border">
+                ?<div className="fav-box-border">
                     <div className="fav-box">
                         {dogs.map(e => (
                             favList?.includes(e.id) &&
