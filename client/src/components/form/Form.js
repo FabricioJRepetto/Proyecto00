@@ -361,7 +361,7 @@ const Form = ({ editMode = false, id, initialName }) => {
                                 </div>
 
                                 <div className="form-box">                    
-                                    <input type="number" 
+                                    <input type="text" 
                                     name='height' 
                                     value={height} 
                                     className={`input i-form ${(error.height && 'invalid-input')}`}
