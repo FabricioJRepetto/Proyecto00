@@ -84,17 +84,32 @@ const Form = ({ editMode = false, id, initialName }) => {
     const eventValueCatcher =(e)=> {
         if (source === 'list') { //? maximo de temps seleccionables⬇
             if (!tempList.includes(e.target.value) && tempList.length < 3) {
-                setTemperaments([...tempList, e.target.value]);
+                setTemperaments([...tempList, e.target.value.trim()]);
                 document.getElementById('form-temps').value = '';
                 setMount(true)
+            } 
+            else if (tempList.length === 3) {
+                let aux = {...error};
+                setError({ ...error, temperaments: 'You can select just three temperaments.'});
+                document.getElementById('form-temps').value = '';
+                setTimeout(() => {
+                    setError(aux)
+                }, 5000);
             }
         }
     };
     const enterHandler =(e)=> {
         if (e.code === 'Enter' && e.target.value) {
             if (!tempList.includes(e.target.value) && tempList.length < 3) {
-                setTemperaments([...tempList, e.target.value]);
+                setTemperaments([...tempList, e.target.value.trim()]);
                 document.getElementById('form-temps').value = '';
+            } else if (tempList.length === 3) {
+                let aux = {...error};
+                setError({ ...error, temperaments: 'You can select just three temperaments.'});
+                document.getElementById('form-temps').value = '';
+                setTimeout(() => {
+                    setError(aux)
+                }, 5000);
             }
         }
     };

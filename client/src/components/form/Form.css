@@ -45,7 +45,6 @@
     flex-direction: column;
     position:relative;
     align-items: flex-end;
-    border-bottom: #fff 2px dashed;
 }
 .inputs-containers {
     display: flex;

@@ -8,6 +8,7 @@
     align-content: center;
     justify-content: space-between;
     width: -webkit-fill-available;
+    justify-content: flex-start;
 }
 .loading {
     display: flex;
