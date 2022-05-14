@@ -162,6 +162,9 @@ body input {
     .border-menu-button {
         display: none;
     }
+    .search-button {
+        right: 15px;
+    }
     /* formulario */
     .form-box-container {
         width: 850px;
