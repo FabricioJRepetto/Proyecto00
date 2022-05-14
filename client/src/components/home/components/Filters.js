@@ -57,17 +57,15 @@ const Filters = () => {
         //2)Ordenado
         dispatch(orderBy(order))
 
-        //3) Cambio a página 1
-        dispatch(pageExact(1))
-        
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [filters, name])
 
   //? -------------- Name handler -------------- //
   const nameInput = (e)=>{      
-      let value = e.target.value.toLowerCase();
-      value ? setName(value) : setName('');
-      localStorage.setItem('filter-name-input', JSON.stringify(value))
+        dispatch(pageExact(1))
+        let value = e.target.value.toLowerCase();
+        value ? setName(value) : setName('');
+        localStorage.setItem('filter-name-input', JSON.stringify(value))
   }
   
   //? -------------- Temperament handler  -------------- //

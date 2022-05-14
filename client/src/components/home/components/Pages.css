@@ -1,13 +1,19 @@
-.pages {
-    background-color: rgba(0, 0, 0, .4);
-    display: flex;
+.pages-container {
+    width: -webkit-fill-available;
+    display: flex;    
+    justify-content: center;
     position: fixed;
     bottom: 0;
-    padding-top: 5px;
-    width: -webkit-fill-available;
-    justify-content: center;
+}
+.pages {
+    background-color: rgba(0, 0, 0, .4);
     font-size: 1.2rem;
+    width: fit-content;
+    display: flex;
+    justify-content: center;
     align-items: center;
+    padding: 5px 10px 0 10px;
+    border-radius: 10px 10px 0 0;
 }
 .page-button {
     background-color: rgba(0, 0, 0, .5);

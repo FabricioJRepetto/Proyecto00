@@ -1,4 +1,3 @@
-import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from "react-redux";
 import { pageIncrease, pageDecrease, pageExact } from '../../../slice-reducer/dogsSlice';
 import { ReactComponent as IconLeft } from "../../../assets/left.svg";
@@ -13,41 +12,43 @@ const Pages = () => {
     const dpp = useSelector(state => state.dogs.dogsPerPage)
     const dispatch = useDispatch()
 
+    let source = filtered,  
+    totalPages = Math.ceil(source.length / dpp),
+    maxLimit = (page +1) <= totalPages,
+    minLimit = (page - 1) >= 1;
 
+    return(
+        <div className='pages-container'>
+            <div className='pages'>
 
-  let source = filtered,  
-  totalPages = Math.ceil(source.length / dpp),
-  maxLimit = (page +1) <= totalPages,
-  minLimit = (page - 1) >= 1;
+                <div className='page-button' onClick={() => dispatch(pageExact(1))}>
+                    <IconFirstPage className='page-icon'></IconFirstPage>
+                </div>
+                <div className='page-button' onClick={() => dispatch(pageDecrease())}>
+                    <IconLeft className='page-icon'></IconLeft>
+                </div>
 
-  return(
-    <div className='pages'>
-        <div className='page-button' onClick={() => dispatch(pageExact(1))}>
-            <IconFirstPage className='page-icon'></IconFirstPage>
-        </div>
-        <div className='page-button' onClick={() => dispatch(pageDecrease())}>
-            <IconLeft className='page-icon'></IconLeft>
-        </div>
+                <div className='pages-num-box'>
+                    <span className='pages-nums' onClick={() => dispatch(pageDecrease())}>{ 
+                    minLimit ? page-1 : ` - `
+                    }</span>
+                    <b className='pages-nums'>{` ${page} `}</b>
+                    <span className='pages-nums' onClick={() => dispatch(pageIncrease(totalPages))}>{ 
+                    maxLimit ? page+1 : ` - `
+                    }</span>
+                </div>
 
-        <div className='pages-num-box'>
-            <span className='pages-nums' onClick={() => dispatch(pageDecrease())}>{ 
-            minLimit ? page-1 : ` - `
-            }</span>
-            <b className='pages-nums'>{` ${page} `}</b>
-            <span className='pages-nums' onClick={() => dispatch(pageIncrease(totalPages))}>{ 
-            maxLimit ? page+1 : ` - `
-            }</span>
-        </div>
+                <div className='page-button' onClick={() => dispatch(pageIncrease(totalPages))}>
+                    <IconRight className='page-icon' ></IconRight>
+                </div>
+                <div className='page-button' onClick={() => dispatch(pageExact(totalPages))}>
+                    <IconLastPage className='page-icon' ></IconLastPage>
+                </div>
+                <span className='pages-pages'> /{totalPages}</span>
 
-        <div className='page-button' onClick={() => dispatch(pageIncrease(totalPages))}>
-            <IconRight className='page-icon' ></IconRight>
+            </div>
         </div>
-        <div className='page-button' onClick={() => dispatch(pageExact(totalPages))}>
-            <IconLastPage className='page-icon' ></IconLastPage>
-        </div>
-        <span className='pages-pages'> /{totalPages}</span>
-    </div>
-  );
+    );
 };
 
 export default Pages;

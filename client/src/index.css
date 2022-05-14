@@ -142,10 +142,6 @@ body input {
     .nav-buttons {
         border-bottom: #fffdde 2px dashed;
     }
-    .pages {
-        background-color: rgba(0, 0, 0, 0);
-        position: relative;
-    }
     .filters {
         height: 675px;
         margin-top: 40px;
@@ -164,6 +160,10 @@ body input {
     }
     .search-button {
         right: 15px;
+    }
+    .pages-container {
+        display: unset;
+        left: 48.5%;
     }
     /* formulario */
     .form-box-container {
@@ -271,6 +271,7 @@ body input {
     /* home */
     .cardContainer {
         height: 750px;
+        padding-bottom: 40px;
     }
 
     .about-container {
