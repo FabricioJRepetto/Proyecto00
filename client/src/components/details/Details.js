@@ -229,7 +229,7 @@ dX.····9Xb······.dXb····__····················
                                         </div>
                                         <div className="desc-text">
                                             <p><b>Description:</b></p>
-                                            <p>{ description 
+                                            <p>{ (typeof id === 'string' || description) 
                                             ? description 
                                             : <>
                                                 <div className="loading">

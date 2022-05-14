@@ -228,7 +228,6 @@ const Form = ({ editMode = false, id, initialName }) => {
             console.log('enviando... e_e'); //!!
             e.preventDefault();
             openModalLoading();
-            description.trim().length <1 && setForm({...form, description: ' - '});
             setForm({...form, image: image});
             
             try {

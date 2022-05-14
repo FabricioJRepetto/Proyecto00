@@ -4,7 +4,6 @@ import { ReactComponent as SelectArrow } from '../../../assets/arrow-down.svg'
 import './TopFilters.css'
 
 const TopFilters = () => {
-    const dogs = useSelector(state => state.dogs.main)
     const filtered = useSelector(state => state.dogs.filtered)
     const dispatch = useDispatch() ;
      
