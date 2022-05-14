@@ -183,6 +183,9 @@ body input {
         margin-right: 45px;
         margin-bottom: 0px;
     }
+    .name-verfication {
+    right: -6px;
+}
     /* favorites */
     .container-favs-page {
         margin-top: 10px;

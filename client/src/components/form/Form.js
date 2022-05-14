@@ -225,10 +225,11 @@ const Form = ({ editMode = false, id, initialName }) => {
             return console.log('no se envia è_é'); //!!
         }
         if (Object.keys(error).length === 0) {
-            console.log('enviando e_e'); //!!
+            console.log('enviando... e_e'); //!!
             e.preventDefault();
             openModalLoading();
-            setForm({...form, image: image})
+            description.trim().length <1 && setForm({...form, description: ' - '});
+            setForm({...form, image: image});
             
             try {
                 if (editMode) {
@@ -278,12 +279,7 @@ const Form = ({ editMode = false, id, initialName }) => {
   return(
     <div className="form-page">
         <div className="border-form-container">
-            <div className="form-box-container">                    
-                {/* {editMode && 
-                <div className='form-edit-cancel'>
-                    <BackArrow className='svg-icon' onClick={()=>navigate(-1)}/>
-                    <span className="tooltip">cancel editing</span>
-                </div>} */}
+            <div className="form-box-container">   
                 <div className="form-title">
                    <IconStars className='icon-stars-form' />
                     <h2 >{editMode ? 'EDITING A DOG...' : 'CREATE A NEW DOG!'}</h2>

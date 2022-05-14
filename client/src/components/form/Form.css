@@ -128,7 +128,7 @@
 .name-verfication {
     position: absolute;
     top: 3px;
-    right: -6px;
+    right: 10px;
 }
 .icon {
     transform: scale(.55);
