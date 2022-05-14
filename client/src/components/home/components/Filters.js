@@ -121,7 +121,6 @@ const Filters = () => {
   }  
 
   const menuButtonHandler = () => {
-        
       filterOpen ? setFilterOpen(false) : setFilterOpen(true);
   }; 
 

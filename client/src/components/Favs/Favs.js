@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useSelector } from "react-redux";
 import { useGetData } from "../../helpers";
+import BackToTop from "../backToTop/BackToTop";
 import Card from "../home/components/Card";
 import './Favs.css'
 
