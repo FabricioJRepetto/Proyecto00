@@ -11,9 +11,9 @@ const About = () => {
                 <div className="about-text">
                     <h2 className="sent">About this project:</h2>
                     <p className="sent">In this project I put to the test the knowledge I acquired over the last few months.
-                        The objective was develop a database which, with support of an external API, will work as an API for a web app.
+                        The objective was develop a database which, with support of an external API (the dog API), will work as an API for a web app.
                         This was accomplished using Sequelize, PostgreSQL, Express.
-                        The website, made with React and Redux, shows results of different dog breeds, which can be filtered with various parameters. In addition, it offers the possibility to add dogs to a list of favorites and also to create, edit and delete custom dogs, which are stored in the database. LocalStorage is used to know what dogs you created and/or saved on your favorite list, also, gives your permission to edit your own dogs.
+                        The website, made with React and Redux, shows results of different dog breeds (a combination of the dogs API for most dogs and information, plus the MediaWiki API for their descriptions; and the users created dogs stored on the database), which can be filtered with various parameters. In addition, it offers the possibility to add dogs to a list of favorites and also to create, edit and delete custom dogs, which are stored in the database. LocalStorage is used to know what dogs you created and/or saved on your favorite list, also, gives your permission to edit your own dogs.
                     </p>
                     <a href="https://github.com/FabricioJRepetto/Proyecto00" target="_blank" rel="noopener noreferrer" className="sent"><b><u>GitHub repository</u></b></a>
                 </div>
