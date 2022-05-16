@@ -50,6 +50,6 @@
     bottom: 0;
     z-index: -1;
 }
-@media (max-width: 750px) {
+/* @media (max-width: 750px) {
     #background-video { display: none; }
-}
+} */

@@ -76,6 +76,7 @@
 .buttons p {
     z-index: 990;
     transition: all 0.2s;
+    text-align: center;
 }
 .relleno {
     position: absolute;
