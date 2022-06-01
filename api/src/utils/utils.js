@@ -75,7 +75,7 @@ const setNewTemperaments = async (temps) => {
     //? recibe un array
     let auxArray = [];
     
-    await temps.forEach(temp => {        
+    await temps.forEach(temp => {
         auxArray.push(        
             Temperament.findOrCreate({
                 where: { temperament: temp },       

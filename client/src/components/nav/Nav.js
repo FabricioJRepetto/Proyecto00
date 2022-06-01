@@ -45,8 +45,4 @@ const NavBar = () => {
     )
 };
 
-//: NavLink
-// permite cambiar la clase del elemento para asignarle un estilo diferente cuendo esté activa.
-// import { NavLink } from 'react-router-dom'
-
 export default NavBar;
