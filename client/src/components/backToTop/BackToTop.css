@@ -9,7 +9,6 @@
     right: 30px;
     cursor: pointer;
     transition: all .3s ease-out;
-
 }
 .icon-up {
     transform: scale(.5);
