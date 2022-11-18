@@ -10,20 +10,20 @@ import "./App.css"
 import BackToTop from './components/backToTop/BackToTop';
 
 function App() {
-    return (   
+    return (
         <div className='App' id='scroller'>
             <Nav className='NavBar' />
             <BackToTop />
             <Routes>
-                <Route path="/" element={<LandingPage />}/>        
+                <Route path="/" element={<LandingPage />} />
                 <Route path='home' element={<Home />} />
                 <Route path='home/:id' element={<Details />} />
-                <Route path='create' element={<Form />} />       
+                <Route path='create' element={<Form />} />
                 <Route path='about' element={<About />} />
                 <Route path='favourites' element={<Favs />} />
                 <Route path='*' element={<p>There's nothing here!</p>} />
             </Routes>
-        </div>     
+        </div>
     );
 }
 
